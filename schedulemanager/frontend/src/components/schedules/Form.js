@@ -21,6 +21,11 @@ export class Form extends Component {
     const { name, email, message } = this.state;
     const schedule = { name, email, message };
     this.props.addSchedule(schedule);
+    this.setState({
+      name: "",
+      email: "",
+      message: "",
+    });
   };
 
   render() {
