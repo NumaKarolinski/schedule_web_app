@@ -1,12 +1,13 @@
 import axios from "axios";
 import { createMessage, returnErrors } from "./messages";
+import { tokenConfig } from "./auth";
 
 import { GET_SCHEDULES, DELETE_SCHEDULE, ADD_SCHEDULE } from "./types";
 
 // GET SCHEDULES
-export const getSchedules = () => (dispatch) => {
+export const getSchedules = () => (dispatch, getState) => {
   axios
-    .get("/api/schedules/")
+    .get("/api/schedules/", tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_SCHEDULES,
@@ -19,9 +20,9 @@ export const getSchedules = () => (dispatch) => {
 };
 
 // DELETE SCHEDULE
-export const deleteSchedule = (id) => (dispatch) => {
+export const deleteSchedule = (id) => (dispatch, getState) => {
   axios
-    .delete(`/api/schedules/${id}/`)
+    .delete(`/api/schedules/${id}/`, tokenConfig(getState))
     .then((res) => {
       dispatch(createMessage({ deleteSchedule: "Schedule Deleted" }));
       dispatch({
@@ -33,9 +34,9 @@ export const deleteSchedule = (id) => (dispatch) => {
 };
 
 // ADD SCHEDULE
-export const addSchedule = (schedule) => (dispatch) => {
+export const addSchedule = (schedule) => (dispatch, getState) => {
   axios
-    .post("/api/schedules/", schedule)
+    .post("/api/schedules/", schedule, tokenConfig(getState))
     .then((res) => {
       dispatch(createMessage({ addSchedule: "Schedule Added" }));
       dispatch({

@@ -2,6 +2,7 @@ import {
   GET_SCHEDULES,
   DELETE_SCHEDULE,
   ADD_SCHEDULE,
+  CLEAR_SCHEDULES,
 } from "../actions/types.js";
 
 const initialState = {
@@ -19,13 +20,18 @@ export default function (state = initialState, action) {
       return {
         ...state,
         schedules: state.schedules.filter(
-          (schedule) => schedule.id != action.payload
+          (schedule) => schedule.id !== action.payload
         ),
       };
     case ADD_SCHEDULE:
       return {
         ...state,
         schedules: [...state.schedules, action.payload],
+      };
+    case CLEAR_SCHEDULES:
+      return {
+        ...state,
+        schedules: [],
       };
     default:
       return state;
