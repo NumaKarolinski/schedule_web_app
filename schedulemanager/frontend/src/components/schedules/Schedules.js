@@ -18,7 +18,7 @@ export class Schedules extends Component {
     return (
       <Fragment>
         <h2>Schedules</h2>
-        <table>
+        <table className="table table-striped">
           <thead>
             <tr>
               <th>ID</th>
