@@ -3,3 +3,6 @@ export const DELETE_SCHEDULE = "DELETE_SCHEDULE";
 export const ADD_SCHEDULE = "ADD_SCHEDULE";
 export const GET_ERRORS = "GET_ERRORS";
 export const CREATE_MESSAGE = "CREATE_MESSAGE";
+export const USER_LOADING = "USER_LOADING";
+export const USER_LOADED = "USER_LOADED";
+export const AUTH_ERROR = "AUTH_ERROR";
