@@ -10,7 +10,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  CLEAR_LEADS,
+  CLEAR_SCHEDULES,
 } from "./types";
 
 // CHECK TOKEN & LOAD USER
@@ -90,7 +90,7 @@ export const logout = () => (dispatch, getState) => {
     .post("/api/auth/logout/", null, tokenConfig(getState))
     .then((res) => {
       dispatch({
-        type: CLEAR_LEADS,
+        type: CLEAR_SCHEDULES,
       });
       dispatch({
         type: LOGOUT_SUCCESS,

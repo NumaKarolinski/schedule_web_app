@@ -39,7 +39,10 @@ class App extends Component {
             <Fragment>
               <Header />
               <Alerts />
-              <div className="container">
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ height: `calc(100% - 79px)` }}
+              >
                 <Switch>
                   <PrivateRoute exact path="/" component={Dashboard} />
                   <Route exact path="/register" component={Register} />

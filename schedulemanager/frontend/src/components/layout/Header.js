@@ -14,7 +14,7 @@ export class Header extends Component {
     const { isAuthenticated, user } = this.props.auth;
 
     const authLinks = (
-      <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+      <ul className="navbar-nav ml-auto mt-2 mt-lg-0 d-flex flex-row flex-wrap">
         <span className="navbar-text mr-3">
           <strong>{user ? `Welcome ${user.username}` : ""}</strong>
         </span>
@@ -30,8 +30,8 @@ export class Header extends Component {
     );
 
     const guestLinks = (
-      <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-        <li className="nav-item">
+      <ul className="navbar-nav ml-auto mt-2 mt-lg-0 d-flex flex-row flex-wrap">
+        <li className="nav-item mr-3">
           <Link to="/login" className="nav-link">
             Login
           </Link>
@@ -60,7 +60,7 @@ export class Header extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a className="navbar-brand" href="#">
-              Schedule Manager
+              Smart Schedule
             </a>
           </div>
           {isAuthenticated ? authLinks : guestLinks}
