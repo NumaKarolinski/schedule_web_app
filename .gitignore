@@ -1,4 +1,5 @@
 node_modules
+schedulemanager/schedulemanager/settings.py
 
 ### Django ###
 *.log
