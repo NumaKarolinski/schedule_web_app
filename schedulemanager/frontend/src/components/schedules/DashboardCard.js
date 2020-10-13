@@ -17,7 +17,17 @@ export default class DashboardCard extends Component {
       ? 
       : console.log("Handle Click of Dashboard Card Failed");
     */
-    console.log("Handle Click has not been completed for dashboard cards");
+    /*
+   e.preventDefault();
+   const { name, email, message } = this.state;
+   const schedule = { name, email, message };
+   this.props.addSchedule(schedule);
+   this.setState({
+     name: "",
+     email: "",
+     message: "",
+   });
+   */
   };
 
   render() {
