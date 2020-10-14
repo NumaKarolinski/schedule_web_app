@@ -33,9 +33,9 @@ class TimeDelta(models.Model):
     start_end = models.BooleanField()
     rating = models.SmallIntegerField(blank=True)
     schedule = models.ForeignKey(
-        Schedule, related_name="time_deltas", on_delete=models.CASCADE, null=True)
+        Schedule, related_name="timedeltas", on_delete=models.CASCADE, null=True)
     event = models.ForeignKey(
-        EventDefinition, related_name="time_deltas", on_delete=models.CASCADE, null=True)
+        EventDefinition, related_name="timedeltas", on_delete=models.CASCADE, null=True)
 
     class Meta:
         db_constraints = {

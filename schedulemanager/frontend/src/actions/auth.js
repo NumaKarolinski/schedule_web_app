@@ -11,6 +11,11 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   CLEAR_SCHEDULES,
+  CLEAR_VIEWS,
+  CLEAR_EVENTDEFINITIONS,
+  CLEAR_TIMEDELTAS,
+  CLEAR_OCCURS_ON_1S,
+  CLEAR_OCCURS_ON_2S,
 } from "./types";
 
 // CHECK TOKEN & LOAD USER
@@ -91,6 +96,21 @@ export const logout = () => (dispatch, getState) => {
     .then((res) => {
       dispatch({
         type: CLEAR_SCHEDULES,
+      });
+      dispatch({
+        type: CLEAR_VIEWS,
+      });
+      dispatch({
+        type: CLEAR_EVENTDEFINITIONS,
+      });
+      dispatch({
+        type: CLEAR_TIMEDELTAS,
+      });
+      dispatch({
+        type: CLEAR_OCCURS_ON_1S,
+      });
+      dispatch({
+        type: CLEAR_OCCURS_ON_2S,
       });
       dispatch({
         type: LOGOUT_SUCCESS,

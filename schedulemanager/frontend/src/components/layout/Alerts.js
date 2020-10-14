@@ -40,6 +40,36 @@ export class Alerts extends Component {
       if (message.addSchedule) {
         alert.success(message.addSchedule);
       }
+      if (message.deleteview) {
+        alert.success(message.deleteview);
+      }
+      if (message.addview) {
+        alert.success(message.addview);
+      }
+      if (message.deleteEventDefinition) {
+        alert.success(message.deleteEventDefinition);
+      }
+      if (message.addEventDefinition) {
+        alert.success(message.addEventDefinition);
+      }
+      if (message.deleteTimeDelta) {
+        alert.success(message.deleteTimeDelta);
+      }
+      if (message.addTimeDelta) {
+        alert.success(message.addTimeDelta);
+      }
+      if (message.deleteoccurs_on_1) {
+        alert.success(message.deleteoccurs_on_1);
+      }
+      if (message.addoccurs_on_1) {
+        alert.success(message.addoccurs_on_1);
+      }
+      if (message.deleteoccurs_on_2) {
+        alert.success(message.deleteoccurs_on_2);
+      }
+      if (message.addoccurs_on_2) {
+        alert.success(message.addoccurs_on_2);
+      }
       if (message.passwordNotMatch) {
         alert.error(message.passwordNotMatch);
       }
