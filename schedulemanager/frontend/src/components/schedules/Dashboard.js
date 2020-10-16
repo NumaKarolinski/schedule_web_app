@@ -28,7 +28,7 @@ export default function Dashboard() {
         padding: "4rem 2rem",
       }}
     >
-      <DashboardCard cardType="tasks" styleType="primary" />
+      <DashboardCard cardType="events" styleType="primary" />
       <DashboardCard cardType="schedules" styleType="success" />
     </div>
   );

@@ -1,45 +1,64 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getSchedules, getEventDefinitions } from "../../actions/schedules";
 
-export default class DashboardCard extends Component {
+export class DashboardCard extends Component {
   state = {
     hover: false,
+    scheduleBool: false,
+    eventBool: false,
+  };
+
+  static propTypes = {
+    getSchedules: PropTypes.func.isRequired,
+    getEventDefinitions: PropTypes.func.isRequired,
   };
 
   toggleHover() {
-    this.setState({ hover: !this.state.hover });
+    this.setState({ ...this.state, hover: !this.state.hover });
   }
 
   handleClick = (e) => {
-    /*
-    this.state.cardType === "tasks"
-      ? 
-      : this.state.cardType === "schedules"
-      ? 
-      : console.log("Handle Click of Dashboard Card Failed");
-    */
-    /*
-   e.preventDefault();
-   const { name, email, message } = this.state;
-   const schedule = { name, email, message };
-   this.props.addSchedule(schedule);
-   this.setState({
-     name: "",
-     email: "",
-     message: "",
-   });
-   */
+    e.preventDefault();
+    if (this.props.cardType === "events") {
+      this.setState({ ...this.state, eventBool: !this.state.eventBool });
+      this.props.getEventDefinitions();
+    } else if (this.props.cardType === "schedules") {
+      this.setState({ ...this.state, scheduleBool: !this.state.scheduleBool });
+      this.props.getSchedules();
+    } else {
+      console.log("Handle Click of Dashboard Card Failed");
+    }
   };
 
   render() {
+    if (this.state.scheduleBool) {
+      return <Redirect to="/schedules" />;
+    } else if (this.state.eventBool) {
+      return <Redirect to="/eventDefinitions" />;
+    }
+
     const hoverStyle = this.state.hover
       ? { opacity: "1.0", cursor: "pointer" }
       : { opacity: "0.9", cursor: "default" };
 
+    const cardStyle = {
+      minWidth: "20rem",
+      maxWidth: "20rem",
+      opacity: hoverStyle.opacity,
+      cursor: hoverStyle.cursor,
+      MozUserSelect: "none",
+      WebkitUserSelect: "none",
+      msUserSelect: "none",
+    };
+
     const cardProperties =
-      this.props.cardType === "tasks"
+      this.props.cardType === "events"
         ? {
-            header: "Tasks",
-            title: "View & Edit Tasks",
+            header: "Events",
+            title: "View & Edit Events",
           }
         : this.props.cardType === "schedules"
         ? {
@@ -55,12 +74,7 @@ export default class DashboardCard extends Component {
       <div
         id={this.props.cardType}
         className="card text-white bg-success m-3"
-        style={{
-          minWidth: "20rem",
-          maxWidth: "20rem",
-          opacity: hoverStyle.opacity,
-          cursor: hoverStyle.cursor,
-        }}
+        style={cardStyle}
         onMouseEnter={this.toggleHover.bind(this)}
         onMouseLeave={this.toggleHover.bind(this)}
         onClick={this.handleClick.bind(this)}
@@ -76,12 +90,7 @@ export default class DashboardCard extends Component {
       <div
         id={this.props.cardType}
         className="card text-white bg-primary m-3"
-        style={{
-          minWidth: "20rem",
-          maxWidth: "20rem",
-          opacity: hoverStyle.opacity,
-          cursor: hoverStyle.cursor,
-        }}
+        style={cardStyle}
         onMouseEnter={this.toggleHover.bind(this)}
         onMouseLeave={this.toggleHover.bind(this)}
         onClick={this.handleClick.bind(this)}
@@ -105,3 +114,12 @@ export default class DashboardCard extends Component {
     return cardToUse;
   }
 }
+
+const mapStateToProps = (state) => ({
+  scheduleBool: state.scheduleBool,
+  eventBool: state.eventBool,
+});
+
+export default connect(mapStateToProps, { getSchedules, getEventDefinitions })(
+  DashboardCard
+);

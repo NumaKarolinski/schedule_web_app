@@ -1,0 +1,940 @@
+.bigDiv {
+  width: 240px;
+  height: 240px;
+  display: flex;
+  flex-flow: row wrap;
+  animation: spin alternate 9s ease-in-out infinite;
+  margin: 75px auto;
+}
+
+.row {
+  height: 30px;
+  width: 240px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.row1 {
+  order: 1;
+}
+.row2 {
+  order: 2;
+}
+.row3 {
+  order: 3;
+}
+.row4 {
+  order: 4;
+}
+.row5 {
+  order: 5;
+}
+.row6 {
+  order: 6;
+}
+.row7 {
+  order: 7;
+}
+.row8 {
+  order: 8;
+}
+
+.arrowUp {
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid gray;
+}
+
+.arrowRight {
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-left: 15px solid gray;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.arrowDown {
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 15px solid gray;
+  border-bottom: 15px solid transparent;
+}
+
+.arrowLeft {
+  width: 0;
+  height: 0;
+  border-right: 15px solid gray;
+  border-left: 15px solid transparent;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.middleTriUp {
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid black;
+}
+
+.middleTriLeft {
+  border-right: 15px solid black;
+  border-left: 15px solid transparent;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.middleTriDown {
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 15px solid black;
+  border-bottom: 15px solid transparent;
+}
+
+.middleTriRight {
+  border-right: 15px solid transparent;
+  border-left: 15px solid black;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border: 5px solid;
+  border-radius: 50%;
+}
+
+.shifter {
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.shifter1 {
+  animation: shifter1 8s ease-in-out infinite;
+}
+
+.shifter2 {
+  animation: shifter2 8s ease-in-out infinite;
+}
+
+.shifter3 {
+  animation: shifter3 8s ease-in-out infinite;
+}
+
+.shifter4 {
+  animation: shifter4 8s ease-in-out infinite;
+}
+
+.circle1 {
+  border-color: red transparent transparent transparent;
+  animation: spin 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circle2 {
+  border-color: orange transparent transparent transparent;
+  animation: spin reverse 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circle3 {
+  border-color: transparent transparent blue transparent;
+  animation: spin 2s reverse -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circle4 {
+  border-color: transparent transparent green transparent;
+  animation: spin 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleR1 {
+  border-color: red transparent transparent transparent;
+  animation: spin 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleR2 {
+  border-color: orange transparent transparent transparent;
+  animation: spin reverse 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleR3 {
+  border-color: transparent transparent blue transparent;
+  animation: spin reverse 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleR4 {
+  border-color: transparent transparent green transparent;
+  animation: spin 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleT1 {
+  border-color: red transparent transparent transparent;
+  animation: spin reverse 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleT2 {
+  border-color: orange transparent transparent transparent;
+  animation: spin 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleT3 {
+  border-color: transparent transparent blue transparent;
+  animation: spin 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleT4 {
+  border-color: transparent transparent green transparent;
+  animation: spin reverse 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleL1 {
+  border-color: red transparent transparent transparent;
+  animation: spin reverse 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleL2 {
+  border-color: orange transparent transparent transparent;
+  animation: spin 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleL3 {
+  border-color: transparent transparent blue transparent;
+  animation: spin 2s -0.375s linear infinite, hueSpin 2s linear infinite;
+}
+
+.circleL4 {
+  border-color: transparent transparent green transparent;
+  animation: spin reverse 2s -0.875s linear infinite, hueSpin 2s linear infinite;
+}
+
+.empty {
+  width: 30px;
+  height: 30px;
+}
+
+.fade1 {
+  animation: fade1 8s ease-in-out infinite;
+}
+
+.fade2 {
+  animation: fade2 8s ease-in-out infinite;
+}
+
+.fade3 {
+  animation: fade3 8s ease-in-out infinite;
+}
+
+.fade4 {
+  animation: fade4 8s ease-in-out infinite;
+}
+
+.sFade2 {
+  animation: sFade2 6s ease-in-out infinite;
+}
+
+.sFade3 {
+  animation: sFade3 6s ease-in-out infinite;
+}
+
+.sFade4 {
+  animation: sFade4 6s ease-in-out infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes hueSpin {
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes fade1 {
+  0% {
+    opacity: 0%;
+    filter: hue-rotate(0deg);
+  }
+  4.167% {
+    opacity: 100%;
+    filter: hue-rotate(15deg);
+  }
+  8.333% {
+    opacity: 0%;
+    filter: hue-rotate(30deg);
+  }
+  100% {
+    opacity: 0%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes fade2 {
+  0% {
+    opacity: 0%;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    opacity: 0%;
+    filter: hue-rotate(90deg);
+  }
+  29.167% {
+    opacity: 100%;
+    filter: hue-rotate(105deg);
+  }
+  33.333% {
+    opacity: 0%;
+    filter: hue-rotate(120deg);
+  }
+  100% {
+    opacity: 0%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes fade3 {
+  0% {
+    opacity: 0%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    opacity: 0%;
+    filter: hue-rotate(180deg);
+  }
+  54.167% {
+    opacity: 100%;
+    filter: hue-rotate(195deg);
+  }
+  58.333% {
+    opacity: 0%;
+    filter: hue-rotate(210deg);
+  }
+  100% {
+    opacity: 0%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes fade4 {
+  0% {
+    opacity: 0%;
+    filter: hue-rotate(0deg);
+  }
+  75% {
+    opacity: 0%;
+    filter: hue-rotate(270deg);
+  }
+  79.167% {
+    opacity: 100%;
+    filter: hue-rotate(285deg);
+  }
+  83.333% {
+    opacity: 0%;
+    filter: hue-rotate(300deg);
+  }
+  100% {
+    opacity: 0%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes shifter1 {
+  0% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  8.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  12.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  16.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  20.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  25% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  33.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  37.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  41.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  45.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  50% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  58.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  62.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  66.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  70.833% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  75% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  83.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  87.5% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  91.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  95.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  100% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+}
+
+@keyframes shifter2 {
+  0% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  8.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  12.5% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  16.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  20.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  25% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  33.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  37.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  41.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  45.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  50% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  58.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  62.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  66.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  70.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  75% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  83.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  87.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  91.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  95.833% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  100% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+}
+
+@keyframes shifter3 {
+  0% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  8.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  12.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  16.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  20.833% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  25% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  33.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  37.5% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  41.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  45.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  50% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  58.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  62.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  66.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  70.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  75% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  83.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  87.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  91.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  95.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  100% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+}
+
+@keyframes shifter4 {
+  0% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  8.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  12.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  16.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  20.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  25% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  33.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  37.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid gray;
+  }
+  41.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  45.833% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  50% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  58.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  62.5% {
+    border-right: 15px solid gray;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  66.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  70.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  75% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  83.333% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  87.5% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid gray;
+    border-bottom: 15px solid transparent;
+  }
+  91.667% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  95.833% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid gray;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+  100% {
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+}
+
+@keyframes sFade2 {
+  0% {
+    opacity: 0%;
+  }
+  25% {
+    opacity: 0%;
+  }
+  29.167% {
+    opacity: 100%;
+  }
+  33.333% {
+    opacity: 0%;
+  }
+  66.666% {
+    opacity: 0%;
+  }
+  70.833% {
+    opacity: 100%;
+  }
+  75% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 0%;
+  }
+}
+
+@keyframes sFade3 {
+  0% {
+    opacity: 0%;
+  }
+  33.333% {
+    opacity: 0%;
+  }
+  37.5% {
+    opacity: 100%;
+  }
+  41.667% {
+    opacity: 0%;
+  }
+  58.333% {
+    opacity: 0%;
+  }
+  62.5% {
+    opacity: 100%;
+  }
+  66.667% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 0%;
+  }
+}
+
+@keyframes sFade4 {
+  0% {
+    opacity: 0%;
+  }
+  41.667% {
+    opacity: 0%;
+  }
+  45.833% {
+    opacity: 100%;
+  }
+  54.167% {
+    opacity: 100%;
+  }
+  58.333% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 0%;
+  }
+}

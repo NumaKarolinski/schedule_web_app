@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
+    "css-loader": "^5.0.0",
     "react": "^16.13.1",
     "react-alert": "^7.0.2",
     "react-alert-template-basic": "^1.0.0",
