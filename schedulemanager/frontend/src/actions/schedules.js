@@ -23,6 +23,21 @@ import {
   ADD_OCCURS_ON_2,
 } from "./types";
 
+//DATE ENTERED BY USER MUST BE LATER THAN TODAY
+export const dateTooEarly = () => (dispatch) => {
+  dispatch(createMessage({ dateTooEarly: "Date Must Be Past Today" }));
+}
+
+//MONTH ENTERED BY USER SHOULD BE 1-12
+export const monthWrong = () => (dispatch) => {
+  dispatch(createMessage({ monthWrong: "Month Should Be Between 1 And 12" }));
+}
+
+//DAY ENTERED BY USER SHOULD BE 1-finalDay
+export const dayWrong = (finalDay) => (dispatch) => {
+  dispatch(createMessage({ dayWrong: "Day Should Be 1-".concat(finalDay) }));
+}
+
 // GET SCHEDULES
 export const getSchedules = () => (dispatch, getState) => {
   axios

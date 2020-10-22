@@ -1,0 +1,8 @@
+.bigArrowRight {
+  width: 0;
+  height: 0;
+  border-right: 30px solid transparent;
+  border-left: 30px solid gray;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+}

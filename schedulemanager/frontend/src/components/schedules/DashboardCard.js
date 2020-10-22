@@ -4,16 +4,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getSchedules, getEventDefinitions } from "../../actions/schedules";
 
-export class DashboardCard extends Component {
+export default class DashboardCard extends Component {
   state = {
     hover: false,
     scheduleBool: false,
     eventBool: false,
-  };
-
-  static propTypes = {
-    getSchedules: PropTypes.func.isRequired,
-    getEventDefinitions: PropTypes.func.isRequired,
   };
 
   toggleHover() {
@@ -24,10 +19,8 @@ export class DashboardCard extends Component {
     e.preventDefault();
     if (this.props.cardType === "events") {
       this.setState({ ...this.state, eventBool: !this.state.eventBool });
-      this.props.getEventDefinitions();
     } else if (this.props.cardType === "schedules") {
       this.setState({ ...this.state, scheduleBool: !this.state.scheduleBool });
-      this.props.getSchedules();
     } else {
       console.log("Handle Click of Dashboard Card Failed");
     }
@@ -114,12 +107,3 @@ export class DashboardCard extends Component {
     return cardToUse;
   }
 }
-
-const mapStateToProps = (state) => ({
-  scheduleBool: state.scheduleBool,
-  eventBool: state.eventBool,
-});
-
-export default connect(mapStateToProps, { getSchedules, getEventDefinitions })(
-  DashboardCard
-);

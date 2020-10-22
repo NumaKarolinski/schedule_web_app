@@ -19,6 +19,8 @@ import Register from "./accounts/Register";
 import Dashboard from "./schedules/Dashboard";
 import Schedules from "./schedules/Schedules";
 import Events from "./schedules/Events";
+import AddEvent from "./schedules/AddEvent";
+import EditEvent from "./schedules/EditEvent";
 
 import PrivateRoute from "./common/PrivateRoute";
 
@@ -55,6 +57,16 @@ class App extends Component {
                     exact
                     path="/eventDefinitions"
                     component={Events}
+                  />
+                  <PrivateRoute
+                    exact
+                    path="/eventDefinitions/add"
+                    component={AddEvent}
+                  />
+                  <PrivateRoute
+                    exact
+                    path="/eventDefinitions/edit"
+                    component={EditEvent}
                   />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />

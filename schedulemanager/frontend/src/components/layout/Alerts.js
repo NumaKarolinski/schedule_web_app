@@ -73,6 +73,15 @@ export class Alerts extends Component {
       if (message.passwordNotMatch) {
         alert.error(message.passwordNotMatch);
       }
+      if (message.dateTooEarly) {
+        alert.error(message.dateTooEarly);
+      }
+      if (message.monthWrong) {
+        alert.error(message.monthWrong);
+      }
+      if (message.dayWrong) {
+        alert.error(message.dayWrong);
+      }
     }
   }
 
