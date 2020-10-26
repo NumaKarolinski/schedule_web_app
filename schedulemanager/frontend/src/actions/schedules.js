@@ -38,6 +38,11 @@ export const dayWrong = (finalDay) => (dispatch) => {
   dispatch(createMessage({ dayWrong: "Day Should Be 1-".concat(finalDay) }));
 }
 
+//DAY ENTERED HAS ALREADY BEEN ENTERED
+export const repeatedEventDay = (dayStr) => (dispatch) => {
+  dispatch(createMessage({ repeatedEventDay: "The Day ".concat(dayStr).concat(" Has Already Been Entered") }));
+}
+
 // GET SCHEDULES
 export const getSchedules = () => (dispatch, getState) => {
   axios

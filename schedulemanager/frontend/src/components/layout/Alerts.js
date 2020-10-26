@@ -82,6 +82,9 @@ export class Alerts extends Component {
       if (message.dayWrong) {
         alert.error(message.dayWrong);
       }
+      if (message.repeatedEventDay) {
+        alert.error(message.repeatedEventDay);
+      }
     }
   }
 

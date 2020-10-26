@@ -2,6 +2,10 @@
   width: 145px;
 }
 
-.fixedBoxWidth {
-  width: 36.5px;
+.eventContainer {
+  width: 464px;
+}
+
+.react-datepicker-popper {
+  z-index: 99;
 }
