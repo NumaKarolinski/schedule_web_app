@@ -14,6 +14,10 @@ import {
   CLEAR_VIEWS,
   CLEAR_EVENTDEFINITIONS,
   CLEAR_TIMEDELTAS,
+  CLEAR_STRICTEVENTS,
+  CLEAR_LOOSEEVENTS,
+  CLEAR_DAYS,
+  CLEAR_TIMES,
   CLEAR_OCCURS_ON_1S,
   CLEAR_OCCURS_ON_2S,
 } from "./types";
@@ -105,6 +109,18 @@ export const logout = () => (dispatch, getState) => {
       });
       dispatch({
         type: CLEAR_TIMEDELTAS,
+      });
+      dispatch({
+        type: CLEAR_STRICTEVENTS,
+      });
+      dispatch({
+        type: CLEAR_LOOSEEVENTS,
+      });
+      dispatch({
+        type: CLEAR_DAYS,
+      });
+      dispatch({
+        type: CLEAR_TIMES,
       });
       dispatch({
         type: CLEAR_OCCURS_ON_1S,

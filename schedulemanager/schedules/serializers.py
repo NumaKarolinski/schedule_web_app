@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from schedules.models import Schedule, views, EventDefinition, TimeDelta, occurs_on_1, occurs_on_2
+from .models import Schedule, views, EventDefinition, TimeDelta, StrictEvent, LooseEvent, Day, Time, occurs_on_1, occurs_on_2
 
 # Schedule Serializer
 
@@ -31,6 +31,38 @@ class EventDefinitionSerializer(serializers.ModelSerializer):
 class TimeDeltaSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeDelta
+        fields = '__all__'
+
+# StrictEvent Serializer
+
+
+class StrictEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StrictEvent
+        fields = '__all__'
+
+# LooseEvent Serializer
+
+
+class LooseEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LooseEvent
+        fields = '__all__'
+
+# Day Serializer
+
+
+class DaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Day
+        fields = '__all__'
+
+# Time Serializer
+
+
+class TimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Time
         fields = '__all__'
 
 # occurs_on_1 Serializer

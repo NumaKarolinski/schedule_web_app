@@ -12,9 +12,27 @@ import {
   GET_EVENTDEFINITIONS,
   DELETE_EVENTDEFINITION,
   ADD_EVENTDEFINITION,
+  EDIT_EVENTDEFINITION,
   GET_TIMEDELTAS,
   DELETE_TIMEDELTA,
   ADD_TIMEDELTA,
+  GET_EVENTTYPE,
+  GET_STRICTEVENTS,
+  EDIT_STRICTEVENT,
+  DELETE_STRICTEVENT,
+  ADD_STRICTEVENT,
+  GET_LOOSEEVENTS,
+  EDIT_LOOSEEVENT,
+  DELETE_LOOSEEVENT,
+  ADD_LOOSEEVENT,
+  GET_DAYS,
+  DELETE_DAY,
+  ADD_DAY,
+  EDIT_DAY,
+  GET_TIMES,
+  DELETE_TIME,
+  ADD_TIME,
+  EDIT_TIME,
   GET_OCCURS_ON_1S,
   DELETE_OCCURS_ON_1,
   ADD_OCCURS_ON_1,
@@ -135,6 +153,13 @@ export const addview = (view) => (dispatch, getState) => {
 
 // GET EVENT DEFINITIONS
 export const getEventDefinitions = () => (dispatch, getState) => {
+
+  //const getString = typeof(event_id) === "number" ?
+    //`/api/eventdefinitions/${event_id}/` :
+    //(typeof(event_id) === "string" ?
+      //`/api/eventdefinitions?event_filter=${event_id}` :
+      //"/api/eventdefinitions/")
+
   axios
     .get("/api/eventdefinitions/", tokenConfig(getState))
     .then((res) => {
@@ -169,9 +194,25 @@ export const addEventDefinition = (eventdefinition) => (dispatch, getState) => {
   axios
     .post("/api/eventdefinitions/", eventdefinition, tokenConfig(getState))
     .then((res) => {
-      dispatch(createMessage({ addEventDefinition: "Event Definition Added" }));
+      dispatch(createMessage({ addEventDefinition: "Event Definition Created" }));
       dispatch({
         type: ADD_EVENTDEFINITION,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// EDIT EVENT DEFINITION
+export const editEventDefinition = (event_id, event_change) => (dispatch, getState) => {
+  axios
+    .patch(`/api/eventdefinitions/${event_id}/`, event_change, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ editEventDefinition: "Event Definition Edited" }));
+      dispatch({
+        type: EDIT_EVENTDEFINITION,
         payload: res.data,
       });
     })
@@ -225,10 +266,299 @@ export const addTimeDelta = (timedelta) => (dispatch, getState) => {
     );
 };
 
-// GET OCCURS_ON_1S
-export const getoccurs_on_1s = () => (dispatch, getState) => {
+// GET EVENT TYPE AS A BOOLEAN
+export const getEventType = (event_id) => (dispatch, getState) => {
   axios
-    .get("/api/occurs_on_1s/", tokenConfig(getState))
+    .get(`/api/strictevents?event_filter=${event_id}`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_EVENTTYPE,
+        payload: event_id === -1 ? "unknown" : (res.data.length === 1 ? "true" : "false"),
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// GET STRICT EVENTS
+export const getStrictEvents = (event_id) => (dispatch, getState) => {
+
+  const getString = typeof(event_id) === "number" ?
+    `/api/strictevents/${event_id}/` :
+    (typeof(event_id) === "string" ?
+      `/api/strictevents?event_filter=${event_id}` :
+      "/api/strictevents/")
+
+  axios
+    .get(getString, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_STRICTEVENTS,
+        payload: typeof(res.data.length) === "number" ? res.data : [res.data],
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// DELETE STRICT EVENT
+export const deleteStrictEvent = (event_id) => (dispatch, getState) => {
+  axios
+    .delete(`/api/strictevents/${event_id}/`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_STRICTEVENT,
+        payload: event_id,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+// ADD STRICT EVENT
+export const addStrictEvent = (strictevent) => (dispatch, getState) => {
+  console.log(strictevent);
+  axios
+    .post("/api/strictevents/", strictevent, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_STRICTEVENT,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// EDIT OLD STRICT EVENT
+export const editStrictEvent = (event_id, edit_object) => (dispatch, getState) => {
+  axios
+    .patch(`/api/strictevents/${event_id}/`, edit_object, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ editStrictEvent: "Strict Event Edited" }));
+      dispatch({
+        type: EDIT_STRICTEVENT,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// GET LOOSE EVENTS
+export const getLooseEvents = (event_id) => (dispatch, getState) => {
+
+  const getString = typeof(event_id) === "number" ?
+    `/api/looseevents/${event_id}/` :
+    (typeof(event_id) === "string" ?
+      `/api/looseevents?event_filter=${event_id}` :
+      "/api/looseevents/")
+
+  axios
+    .get(getString, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_LOOSEEVENTS,
+        payload: typeof(res.data.length) === "number" ? res.data : [res.data],
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// DELETE LOOSE EVENT
+export const deleteLooseEvent = (event_id) => (dispatch, getState) => {
+  axios
+    .delete(`/api/looseevents/${event_id}/`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_LOOSEEVENT,
+        payload: event_id,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+// ADD LOOSE EVENT
+export const addLooseEvent = (looseevent) => (dispatch, getState) => {
+  axios
+    .post("/api/looseevents/", looseevent, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_LOOSEEVENT,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// EDIT OLD LOOSE EVENT
+export const editLooseEvent = (event_id, edit_object) => (dispatch, getState) => {
+  axios
+    .patch(`/api/looseevents/${event_id}/`, edit_object, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ editLooseEvent: "Loose Event Edited" }));
+      dispatch({
+        type: EDIT_LOOSEEVENT,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// GET DAYS
+export const getDays = (day_id) => (dispatch, getState) => {
+
+  const getString = typeof(day_id) === "number" ?
+    `/api/days/${day_id}/` :
+    (typeof(day_id) === "string" ?
+      `/api/days?day_filter=${day_id}` :
+      (typeof(day_id) === "object" ?
+        '/api/days?day_filter=[' + day_id.join(",") + "]" :
+        "/api/days/"))
+  axios
+    .get(getString, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_DAYS,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// DELETE DAY
+export const deleteDay = (day_id) => (dispatch, getState) => {
+  axios
+    .delete(`/api/days/${day_id}/`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_DAY,
+        payload: day_id,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+// ADD DAY
+export const addDay = (day) => (dispatch, getState) => {
+  axios
+    .post("/api/days/", day, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_DAY,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// EDIT OLD DAY
+export const editDay = (day_id, edit_object) => (dispatch, getState) => {
+  axios
+    .patch(`/api/days/${day_id}/`, edit_object, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ editDay: "Day Edited" }));
+      dispatch({
+        type: EDIT_DAY,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// GET TIMES
+export const getTimes = (time_id) => (dispatch, getState) => {
+
+  const getString = typeof(time_id) === "number" ?
+    `/api/times/${time_id}/` :
+    (typeof(time_id) === "string" ?
+      `/api/times?time_filter=${time_id}` :
+      (typeof(time_id) === "object" ?
+        '/api/times?time_filter=[' + time_id.join(",") + "]" :
+        "/api/times/"))
+  axios
+    .get(getString, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_TIMES,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// DELETE TIME
+export const deleteTime = (time_id) => (dispatch, getState) => {
+  axios
+    .delete(`/api/times/${time_id}/`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: DELETE_TIME,
+        payload: time_id,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+// ADD TIME
+export const addTime = (time) => (dispatch, getState) => {
+  axios
+    .post("/api/times/", time, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: ADD_TIME,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// EDIT OLD TIME
+export const editTime = (time_id, edit_object) => (dispatch, getState) => {
+  axios
+    .patch(`/api/times/${time_id}/`, edit_object, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ editTime: "Time Edited" }));
+      dispatch({
+        type: EDIT_TIME,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// GET OCCURS_ON_1S
+export const getoccurs_on_1s = (o_o_id) => (dispatch, getState) => {
+  const getString = typeof(o_o_id) === "number" ?
+    `/api/occurs_on_1s/${o_o_id}/` :
+    (typeof(o_o_id) === "string" ?
+      `/api/occurs_on_1s?o_o_1_filter=${o_o_id}` :
+      (typeof(o_o_id) === "object" ?
+        '/api/occurs_on_1s?o_o_1_filter=[' + o_o_id.join(",") + "]" :
+        "/api/occurs_on_1s/"))
+  axios
+    .get(getString, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_OCCURS_ON_1S,
@@ -241,20 +571,16 @@ export const getoccurs_on_1s = () => (dispatch, getState) => {
 };
 
 // DELETE OCCURS_ON_1
-export const deleteoccurs_on_1 = (event_id, day_id, time_id) => (
-  dispatch,
-  getState
-) => {
+export const deleteoccurs_on_1 = (o_o_id) => (dispatch, getState) => {
   axios
     .delete(
-      `/api/occurs_on_1s/${event_id}&${day_id}&${time_id}/`,
-      tokenConfig(getState)
+      `/api/occurs_on_1s/${o_o_id}/`,
+      tokenConfig(getState),
     )
     .then((res) => {
-      dispatch(createMessage({ deleteoccurs_on_1: "occurs_on_1 Deleted" }));
       dispatch({
         type: DELETE_OCCURS_ON_1,
-        payload: { event_id, day_id, time_id },
+        payload: o_o_id,
       });
     })
     .catch((err) => console.log(err));
@@ -265,7 +591,6 @@ export const addoccurs_on_1 = (occurs_on_1) => (dispatch, getState) => {
   axios
     .post("/api/occurs_on_1s/", occurs_on_1, tokenConfig(getState))
     .then((res) => {
-      dispatch(createMessage({ addoccurs_on_1: "occurs_on_1 Added" }));
       dispatch({
         type: ADD_OCCURS_ON_1,
         payload: res.data,
@@ -277,9 +602,16 @@ export const addoccurs_on_1 = (occurs_on_1) => (dispatch, getState) => {
 };
 
 // GET OCCURS_ON_2S
-export const getoccurs_on_2s = () => (dispatch, getState) => {
+export const getoccurs_on_2s = (o_o_id) => (dispatch, getState) => {
+  const getString = typeof(o_o_id) === "number" ?
+    `/api/occurs_on_2s/${o_o_id}/` :
+    (typeof(o_o_id) === "string" ?
+      `/api/occurs_on_2s?o_o_2_filter=${o_o_id}` :
+      (typeof(o_o_id) === "object" ?
+        '/api/occurs_on_2s?o_o_2_filter=[' + o_o_id.join(",") + "]" :
+        "/api/occurs_on_2s/"));
   axios
-    .get("/api/occurs_on_2s/", tokenConfig(getState))
+    .get(getString, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_OCCURS_ON_2S,
@@ -292,14 +624,13 @@ export const getoccurs_on_2s = () => (dispatch, getState) => {
 };
 
 // DELETE OCCURS_ON_2
-export const deleteoccurs_on_2 = (event_id, day_id) => (dispatch, getState) => {
+export const deleteoccurs_on_2 = (o_o_id) => (dispatch, getState) => {
   axios
-    .delete(`/api/occurs_on_2s/${event_id}&${day_id}/`, tokenConfig(getState))
+    .delete(o_o_id, tokenConfig(getState))
     .then((res) => {
-      dispatch(createMessage({ deleteoccurs_on_2: "occurs_on_2 Deleted" }));
       dispatch({
         type: DELETE_OCCURS_ON_2,
-        payload: { event_id, day_id },
+        payload: o_o_id,
       });
     })
     .catch((err) => console.log(err));
@@ -310,7 +641,6 @@ export const addoccurs_on_2 = (occurs_on_2) => (dispatch, getState) => {
   axios
     .post("/api/occurs_on_2s/", occurs_on_2, tokenConfig(getState))
     .then((res) => {
-      dispatch(createMessage({ addoccurs_on_2: "occurs_on_2 Added" }));
       dispatch({
         type: ADD_OCCURS_ON_2,
         payload: res.data,
