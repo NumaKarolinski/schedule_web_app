@@ -152,7 +152,7 @@ export class Events extends Component {
         const selected_o_o_s = this.props.occurs_on_2s.filter((occurs_on_2) => occurs_on_2.event === this.state.selectedEventId);
         const o_o_ids = selected_o_o_s.map((o_o_2) => o_o_2.id);
         const day_ids = selected_o_o_s.map((o_o_2) => o_o_2.day);
-        const time_ids = selected_o_o_s.map((o_o_2) => o_o_2.time);
+        const time_ids = null;
         return <Redirect to = {{ pathname: "/eventDefinitions/edit", state: { event_id, eventType, day_ids, time_ids, o_o_ids } }} />;
       } else {
         console.log("somehow event type is selected to edit, but hasn't been selected");

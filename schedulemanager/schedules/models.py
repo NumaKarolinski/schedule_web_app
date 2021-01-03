@@ -64,23 +64,23 @@ class LooseEvent(EventDefinition):
     nn_n_2 = models.BooleanField()
     nn_n_3 = models.BooleanField()
     nn_n_4 = models.BooleanField()
-    n_occ = models.SmallIntegerField()
-    n_occ_more = models.SmallIntegerField()
-    n_occ_less = models.SmallIntegerField()
+    n_occ = models.FloatField()
+    n_occ_more = models.FloatField()
+    n_occ_less = models.FloatField()
     occ_same_day = models.BooleanField()
-    n_time = models.TimeField()
-    n_time_more = models.TimeField()
-    n_time_less = models.TimeField()
+    n_time = models.SmallIntegerField()
+    n_time_more = models.SmallIntegerField()
+    n_time_less = models.SmallIntegerField()
 
 
 class Day(models.Model):
     day_id = models.SmallIntegerField(primary_key=True)
-    day_date = models.DateField(blank=True, null=True)
+    day_date = models.DateField(blank=True)
     day_str = models.CharField(max_length=2, blank=True)
 
     class Meta:
         db_constraints = {
-            'CHK_DayNotNull': 'CHECK (day_date IS NOT NULL OR day_str <> "")'
+            "CHK_DayNotNull": "CHECK (day_date IS NOT NULL OR day_str <> '')"
         }
         ordering = ['day_id']
 

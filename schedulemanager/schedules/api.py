@@ -114,6 +114,23 @@ class StrictEventViewSet(viewsets.ModelViewSet):
         else:
             return queryset.filter(event_id=int(event_filter))
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        eventdefinitions = self.request.user.eventdefinitions.all()
+        looseevent_not_deleted = LooseEvent.objects.filter(
+            event_id=request.data['event_id']).first()
+        print(looseevent_not_deleted)
+        # Sometimes during edits a strict event is replaced by a loose event,  or vice-versa,
+        # but since they share an event_id it can't be tricky since a loose event is created after the
+        # strict event is deleted, so this lock is in place to wait for the strict event to be deleted
+        while looseevent_not_deleted is not None:
+            looseevent_not_deleted = LooseEvent.objects.filter(
+                event_id=request.data['event_id']).first()
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
@@ -158,11 +175,34 @@ class LooseEventViewSet(viewsets.ModelViewSet):
         else:
             return queryset.filter(event_id=int(event_filter))
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        eventdefinitions = self.request.user.eventdefinitions.all()
+        strictevent_not_deleted = StrictEvent.objects.filter(
+            event_id=request.data['event_id']).first()
+        print(strictevent_not_deleted)
+        # Sometimes during edits a strict event is replaced by a loose event,  or vice-versa,
+        # but since they share an event_id it can't be tricky since a loose event is created after the
+        # strict event is deleted, so this lock is in place to wait for the strict event to be deleted
+        while strictevent_not_deleted is not None:
+            strictevent_not_deleted = StrictEvent.objects.filter(
+                event_id=request.data['event_id']).first()
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def perform_update(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        print("In destroy inside api of loose events???")
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Day Viewset
 
@@ -202,13 +242,16 @@ class DayViewSet(viewsets.ModelViewSet):
         occurs_on_2s = occurs_on_2.objects.filter(event_id__in=looseevents)
         queryset_1 = Day.objects.filter(
             day_id__in=occurs_on_1s.values("day_id"))
-        queryset_2 = Day.objects.filter(day_id__in=occurs_on_2s)
+        queryset_2 = Day.objects.filter(
+            day_id__in=occurs_on_2s.values("day_id"))
         queryset = queryset_1 | queryset_2
 
         if day_filter is None:
             return queryset
         elif day_filter[0] == "[":
             day_filter_list = day_filter[1:-1].split(",")
+            print(day_filter_list)
+            print(queryset.filter(day_id__in=day_filter_list))
             return queryset.filter(day_id__in=day_filter_list)
         else:
             print("Error in DayViewSet Return")

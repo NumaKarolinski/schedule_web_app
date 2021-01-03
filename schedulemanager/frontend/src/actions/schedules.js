@@ -372,6 +372,7 @@ export const getLooseEvents = (event_id) => (dispatch, getState) => {
 
 // DELETE LOOSE EVENT
 export const deleteLooseEvent = (event_id) => (dispatch, getState) => {
+  console.log("entering delete loose event");
   axios
     .delete(`/api/looseevents/${event_id}/`, tokenConfig(getState))
     .then((res) => {
@@ -381,6 +382,7 @@ export const deleteLooseEvent = (event_id) => (dispatch, getState) => {
       });
     })
     .catch((err) => console.log(err));
+  console.log("exiting delete loose event")
 };
 
 // ADD LOOSE EVENT
