@@ -47,7 +47,7 @@ class App extends Component {
               <Alerts />
               <div
                 className="d-flex justify-content-center align-items-center"
-                style={{ height: `calc(100% - 79px)` }}
+                style={{ height: `calc(100% - 79px)`, minWidth: "248px" }}
               >
                 <Switch>
                   <PrivateRoute exact path="/" component={Dashboard} />

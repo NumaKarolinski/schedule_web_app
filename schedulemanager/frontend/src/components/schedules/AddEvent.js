@@ -2,11 +2,11 @@ import React, { Component, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-//import { dayWrong, monthWrong, dateTooEarly, repeatedEventDay, addEventDefinition, getEventDefinitions, addStrictEvent, addLooseEvent, addDay, getDays, addTime, getTimes, addoccurs_on_1, addoccurs_on_2 } from "../../actions/schedules";   
-import { dayWrong, monthWrong, dateTooEarly, repeatedEventDay, addStrictEvent, deleteStrictEvent, getStrictEvents, editStrictEvent, addLooseEvent, deleteLooseEvent, getLooseEvents, editLooseEvent, addDay, getDays, editDay, deleteDay, addTime, getTimes, editTime, deleteTime, addoccurs_on_1, getoccurs_on_1s, deleteoccurs_on_1, addoccurs_on_2, getoccurs_on_2s, deleteoccurs_on_2 } from "../../actions/schedules";
 import DatePicker from 'react-datepicker';
 import { TimePicker } from 'antd';
 import moment from 'moment';
+
+import { dayWrong, monthWrong, dateTooEarly, repeatedEventDay, addStrictEvent, deleteStrictEvent, getStrictEvents, editStrictEvent, addLooseEvent, deleteLooseEvent, getLooseEvents, editLooseEvent, addDay, getDays, editDay, deleteDay, addTime, getTimes, editTime, deleteTime, addoccurs_on_1, getoccurs_on_1s, deleteoccurs_on_1, addoccurs_on_2, getoccurs_on_2s, deleteoccurs_on_2 } from "../../actions/schedules";
 
 import "../../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import "./antd-timepicker.css";
@@ -634,11 +634,16 @@ export class AddEvent extends Component {
         //for editing, just go where there is the this.props.add, and change it to a .patch function where each value that is submitted is compared to the old values in 'prevEventState'
         e.preventDefault();
         const { name, days, daysInWeek, fixed, chooseDay, recurring, timeBool, durationBool, time, duration, times, timesInWeek, durations, durationsInWeek, currentlySelectedTimeOrDuration, eoa1, eoa2, nocc, nweek, noccless, nweekless, noccmore, nweekmore, occsameday, nnn1, nnn2, nnn3, nnn4, ntime, ntimeless, ntimemore, hm1, hm2, hm3, submittedBool, inEdit, prevEventState, smallMedia } = this.state;
-        
+
+        const trueCount = daysInWeek.reduce((acc, cV) => acc + (cV ? 1 : 0));
+        const less_days_than_total_days = (((nocc / nweek) <= trueCount) && (chooseDay === "dayoftheweek")) || (((nocc / nweek) < days.length) && (chooseDay === "anyday"));
+        const more_days_than_total_days = (((nocc / nweek) > trueCount) && (chooseDay === "dayoftheweek")) || (((nocc / nweek) >= days.length) && (chooseDay === "anyday"));
+        const validTest = (nocc > 1) && less_days_than_total_days;
+
         const theTimes = (timeBool === "yes") ? time : (chooseDay === "anyday" ? times : timesInWeek);
         const theDurations = (durationBool === "yes") ? duration : (chooseDay === "anyday" ? durations : durationsInWeek);
         const theRecurring = (chooseDay === "dayoftheweek") ? (recurring === "yes" ? true : false) : false;
-        const theOccsameday = (occsameday === "yes" ? true : false);
+        const theOccsameday = validTest ? (occsameday === "yes" ? true : false) : (nocc === 1 ? false : (more_days_than_total_days));
 
         // if true then we are adding a new event, if false then we are editing an old event
         const editBool = (this.props.location.state === undefined);
@@ -670,7 +675,6 @@ export class AddEvent extends Component {
             event_id,
             "event_name": name,
             "priority": fixed === "strict" ? 0 : 1,
-            "recurring": theRecurring,
             "active_for_generation": false,
         };
 
@@ -707,9 +711,6 @@ export class AddEvent extends Component {
             var editObject = {};
             if (name != prevEventState.name) {
                 editObject['event_name'] = name;
-            }
-            if (theRecurring !== ((prevEventState.chooseDay === "dayoftheweek") ? (prevEventState.recurring === "yes" ? true : false) : false)) {
-                editObject['recurring'] = theRecurring;
             }
             const prevAFG = prevEventState.fixed === "strict" ? (this.props.strictevents[0].active_for_generation) : (this.props.looseevents[0].active_for_generation);
             if (prevAFG !== false) {
@@ -807,25 +808,34 @@ export class AddEvent extends Component {
         } else {
             var editCounter = -1;
             const allDayStr = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+            const todayStr = moment().format("dddd").slice(0, 2);
+            var todayVal = 0;
+            for (var j = 0; j < allDayStr.length; j++) {
+                if (allDayStr[j] === todayStr) {
+                    todayVal = j;
+                }
+            }
             for (var i = 0; i < (daysInWeek.length); i++) {
                 if (daysInWeek[i]) {
                     editCounter += 1;
                     const day_id = editBool ? (this.props.days.length === 0 ? i + 1 : this.props.days[0].day_id + i + 1) : (editCounter < this.props.days.length ? this.props.days[editCounter].day_id : this.props.days[0].day_id + i + 1);
+                    const the_day_date = theRecurring ? "9999-01-01" : (((i - todayVal) < 0 ) ? moment().add(i - todayVal + 7, 'd').format("YYYY-MM-DD") : moment().add(i - todayVal, 'd').format("YYYY-MM-DD"));
+                    const the_day_str = theRecurring ? allDayStr[i] : "";
                     const theDay = { 
                         day_id, 
-                        "day_date": "9999-01-01", 
-                        "day_str": allDayStr[i]
+                        "day_date": the_day_date, 
+                        "day_str": the_day_str,
                     };
                     if (editBool || (!editBool && (editCounter >= this.props.days.length))) {
                         console.log(theDay);
                         this.props.addDay(theDay);
                     } else {
                         var editObject = {};
-                        if ("9999-01-01" !== this.props.days[editCounter].day_date) {
-                            editObject['day_date'] = "9999-01-01";
+                        if (the_day_date !== this.props.days[editCounter].day_date) {
+                            editObject['day_date'] = the_day_date;
                         }
-                        if (allDayStr[i] !== this.props.days[editCounter].day_str) {
-                            editObject['day_str'] = allDayStr[i];
+                        if (the_day_str !== this.props.days[editCounter].day_str) {
+                            editObject['day_str'] = the_day_str;
                         }
                         if (Object.keys(editObject).length !== 0 || editObject.constructor !== Object) {
                             console.log(day_id);
@@ -847,12 +857,12 @@ export class AddEvent extends Component {
                         (duration.length === 5 ? parseInt(duration.slice(0, 2)) : parseInt(duration.slice(0, 1))) :
                         (theDurations[i].length === 5 ? parseInt(theDurations[i].slice(0, 2)) : parseInt(theDurations[i].slice(0, 1)));
                     const endTime = (timeBool === "yes") ?
-                        (moment(time, "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("hh:mm:ss") :
-                        (moment(theTimes[i], "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("hh:mm:ss");
+                        (moment(time, "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("HH:mm") :
+                        (moment(theTimes[i], "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("HH:mm");
                     const time_id =
                     this.props.times.length === 0 ?
                         i + 1 :
-                        ((editBool && i >= this.props.times.length) || (!editBool && ((fixed !== prevEventState.fixed) || (fixed === prevEventState.fixed && i >= this.props.times.length))) ? 
+                        (editBool || (!editBool && ((fixed !== prevEventState.fixed) || (fixed === prevEventState.fixed && i >= this.props.times.length))) ? 
                             this.props.times[0].time_id + i + 1 :
                             this.props.times[i].time_id
                         );
@@ -886,7 +896,6 @@ export class AddEvent extends Component {
                                 this.props.editTime(time_id, editObject);
                             }
                         }
-
                     } else {
                         const theTime = {
                             time_id, 
@@ -951,12 +960,12 @@ export class AddEvent extends Component {
                             (duration.length === 5 ? parseInt(duration.slice(0, 2)) : parseInt(duration.slice(0, 1))) :
                             (theDurations[i].length === 5 ? parseInt(theDurations[i].slice(0, 2)) : parseInt(theDurations[i].slice(0, 1)));
                         const endTime = (timeBool === "yes") ?
-                            (moment(time, "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("hh:mm:ss") :
-                            (moment(theTimes[i], "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("hh:mm:ss");
+                            (moment(time, "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("HH:mm:ss") :
+                            (moment(theTimes[i], "HH:mm").add(dHour, 'h').add(dMinute, 'm')).format("HH:mm:ss");
                         const time_id =
                         this.props.times.length === 0 ?
                             i + 1 :
-                            ((editBool && editCounter >= this.props.times.length) || (!editBool && ((fixed !== prevEventState.fixed) || (fixed === prevEventState.fixed && editCounter >= this.props.times.length))) ? 
+                            (editBool || (!editBool && ((fixed !== prevEventState.fixed) || (fixed === prevEventState.fixed && editCounter >= this.props.times.length))) ? 
                                 this.props.times[0].time_id + i + 1 :
                                 this.props.times[editCounter].time_id
                             );
@@ -1118,8 +1127,6 @@ export class AddEvent extends Component {
             }
         }
 
-        //theDays, recurring, eoa1, eoa2, nocc, noccless, noccmore, occsameday, nnn1, nnn2, nnn3, nnn4, ntime, ntimeless, ntimemore };
-
         this.setState({
             name: "",
             days: [null],
@@ -1211,13 +1218,14 @@ export class AddEvent extends Component {
                 var all_same_dura = true && (this.props.times.length !== 1);
                 var all_same_time = true && (this.props.times.length !== 1);
                 var prevStartTime = this.props.times[0].start;
-                var prevDuration = moment(this.props.times[0].end, "HH:mm").subtract(prevStartTime.slice(0, 2), 'h').subtract(prevStartTime.slice(3, 5), 'm').format('hh:mm')
+                var prevDuration = moment(this.props.times[0].end, "HH:mm:ss").subtract(prevStartTime.slice(0, 2), 'h').subtract(prevStartTime.slice(3, 5), 'm').format("HH:mm");
+                recurring = "no";
                 for (var i = 0; i < this.props.days.length; i++) {
                     if ((i != 0) && (this.props.times.length === this.props.days.length)) {
                         const startTime = this.props.times[i].start;
                         const hour = startTime.slice(0, 2);
                         const minute = startTime.slice(3, 5);
-                        const duration = moment(this.props.times[i].end, "HH:mm").subtract(hour, 'h').subtract(minute, 'm').format('hh:mm');
+                        const duration = moment(this.props.times[i].end, "HH:mm").subtract(hour, 'h').subtract(minute, 'm').format('HH:mm');
                         all_same_dura = all_same_dura && (duration === prevDuration);
                         all_same_time = all_same_time && (startTime === prevStartTime);
                         prevStartTime = startTime;
@@ -1225,6 +1233,7 @@ export class AddEvent extends Component {
                     }
                     const day_date = this.props.days[i].day_date;
                     if (day_date === "9999-01-01") {
+                        recurring = "yes";
                         chooseDay = "dayoftheweek";
                         const day_str = this.props.days[i].day_str;
                         if (day_str === "Mo") {
@@ -1275,13 +1284,14 @@ export class AddEvent extends Component {
                 }
                 name = this.props.strictevents[0].event_name;
                 fixed = "strict";
-                recurring = this.props.strictevents[0].recurring ? "yes" : "no";
                 prevEventState = { name, days, daysInWeek, fixed, chooseDay, recurring, timeBool, durationBool, time, duration, times, timesInWeek, durations, durationsInWeek, currentlySelectedTimeOrDuration, eoa1, eoa2, nocc, nweek, noccless, nweekless, noccmore, nweekmore, occsameday, nnn1, nnn2, nnn3, nnn4, ntime, ntimeless, ntimemore, hm1, hm2, hm3, submittedBool, inEdit, prevEventState: null, smallMedia };
                 this.setState({ name, days, daysInWeek, fixed, chooseDay, recurring, timeBool, durationBool, time, duration, times, timesInWeek, durations, durationsInWeek, currentlySelectedTimeOrDuration, eoa1, eoa2, nocc, nweek, noccless, nweekless, noccmore, nweekmore, occsameday, nnn1, nnn2, nnn3, nnn4, ntime, ntimeless, ntimemore, hm1, hm2, hm3, submittedBool, inEdit: false, prevEventState, smallMedia });
             } else if (looseevent_valid && day_valid) {
+                recurring = "no";
                 for (var i = 0; i < this.props.days.length; i++) {
                     const day_date = this.props.days[i].day_date;
                     if (day_date === "9999-01-01") {
+                        recurring = "yes";
                         chooseDay = "dayoftheweek";
                         const day_str = this.props.days[i].day_str;
                         if (day_str === "Mo") {
@@ -1310,7 +1320,6 @@ export class AddEvent extends Component {
                 }
                 name = this.props.looseevents[0].event_name;
                 fixed = "loose";
-                recurring = this.props.looseevents[0].recurring ? "yes" : "no";
                 eoa1 = this.props.looseevents[0].e_oa_1;
                 eoa2 = this.props.looseevents[0].e_oa_2;
                 nnn1 = this.props.looseevents[0].nn_n_1;
@@ -1400,17 +1409,17 @@ export class AddEvent extends Component {
 
         const aDayPicker = (theName, theDate) => (
             <DatePicker 
-            key={theName} 
-            className="form-control noselect" 
-            isClearable
-            autoComplete="off"
-            closeOnScroll={true}
-            selected={theDate}
-            onChange = {this.onChange}
-            minDate = {minDate}
-            dateFormat = "MM/dd/yyyy"
-            name = {theName}
-            popperClassName = {theName}
+                key={theName} 
+                className="form-control noselect" 
+                isClearable
+                autoComplete="off"
+                closeOnScroll={true}
+                selected={theDate}
+                onChange = {this.onChange}
+                minDate = {minDate}
+                dateFormat = "MM/dd/yyyy"
+                name = {theName}
+                popperClassName = {theName}
             />
         );
 
@@ -1810,7 +1819,7 @@ export class AddEvent extends Component {
         ];
 
         return (
-            <div className="card p-4 eventContainer overflow-auto">
+            <div className="card p-4 eventContainer overflow-auto addEvent">
                 <form onSubmit={this.onSubmit}>
                     {insideForm.map((somethingInside) => somethingInside)}
                 </form>

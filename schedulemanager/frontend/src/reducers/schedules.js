@@ -3,6 +3,10 @@ import {
   DELETE_SCHEDULE,
   ADD_SCHEDULE,
   CLEAR_SCHEDULES,
+  GET_TIMEDELTAS,
+  DELETE_TIMEDELTA,
+  ADD_TIMEDELTA,
+  CLEAR_TIMEDELTAS,
   GET_VIEWS,
   DELETE_VIEW,
   ADD_VIEW,
@@ -12,10 +16,6 @@ import {
   ADD_EVENTDEFINITION,
   EDIT_EVENTDEFINITION,
   CLEAR_EVENTDEFINITIONS,
-  GET_TIMEDELTAS,
-  DELETE_TIMEDELTA,
-  ADD_TIMEDELTA,
-  CLEAR_TIMEDELTAS,
   GET_EVENTTYPE,
   GET_STRICTEVENTS,
   DELETE_STRICTEVENT,
@@ -49,9 +49,10 @@ import {
 
 const initialState = {
   schedules: [],
+  timedeltas: [],
+  timeDeltasUpdated: false,
   views: [],
   eventdefinitions: [],
-  timedeltas: [],
   eventTypeBool: "unknown",
   strictevents: [],
   looseevents: [],
@@ -86,6 +87,31 @@ export default function (state = initialState, action) {
         schedules: [],
       };
 
+    case GET_TIMEDELTAS:
+      return {
+        ...state,
+        timedeltas: action.payload,
+        timeDeltasUpdated: true,
+      };
+    case DELETE_TIMEDELTA:
+      return {
+        ...state,
+        timedeltas: state.timedeltas.filter(
+          (timedelta) => timedelta.date_time.slice(0, 10) !== action.payload
+        ),
+      };
+    case ADD_TIMEDELTA:
+      return {
+        ...state,
+        timedeltas: [ ...state.timedeltas ].concat(action.payload),
+        timeDeltasUpdated: true,
+      };
+    case CLEAR_TIMEDELTAS:
+      return {
+        ...state,
+        timedeltas: [],
+      };
+
     case GET_VIEWS:
       return {
         ...state,
@@ -115,6 +141,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         eventdefinitions: action.payload,
+        timeDeltasUpdated: false,
       };
     case DELETE_EVENTDEFINITION:
       return {
@@ -139,29 +166,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         eventdefinitions: [],
-      };
-
-    case GET_TIMEDELTAS:
-      return {
-        ...state,
-        timedeltas: action.payload,
-      };
-    case DELETE_TIMEDELTA:
-      return {
-        ...state,
-        timedeltas: state.timedeltas.filter(
-          (timedelta) => timedelta.td_id !== action.payload
-        ),
-      };
-    case ADD_TIMEDELTA:
-      return {
-        ...state,
-        timedeltas: [...state.timedeltas, action.payload],
-      };
-    case CLEAR_TIMEDELTAS:
-      return {
-        ...state,
-        timedeltas: [],
       };
 
     case GET_EVENTTYPE:

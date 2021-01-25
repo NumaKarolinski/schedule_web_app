@@ -1,8 +1,35 @@
 .bigArrowLeft {
   width: 0;
   height: 0;
-  border-right: 30px solid gray;
-  border-left: 30px solid transparent;
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
+  border-left: 25px solid transparent;
+  border-right: 25px solid #686882;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+}
+
+.bigArrowLeft:hover {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid #71487b;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+}
+
+.smallArrowLeft {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid #686882;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.smallArrowLeft:hover {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid #71487b;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
 }

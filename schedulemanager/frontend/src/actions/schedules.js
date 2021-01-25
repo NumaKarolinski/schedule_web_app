@@ -6,6 +6,9 @@ import {
   GET_SCHEDULES,
   DELETE_SCHEDULE,
   ADD_SCHEDULE,
+  GET_TIMEDELTAS,
+  DELETE_TIMEDELTA,
+  ADD_TIMEDELTA,
   GET_VIEWS,
   DELETE_VIEW,
   ADD_VIEW,
@@ -13,9 +16,6 @@ import {
   DELETE_EVENTDEFINITION,
   ADD_EVENTDEFINITION,
   EDIT_EVENTDEFINITION,
-  GET_TIMEDELTAS,
-  DELETE_TIMEDELTA,
-  ADD_TIMEDELTA,
   GET_EVENTTYPE,
   GET_STRICTEVENTS,
   EDIT_STRICTEVENT,
@@ -106,6 +106,58 @@ export const addSchedule = (schedule) => (dispatch, getState) => {
     );
 };
 
+// GET TIME DELTAS
+export const getTimeDeltas = (schedule_id, day_date) => (dispatch, getState) => {
+  axios
+    .get(`/api/timedeltas/?timedelta_filter=${schedule_id}&day_date_filter=${day_date}`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_TIMEDELTAS,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+// DELETE TIME DELTA
+export const deleteTimeDelta = (day_date) => (dispatch, getState) => {
+
+  axios
+    .delete(`/api/timedeltas/${day_date}/`, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ deleteTimeDelta: "Scheduled Events Deleted" }));
+      dispatch({
+        type: DELETE_TIMEDELTA,
+        payload: day_date,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+// ADD TIME DELTA
+// Currently the only implementation is adding a full day of time deltas
+export const addTimeDelta = (schedule_id, day_str, day_date) => (dispatch, getState) => {
+  axios
+    axios
+      .post(`/api/timedeltas/?schedule_filter=${schedule_id}&day_str_filter=${day_str}&day_date_filter=${day_date}`, null, tokenConfig(getState))
+      .then((res) => {
+        if (res.status === 204) {
+          dispatch(createMessage({ noTimeDeltas: "No Active Events to Add to Schedule" }));
+        } else {
+          dispatch(createMessage({ addTimeDelta: "Scheduled Events Added" }));
+          dispatch({
+            type: ADD_TIMEDELTA,
+            payload: res.data,
+          });
+        }
+      })
+      .catch((err) =>
+        dispatch(returnErrors(err.response.data, err.response.status))
+      );
+};
+
 // GET VIEWS
 export const getviews = () => (dispatch, getState) => {
   axios
@@ -152,16 +204,18 @@ export const addview = (view) => (dispatch, getState) => {
 };
 
 // GET EVENT DEFINITIONS
-export const getEventDefinitions = () => (dispatch, getState) => {
+export const getEventDefinitions = (event_id) => (dispatch, getState) => {
 
-  //const getString = typeof(event_id) === "number" ?
-    //`/api/eventdefinitions/${event_id}/` :
-    //(typeof(event_id) === "string" ?
-      //`/api/eventdefinitions?event_filter=${event_id}` :
-      //"/api/eventdefinitions/")
+  const getString = typeof(event_id) === "number" ?
+    `/api/eventdefinitions/${event_id}/` :
+    (typeof(event_id) === "string" ?
+      `/api/eventdefinitions?event_filter=${event_id}` :
+      (typeof(event_id) === "object" ?
+        '/api/eventdefinitions?event_filter=[' + event_id.join(",") + "]" :
+        "/api/eventdefinitions/"))
 
   axios
-    .get("/api/eventdefinitions/", tokenConfig(getState))
+    .get(getString, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_EVENTDEFINITIONS,
@@ -213,51 +267,6 @@ export const editEventDefinition = (event_id, event_change) => (dispatch, getSta
       dispatch(createMessage({ editEventDefinition: "Event Definition Edited" }));
       dispatch({
         type: EDIT_EVENTDEFINITION,
-        payload: res.data,
-      });
-    })
-    .catch((err) =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
-
-// GET TIME DELTAS
-export const getTimeDeltas = () => (dispatch, getState) => {
-  axios
-    .get("/api/timedeltas/", tokenConfig(getState))
-    .then((res) => {
-      dispatch({
-        type: GET_TIMEDELTAS,
-        payload: res.data,
-      });
-    })
-    .catch((err) =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
-
-// DELETE TIME DELTA
-export const deleteTimeDelta = (td_id) => (dispatch, getState) => {
-  axios
-    .delete(`/api/timedeltas/${td_id}/`, tokenConfig(getState))
-    .then((res) => {
-      dispatch(createMessage({ deleteTimeDelta: "Time Delta Deleted" }));
-      dispatch({
-        type: DELETE_TIMEDELTA,
-        payload: td_id,
-      });
-    })
-    .catch((err) => console.log(err));
-};
-
-// ADD TIME DELTA
-export const addTimeDelta = (timedelta) => (dispatch, getState) => {
-  axios
-    .post("/api/timedeltas/", timedelta, tokenConfig(getState))
-    .then((res) => {
-      dispatch(createMessage({ addTimeDelta: "Time Delta Added" }));
-      dispatch({
-        type: ADD_TIMEDELTA,
         payload: res.data,
       });
     })
@@ -318,7 +327,6 @@ export const deleteStrictEvent = (event_id) => (dispatch, getState) => {
 
 // ADD STRICT EVENT
 export const addStrictEvent = (strictevent) => (dispatch, getState) => {
-  console.log(strictevent);
   axios
     .post("/api/strictevents/", strictevent, tokenConfig(getState))
     .then((res) => {

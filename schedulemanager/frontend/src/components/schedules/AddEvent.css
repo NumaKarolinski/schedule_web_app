@@ -27,27 +27,6 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-}
-
-/*::-webkit-scrollbar-track {
-  background: linear-gradient(#a5a3bd, #d8d8e0);
-}*/
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(rgba(104, 104, 167, 0.4), #a9a8b8);
-  border-radius: 25px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-image: linear-gradient(#8787af, #a9a8b8);
-}
-
-::-webkit-scrollbar-thumb:active {
-  background-image: linear-gradient(#8787af, #a07e9b);
-}
-
 .react-datepicker__day:hover {
   box-shadow: 0px 0px 7px #375a7f, 0px 0px 7px #4b0082;
 }
@@ -78,4 +57,25 @@
 
 .wkdayButton:active {
   background-color: #a07e9b;
+}
+
+.addEvent::-webkit-scrollbar {
+  width: 12px;
+}
+
+/*::-webkit-scrollbar-track {
+    background: linear-gradient(#a5a3bd, #d8d8e0);
+  }*/
+
+.addEvent::-webkit-scrollbar-thumb {
+  background: linear-gradient(rgba(104, 104, 167, 0.4), #a9a8b8);
+  border-radius: 25px;
+}
+
+.addEvent::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(#8787af, #a9a8b8);
+}
+
+.addEvent::-webkit-scrollbar-thumb:active {
+  background-image: linear-gradient(#8787af, #a07e9b);
 }

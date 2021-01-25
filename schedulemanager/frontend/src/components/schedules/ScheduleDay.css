@@ -1,3 +1,30 @@
-.scheduleDayDiv {
-  margin: 0px 10px;
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.scheduleDay::-webkit-scrollbar {
+  width: 10px;
+}
+
+/*::-webkit-scrollbar-track {
+    background: linear-gradient(#a5a3bd, #d8d8e0);
+  }*/
+
+.scheduleDay::-webkit-scrollbar-thumb {
+  background: linear-gradient(rgba(104, 104, 167, 0.4), #a9a8b8);
+  border-radius: 25px;
+}
+
+.scheduleDay::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(#8787af, #a9a8b8);
+}
+
+.scheduleDay::-webkit-scrollbar-thumb:active {
+  background-image: linear-gradient(#8787af, #a07e9b);
 }

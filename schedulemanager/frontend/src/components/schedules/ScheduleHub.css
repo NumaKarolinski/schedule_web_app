@@ -1,0 +1,6 @@
+.eventContainer {
+  width: 400px;
+  max-height: calc(100% - 90px);
+  overflow: auto;
+  position: static;
+}

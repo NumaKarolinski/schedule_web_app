@@ -13,6 +13,23 @@ class Schedule(models.Model):
         ordering = ['schedule_id']
 
 
+class TimeDelta(models.Model):
+    td_id = models.AutoField(primary_key=True)
+    date_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    rating = models.SmallIntegerField(blank=True, null=True)
+    schedule = models.ForeignKey(
+        Schedule, related_name="timedeltas", on_delete=models.CASCADE, null=True)
+    event = models.ForeignKey(
+        'EventDefinition', related_name="timedeltas", on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        db_constraints = {
+            'CHK_Rating': 'CHECK (rating <= 10 AND rating >= 1)'
+        }
+        ordering = ['date_time']
+
+
 class views(models.Model):
     viewer = models.ForeignKey(
         User, related_name="views", on_delete=models.CASCADE, null=True)
@@ -27,30 +44,12 @@ class EventDefinition(models.Model):
     event_id = models.SmallIntegerField(primary_key=True)
     event_name = models.CharField(max_length=50)
     priority = models.SmallIntegerField()
-    recurring = models.BooleanField()
     active_for_generation = models.BooleanField()
     owner = models.ForeignKey(
         User, related_name="eventdefinitions", on_delete=models.CASCADE, null=True)
 
     class Meta:
-        ordering = ['event_id']
-
-
-class TimeDelta(models.Model):
-    td_id = models.AutoField(primary_key=True)
-    date_time = models.DateTimeField()
-    start_end = models.BooleanField()
-    rating = models.SmallIntegerField(blank=True, null=True)
-    schedule = models.ForeignKey(
-        Schedule, related_name="timedeltas", on_delete=models.CASCADE, null=True)
-    event = models.ForeignKey(
-        EventDefinition, related_name="timedeltas", on_delete=models.CASCADE, null=True)
-
-    class Meta:
-        db_constraints = {
-            'CHK_Rating': 'CHECK (rating <= 10 AND rating >= 1)'
-        }
-        ordering = ['td_id']
+        ordering = ['event_id', 'priority']
 
 
 class StrictEvent(EventDefinition):
@@ -65,12 +64,12 @@ class LooseEvent(EventDefinition):
     nn_n_3 = models.BooleanField()
     nn_n_4 = models.BooleanField()
     n_occ = models.FloatField()
-    n_occ_more = models.FloatField()
     n_occ_less = models.FloatField()
+    n_occ_more = models.FloatField()
     occ_same_day = models.BooleanField()
     n_time = models.SmallIntegerField()
-    n_time_more = models.SmallIntegerField()
     n_time_less = models.SmallIntegerField()
+    n_time_more = models.SmallIntegerField()
 
 
 class Day(models.Model):

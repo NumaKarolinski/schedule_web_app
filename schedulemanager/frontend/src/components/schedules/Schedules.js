@@ -1,20 +1,75 @@
-import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import React, { Component, Fragment } from "react";
+import moment from 'moment';
 
 import FadedScheduleDayLeft from "./FadedScheduleDayLeft";
 import ScheduleDay from "./ScheduleDay";
 import FadedScheduleDayRight from "./FadedScheduleDayRight";
 
-export default class Schedules extends Component {
+import {
+    getSchedules,
+} from "../../actions/schedules";
 
-  render() {
-    return (
-      <Fragment>
-        <FadedScheduleDayLeft className="row1"/>
-        <ScheduleDay className="row2"/>
-        <FadedScheduleDayRight className="row3"/>
-      </Fragment>
-    );
-  }
+import "./Schedules.css";
+
+export class Schedules extends Component {
+
+    state = {
+        currentDayShift: 0,
+        updated: true,
+        smallMedia: window.matchMedia("(max-width: 559.43px)").matches,
+        smallerMedia: window.matchMedia("(max-width: 360px)").matches,
+    }
+
+    static propTypes = {
+        schedules: PropTypes.array.isRequired,
+        getSchedules: PropTypes.func.isRequired,
+    };
+
+    componentDidMount() {
+        const wmm1 = window.matchMedia("(max-width: 559.43px)");
+        const wmm2 = window.matchMedia("(max-width: 360px)");
+        wmm1.addEventListener("change", () => this.setState({ ...this.state, smallMedia: wmm1.matches }));
+        wmm2.addEventListener("change", () => this.setState({ ...this.state, smallerMedia: wmm2.matches }));
+        this.props.getSchedules();
+    }
+
+    handleClick = (e) => {
+        if (e.currentTarget.id === "leftArrow") {
+            this.setState({ ...this.state, "currentDayShift": this.state.currentDayShift - 1, "updated": true });
+        } else if (e.currentTarget.id === "rightArrow") {
+            this.setState({ ...this.state, "currentDayShift": this.state.currentDayShift + 1, "updated": true });
+        } else {
+            console.log("OnClick in Schedules not handled.");
+        }
+    }
+
+    handleUpdate = () => {
+        this.setState({ ...this.state, "updated": false });
+    }
+
+    render() {
+        var { currentDayShift, updated, smallMedia, smallerMedia } = this.state;
+
+        const leftDay = moment().add(currentDayShift - 1 , 'day');
+        const middleDay = moment().add(currentDayShift , 'day');
+        const rightDay = moment().add(currentDayShift + 1 , 'day');
+
+        return (
+            <Fragment>
+                <FadedScheduleDayLeft className="row1" schedules = { this.props.schedules } day = { leftDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
+                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } smallMedia = { smallMedia } smallerMedia = { smallerMedia } handleUpdate = { this.handleUpdate } />
+                <FadedScheduleDayRight className="row3" schedules = { this.props.schedules } day = { rightDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
+            </Fragment>
+        );
+    }
 }
+
+const mapStateToProps = (state) => ({
+    schedules: state.schedules.schedules,
+});
+
+export default connect(mapStateToProps, {
+    getSchedules,
+})(Schedules);

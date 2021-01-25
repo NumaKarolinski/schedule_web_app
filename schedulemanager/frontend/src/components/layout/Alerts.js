@@ -85,6 +85,9 @@ export class Alerts extends Component {
       if (message.repeatedEventDay) {
         alert.error(message.repeatedEventDay);
       }
+      if (message.noTimeDeltas) {
+        alert.error(message.noTimeDeltas);
+      }
     }
   }
 
