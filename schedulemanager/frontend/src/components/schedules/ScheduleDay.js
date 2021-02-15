@@ -112,7 +112,7 @@ export class ScheduleDay extends Component {
                             <th style = { smallthStyle } className = "noselect align-middle">Event Time</th>
                         </tr>
                     </thead>
-                    <tbody style = {{ display: "block", maxHeight: "165px" }} className = "overflow-auto scheduleDay">
+                    <tbody style = {{ display: "block", maxHeight: "60vh" }} className = "overflow-auto scheduleDay">
                         {sortedTimedeltas.map((timedelta) =>  (
                             <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }} key={"timedelta" + timedelta.td_id} id = {"tr" + timedelta.td_id} className = "noselect">
                                 <td style = { tdNameStyle } className = "noselect align-middle">{this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === timedelta["event"])[0]["event_name"]}</td>

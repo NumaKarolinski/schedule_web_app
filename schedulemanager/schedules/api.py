@@ -135,7 +135,7 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
 
         this_week_timedeltas = [timedeltas.filter(date_time__year=thisWeeksDates[i][0:4],
                                                   date_time__month=thisWeeksDates[i][5:7],
-                                                  date_time__day=thisWeeksDates[i][8:10]) for i in range(9)]
+                                                  date_time__day=thisWeeksDates[i][8:10]) if i != (j + 1) else TimeDelta.objects.none() for i in range(9)]
 
         print("============================================================")
         for i in range(9):
@@ -364,13 +364,15 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
         print("------------------------------------------------------------")
         for key, value in today_and_ungenerated_day_data.items():
             if key == -1:
-                print("The data for previous ",
+                print("The ungenerated strict event time deltas for previous ",
                       day_str_list[6], ": ", value)
             elif key == 7:
-                print("The data for next ", day_str_list[0], ": ", value)
+                print("The ungenerated strict event time deltas for next ",
+                      day_str_list[0], ": ", value)
             else:
-                print("The data for ", day_str_list[key], ": ", value)
-        print(all_serializer_data)
+                print("The ungenerated strict event time deltas for ",
+                      day_str_list[key], ": ", value)
+        print("all serializer data which is the list of strict event time deltas for the day being generated: ", all_serializer_data)
         print("------------------------------------------------------------")
 
         all_tds = {}
@@ -385,11 +387,8 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                     if (key - 1) in list(map(lambda aTuple: aTuple[0], today_and_ungenerated_day_data.items())):
                         prev_end_times = list(map(
                             lambda dataDict: dataDict['end_time'], today_and_ungenerated_day_data[key - 1]))
-                        prev_start_times = list(map(
-                            lambda dataDict: dataDict['date_time'], today_and_ungenerated_day_data[key - 1]))
 
                         last_prev_end_time = prev_end_times[0]
-                        last_prev_start_time = prev_start_times[0]
 
                     else:
                         prevTimeDeltas = this_week_timedeltas[key]
@@ -397,13 +396,10 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                         prev_end_times = list(
                             map(lambda a_td: a_td.end_time, prevTimeDeltas)
                         )
-                        prev_start_times = list(
-                            map(lambda a_td: a_td.date_time, prevTimeDeltas)
-                        )
 
                         last_prev_end_time = str(prev_end_times[0])
 
-                    for i in range(len(prev_start_times)):
+                    for i in range(len(prev_end_times)):
                         last_prev_end_time_datetime = datetime.datetime(int(last_prev_end_time[0:4]), int(last_prev_end_time[5:7]), int(
                             last_prev_end_time[8:10]), int(last_prev_end_time[11:13]), int(last_prev_end_time[14:16]))
                         prev_end_time_arr_datetime = datetime.datetime(int(str(prev_end_times[i])[0:4]), int(str(prev_end_times[i])[5:7]), int(
@@ -415,17 +411,23 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                             last_prev_end_time = str(prev_end_times[i])
 
                     current_date_str = thisWeeksDates[key + 1]
+                    print("current_date_str is: ", current_date_str)
                     midnight_beginning_of_current_date_datetime = datetime.datetime(int(
                         current_date_str[0:4]), int(current_date_str[5:7]), int(current_date_str[8:10]), 0, 0)
+                    print("midnight_beginning_of_current_date_datetime is: ",
+                          midnight_beginning_of_current_date_datetime)
                     last_prev_end_time_datetime = datetime.datetime(int(last_prev_end_time[0:4]), int(last_prev_end_time[5:7]), int(
                         last_prev_end_time[8:10]), int(last_prev_end_time[11:13]), int(last_prev_end_time[14:16]))
+                    print("last_prev_end_time_datetime: ",
+                          last_prev_end_time_datetime)
                     time_difference_minutes = (
                         last_prev_end_time_datetime - midnight_beginning_of_current_date_datetime).total_seconds() / 60
+                    print("time_difference_minutes: ", time_difference_minutes)
                     if time_difference_minutes > 0:
                         first_val = last_prev_end_time
                     else:
                         first_val = current_date_str + "T00:00Z"
-                    first_val = last_prev_end_time
+                    print(first_val)
 
                 if (key < 7) and (key > -1):
 
@@ -455,6 +457,7 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                             first_next_start_time = str(next_start_times[i])
 
                     last_val = first_next_start_time
+                    print("last_val is: ", last_val)
 
                 if (key < 7) and (key > -1):
                     tds = [first_val]
@@ -483,8 +486,9 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                                 tds_end_time[j + 1] = end_time_1_str
 
                     print("= = = = = = = = = = = = = = = = = =")
-                    print(tds_date_time)
-                    print(tds_end_time)
+                    print("The key is: ", key)
+                    print("Time Delta Start Times: ", tds_date_time)
+                    print("Time Delta End Times: ", tds_end_time)
 
                     for i in range(len(tds_date_time)):
                         tds.append(tds_date_time[i])
@@ -501,15 +505,68 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                             tds[2 * i + 1][8:10]), int(tds[2 * i + 1][11:13]), int(tds[2 * i + 1][14:16]))
                         minute_difference = int(
                             (second_time_date - first_time_date).total_seconds() / 60)
-                        print(second_time_date)
                         print(first_time_date)
+                        print(second_time_date)
                         print(minute_difference)
                         diff_tds.append(minute_difference)
 
-                    print(diff_tds)
+                    print("Time Delta Time Differences: ", diff_tds)
 
                     all_tds[key] = tds
                     all_diff_tds[key] = diff_tds
+
+        # I think it's best to prioritize the random events that require the most amount of time spent.
+        # So I order 'valid_active_looseevents' by n_time * n_occ
+
+        print(valid_active_looseevents)
+        print([v_a_l.n_time * v_a_l.n_occ for v_a_l in valid_active_looseevents])
+
+        all_loose_event_times_per_week = []
+        loose_event_indexes_ordered_highest_time_per_week_first = []
+
+        for valid_active_looseevent in valid_active_looseevents:
+
+            n_occ = valid_active_looseevent.n_occ
+            n_time = valid_active_looseevent.n_time
+
+            all_loose_event_times_per_week.append(n_occ * n_time)
+
+        for i in range(len(all_loose_event_times_per_week)):
+
+            largest_time_per_week_index = -1
+            largest_time_per_week = -1
+
+            j = -1
+
+            for time_per_week in all_loose_event_times_per_week:
+                j += 1
+                if time_per_week > largest_time_per_week:
+
+                    largest_time_per_week = time_per_week
+                    largest_time_per_week_index = j
+
+            loose_event_indexes_ordered_highest_time_per_week_first.append(
+                largest_time_per_week_index)
+            all_loose_event_times_per_week[largest_time_per_week_index] = -1
+
+        print("loose_event_indexes_ordered_highest_time_per_week_first")
+        print(loose_event_indexes_ordered_highest_time_per_week_first)
+
+        ordered_valid_active_looseevents = []
+
+        j = 0
+
+        for val in valid_active_looseevents:
+            i = -1
+            for valid_active_looseevent in valid_active_looseevents:
+                i += 1
+                if i == loose_event_indexes_ordered_highest_time_per_week_first[j]:
+                    ordered_valid_active_looseevents.append(
+                        valid_active_looseevent)
+            j += 1
+
+        print(ordered_valid_active_looseevents)
+        print([v_a_l.n_time * v_a_l.n_occ for v_a_l in ordered_valid_active_looseevents])
 
         for valid_active_looseevent in valid_active_looseevents:
 
@@ -530,143 +587,572 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
             n_time_more = valid_active_looseevent.n_time_more
             n_time_less = valid_active_looseevent.n_time_less
 
-            valid_active_o_o_2s = all_valid_active_o_o_2s.filter(
-                event_id=int(event_id))
-
-            valid_active_days = all_valid_active_days_2.filter(
-                day_id__in=valid_active_o_o_2s.values("day_id"))
-
-            first_valid_active_day = valid_active_days.first()
-
             # This is an event that might occur more than one day out of the week, so we use all of the potential available timedelta
             # start slots of the week to determine how many possible slots could be filled with this loose event's timedeltas.
             # This is why we generate the 'all_tds' dictionary and the 'all_diff_tds' dictionaries.
             todays_tds = all_tds[todayVal]
             todays_diff_tds = all_diff_tds[todayVal]
 
+            print("= = = = = = We are currently looking at event: ",
+                  event_name, ", with event_id: ", event_id, " = = = = = =")
+
+            print("----todays_tds and todays_diff_tds----")
+            print(todays_tds)
+            print(todays_diff_tds)
+
             if need_full_week_of_strictevent_timedeltas:
-                # all_day_str = [valid_active_day.day_str for valid_active_day in valid_active_days]
+
+                this_event_o_o_2s = occurs_on_2.objects.filter(
+                    event_id=int(event_id))
+
+                this_event_day_2s = Day.objects.filter(
+                    day_id__in=this_event_o_o_2s.values("day_id"))
+
+                this_event_day_strs = [
+                    this_event_day.day_str for this_event_day in this_event_day_2s]
+                this_event_day_indexes = []
+
+                for i in range(len(day_str_list)):
+                    if day_str_list[i] in this_event_day_strs:
+                        this_event_day_indexes.append(i + 1)
+
+                this_event_day_dates = [thisWeeksDates[this_event_day_index]
+                                        for this_event_day_index in this_event_day_indexes]
+
+                print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+                print(this_event_o_o_2s)
+                print(this_event_day_2s)
+                print(this_event_day_strs)
+                print(this_event_day_indexes)
+                print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+
+                all_o_o_2s_for_this_event_day_strs = [occurs_on_2.objects.filter(day_id__in=Day.objects.filter(
+                    day_str=this_event_day_str).values("day_id")) for this_event_day_str in this_event_day_strs]
+                all_o_o_2s_for_this_event_day_dates = [occurs_on_2.objects.filter(day_id__in=Day.objects.filter(
+                    day_date=this_event_day_date).values("day_id")) for this_event_day_date in this_event_day_dates]
+
+                all_loose_events_for_this_event_day_strs = [LooseEvent.objects.filter(
+                    occurs_on_2s__in=all_o_o_2s_for_this_event_day_str) for all_o_o_2s_for_this_event_day_str in all_o_o_2s_for_this_event_day_strs]
+                all_loose_events_for_this_event_day_dates = [LooseEvent.objects.filter(
+                    occurs_on_2s__in=all_o_o_2s_for_this_event_day_date) for all_o_o_2s_for_this_event_day_date in all_o_o_2s_for_this_event_day_dates]
+
+                all_loose_events_for_this_event = [all_loose_events_for_this_event_day_strs[i] |
+                                                   all_loose_events_for_this_event_day_dates[i] for i in range(len(all_loose_events_for_this_event_day_strs))]
+
+                ordered_all_loose_events_for_this_event = []
+                ordered_all_loose_events_for_this_event_event_id = []
+                loose_event_indexes_ordered_highest_time_per_week_first_this_event = []
+
+                print(all_loose_events_for_this_event)
+
+                for loose_events_for_one_day in all_loose_events_for_this_event:
+
+                    all_loose_event_times_per_week = []
+                    loose_event_indexes_ordered_highest_time_per_week_first = []
+
+                    for loose_event_for_one_day in loose_events_for_one_day:
+
+                        temp_n_occ = loose_event_for_one_day.n_occ
+                        temp_n_time = loose_event_for_one_day.n_time
+
+                        all_loose_event_times_per_week.append(
+                            temp_n_occ * temp_n_time)
+
+                    for i in range(len(all_loose_event_times_per_week)):
+
+                        largest_time_per_week_index = -1
+                        largest_time_per_week = -1
+
+                        j = -1
+
+                        for time_per_week in all_loose_event_times_per_week:
+                            j += 1
+                            if time_per_week > largest_time_per_week:
+
+                                largest_time_per_week = time_per_week
+                                largest_time_per_week_index = j
+
+                        loose_event_indexes_ordered_highest_time_per_week_first.append(
+                            largest_time_per_week_index)
+                        all_loose_event_times_per_week[largest_time_per_week_index] = -1
+
+                    loose_event_indexes_ordered_highest_time_per_week_first_this_event.append(
+                        loose_event_indexes_ordered_highest_time_per_week_first)
+
+                    ordered_valid_active_looseevents = []
+
+                    j = 0
+
+                    for val in loose_events_for_one_day:
+                        i = -1
+                        for loose_event_for_one_day in loose_events_for_one_day:
+                            i += 1
+                            if i == loose_event_indexes_ordered_highest_time_per_week_first[j]:
+                                ordered_valid_active_looseevents.append(
+                                    loose_event_for_one_day)
+                        j += 1
+
+                    ordered_all_loose_events_for_this_event.append(
+                        ordered_valid_active_looseevents)
+
+                    found_event_id = False
+                    temp_o_a_l_e_f_t_e_e_i = []
+                    for o_v_a_l in ordered_valid_active_looseevents:
+                        if o_v_a_l.event_id == event_id:
+                            found_event_id = True
+                        if not found_event_id:
+                            temp_o_a_l_e_f_t_e_e_i.append(o_v_a_l.event_id)
+
+                    ordered_all_loose_events_for_this_event_event_id.append(
+                        temp_o_a_l_e_f_t_e_e_i)
+
+                print(ordered_all_loose_events_for_this_event)
+                print(ordered_all_loose_events_for_this_event_event_id)
+                print(loose_event_indexes_ordered_highest_time_per_week_first_this_event)
+                print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+
                 pot_nocc = 0
                 prev_nocc = 0
+                total_available_slots = 0
 
+                # Investigate how this works, in particular the values of (key + 1) and
+                # the values in this_event_day_indexes. The same kind of if statement
+                # might need to be placed in the next for-loop (and also in the
+                # way-outer else statement way-below)
                 for key, diff_tds in all_diff_tds.items():
-                    print("------diff_tds and n_time-------")
-                    print("these should both be in minutes?")
-                    print(diff_tds)
-                    print(n_time)
-                    for diff_td in diff_tds:
-                        if diff_td >= n_time:
+                    if (key + 1) in this_event_day_indexes:
+                        print("-------diff_tds and n_time-------")
+                        print(diff_tds)
+                        print(n_time)
+                        print("- - - - - - pot_nocc - - - - - -")
+                        for diff_td in diff_tds:
                             rounded_down_diff_td = m.floor(diff_td / 5) * 5
-                            pot_nocc += ((rounded_down_diff_td - n_time) / 5)
+                            if rounded_down_diff_td >= n_time:
+                                print(((rounded_down_diff_td - n_time) / 5) + 1)
+                                pot_nocc += (((rounded_down_diff_td - n_time) / 5) + 1)
+                                total_available_slots += m.floor(
+                                    rounded_down_diff_td / n_time)
+                print("pot_nocc before subtracting for all loose events: ", pot_nocc)
+                print("total_available_slots before subtracting for all loose events: ",
+                      total_available_slots)
 
-                for generated_timedeltas_in_day in this_week_timedeltas:
-                    for timedelta_in_day in generated_timedeltas_in_day:
-                        if timedelta_in_day.event == event_id:
-                            prev_nocc += 1
+                # If our event ocurrs on Monday, Wednesday, Friday, and Saturday, then we are iterating on values
+                # i = 0, 1, 2, 3. The value of 'this_event_day_index' should iterate through 1, 3, 5, 6.
+                # If today is 'Wednesday', then 'todayVal' would be 2, so todayVal + 1 = 3. Suppose we have already
+                # generated a schedule for Monday, and Tuesday, then the numbers in the list
+                # 'list(map(lambda aTuple: aTuple[0], today_and_ungenerated_day_data.items()))'
+                # would be [0, 1]. We want to subtract from pot_nocc the expected time scheduled for ungenerated days
+                # that our event will occur on, not including today, which means only for subset [5, 6] C [1, 3, 5, 6] == this_event_day_indexes.
+                print("Read comment line ~ 734")
+                print(this_event_day_indexes)
+                print(todayVal + 1)
+                print(
+                    list(map(lambda aTuple: aTuple[0], today_and_ungenerated_day_data.items())))
+                for i in range(len(this_event_day_indexes)):
+                    this_event_day_index = this_event_day_indexes[i]
+                    if (this_event_day_index != (todayVal + 1)) and (this_event_day_index - 1 in list(map(lambda aTuple: aTuple[0], today_and_ungenerated_day_data.items()))):
+                        temp_loose_events = LooseEvent.objects.filter(
+                            event_id__in=ordered_all_loose_events_for_this_event_event_id[i])
+                        for temp_loose_event in temp_loose_events:
+                            temp_n_occ = temp_loose_event.n_occ
+                            temp_n_time = temp_loose_event.n_time
+                            subtracted_time = m.floor(
+                                ((temp_n_occ * temp_n_time / 7.) + 2.5) / 5) * 5
+                            pot_nocc -= (subtracted_time / 5)
+                            total_available_slots -= m.floor(
+                                subtracted_time / n_time)
 
-                    # throw some sort of error, there should never be a division by 0
+                print("pot_nocc after subtracting for all loose events: ", pot_nocc)
+                print("total_available_slots after subtracting for all loose events: ",
+                      total_available_slots)
 
-                if e_oa_1:
-                    n_occ_mult = n_occ
-                else:
-                    n_occ_mult = generate_gaussian(
-                        nn_n_1, nn_n_2, n_occ, n_occ_more, n_occ_less, pot_nocc)
-
-                for i in range(len(todays_diff_tds)):
-
-                    rounded_down_diff_td = m.floor(todays_diff_tds[i] / 5) * 5
-
-                    if rounded_down_diff_td >= n_time:
-
-                        td_start_time = todays_tds[2 * i]
-                        td_start_time_datetime = datetime.datetime(int(td_start_time[0:4]), int(td_start_time[5:7]), int(
-                            td_start_time[8:10]), int(td_start_time[11:13]), int(td_start_time[14:16]))
-                        tomorrow_midnight = datetime.datetime(
-                            int(thisWeeksDates[todayVal + 1][0:4]), int(thisWeeksDates[todayVal + 1][5:7]), int(thisWeeksDates[todayVal + 1][8:10]), 0, 0)
-                        minute_difference_from_midnight_rounded = m.floor(
-                            ((tomorrow_midnight - td_start_time_datetime).total_seconds() / 60) / 5) * 5
-
-                        if rounded_down_diff_td <= minute_difference_from_midnight_rounded:
-                            temp_pot_nocc = (rounded_down_diff_td - n_time) / 5
-
-                        else:
-                            temp_pot_nocc = (
-                                minute_difference_from_midnight_rounded - n_time) / 5
-
-                        j = 0
-                        while j < temp_pot_nocc:
-
-                            if pot_nocc == 0:
-                                odds_of_insertion = 0
-                            else:
-                                odds_of_insertion = (
-                                    n_occ_mult - prev_nocc) / pot_nocc
-
-                                if odds_of_insertion < 0:
-                                    odds_of_insertion = 0
-
-                            random_val_0_to_1 = r.random()
-
-                            if random_val_0_to_1 > (1 - odds_of_insertion):
-
-                                inserted_start_time = td_start_time_datetime + \
-                                    datetime.timedelta(minutes=(5 * j))
-
-                                available_time = rounded_down_diff_td - (5 * j)
-
-                                randomly_generated_time = m.floor((generate_gaussian(
-                                    nn_n_3, nn_n_4, n_time, n_time_more, n_time_less, available_time) + 2.5) / 5) * 5
-
-                                inserted_end_time = inserted_start_time + \
-                                    datetime.timedelta(
-                                        minutes=randomly_generated_time)
-
-                                data = {
-                                    "date_time": inserted_start_time,
-                                    "end_time": inserted_end_time,
-                                    "schedule": int(schedule_filter),
-                                    "event": event_id
-                                }
-
-                                serializer = self.get_serializer(data=data)
-                                serializer.is_valid(raise_exception=True)
-                                self.perform_create(serializer)
-                                headers = self.get_success_headers(
-                                    serializer.data)
-                                all_serializer_data.append(serializer.data)
-
-                                num_of_5_minutes_in_duration = randomly_generated_time / 5
-
+                # I'm pretty sure that 'prev_nocc' should only be a count of the number of times that
+                # the event ocurred this week and should not count last sunday or the next monday
+                print("==this_week_timedeltas & prev_nocc==")
+                print(this_week_timedeltas)
+                for i in range(1, 8):
+                    if i in this_event_day_indexes:
+                        for timedelta_in_day in this_week_timedeltas[i]:
+                            print(timedelta_in_day.event.event_id)
+                            print(event_id)
+                            print(timedelta_in_day.event_id == event_id)
+                            if timedelta_in_day.event.event_id == event_id:
                                 prev_nocc += 1
-                                pot_nocc -= num_of_5_minutes_in_duration
-                                j += num_of_5_minutes_in_duration
+                print("prev_nocc is: ", prev_nocc)
+
+                num_available_days = 0
+
+                for this_event_day_index in this_event_day_indexes:
+                    if this_event_day_index - 1 in list(map(lambda aTuple: aTuple[0], today_and_ungenerated_day_data.items())):
+                        num_available_days += 1
+
+                initial_pot_nocc = pot_nocc
+
+                acc_sub_pot_nocc = 0
+
+                if occ_same_day:
+
+                    i = -1
+
+                    while (i + 1) < len(todays_diff_tds):
+
+                        i += 1
+
+                        if e_oa_1:
+                            n_occ_mult = n_occ
+                        else:
+                            n_occ_mult = generate_gaussian(
+                                nn_n_1, nn_n_2, n_occ, n_occ_more, n_occ_less, (n_occ + 20 * (n_occ_more - n_occ)))
+                        print("e_oa_1 is: ", e_oa_1)
+                        print("n_occ_mult is: ", n_occ_mult)
+
+                        extra_pot_nocc_sub = int(
+                            (n_occ_mult - prev_nocc) * ((n_time / 5) - 1))
+
+                        pot_nocc = initial_pot_nocc - \
+                            (extra_pot_nocc_sub + acc_sub_pot_nocc)
+
+                        print("--------------------------------------------------")
+                        print("--------------------------------------------------")
+
+                        rounded_down_diff_td = m.floor(
+                            todays_diff_tds[i] / 5) * 5
+                        print("rounded_down_diff_td:", rounded_down_diff_td)
+
+                        if rounded_down_diff_td >= n_time:
+                            td_start_time = todays_tds[2 * i]
+                            print("td_start_time: ", td_start_time)
+                            td_start_time_datetime = datetime.datetime(int(td_start_time[0:4]), int(td_start_time[5:7]), int(
+                                td_start_time[8:10]), int(td_start_time[11:13]), int(td_start_time[14:16]))
+                            print("td_start_time_datetime: ",
+                                  td_start_time_datetime)
+                            tomorrow_midnight = datetime.datetime(
+                                int(thisWeeksDates[todayVal + 2][0:4]), int(thisWeeksDates[todayVal + 2][5:7]), int(thisWeeksDates[todayVal + 2][8:10]), 0, 0)
+                            print("tomorrow_midnight:", tomorrow_midnight)
+                            minute_difference_from_midnight_rounded = m.floor(
+                                ((tomorrow_midnight - td_start_time_datetime).total_seconds() / 60) / 5) * 5
+                            print("minute_difference_from_midnight_rounded: ",
+                                  minute_difference_from_midnight_rounded)
+
+                            # This if-logic doesn't make a lot of sense to me
+                            # (seeing it a couple of weeks later,
+                            # why would we care whether midnight is before tomorrow's first event?
+                            # wouldn't this only matter for the last slice of time in the day?
+                            # maybe it is because the start of the last event shouldn't start after midnight?)
+                            if rounded_down_diff_td <= minute_difference_from_midnight_rounded:
+                                temp_pot_nocc = ((
+                                    rounded_down_diff_td - n_time) / 5) + 1
 
                             else:
-                                pot_nocc -= 1
-                                j += 1
+                                temp_pot_nocc = ((
+                                    minute_difference_from_midnight_rounded - n_time) / 5) + 1
+                            print("temp_pot_nocc: ", temp_pot_nocc)
+
+                            print("pot_nocc is: ", pot_nocc)
+
+                            j = 0
+                            while (j < temp_pot_nocc) and (rounded_down_diff_td >= n_time):
+
+                                pot_nocc = initial_pot_nocc - \
+                                    (extra_pot_nocc_sub + acc_sub_pot_nocc)
+
+                                if pot_nocc <= 0:
+                                    odds_of_insertion = 1
+
+                                elif (n_occ_mult - prev_nocc) <= 0:
+                                    odds_of_insertion = 0
+                                else:
+                                    odds_of_insertion = (
+                                        n_occ_mult - prev_nocc) / pot_nocc
+
+                                    if odds_of_insertion < 0:
+                                        odds_of_insertion = 0
+
+                                random_val_0_to_1 = r.random()
+
+                                if random_val_0_to_1 > (1 - odds_of_insertion):
+
+                                    print(
+                                        "------ todays_tds & todays_diff_tds ------")
+                                    print(todays_tds)
+                                    print(todays_diff_tds)
+                                    print (
+                                        "-----------------------------------------")
+                                    print("i is: ", i)
+                                    print("j is: ", j)
+                                    print("random value is: ",
+                                          random_val_0_to_1)
+                                    print("(1 - odds_of_insertion) is: ",
+                                          (1 - odds_of_insertion))
+
+                                    inserted_start_time = td_start_time_datetime + \
+                                        datetime.timedelta(minutes=(5 * j))
+
+                                    print("inserted start time: ",
+                                          inserted_start_time)
+
+                                    available_time = rounded_down_diff_td - \
+                                        (5 * j)
+
+                                    print("nn_n_3 is: ", nn_n_3)
+                                    print("nn_n_4 is: ", nn_n_4)
+                                    print("n_time is: ", n_time)
+                                    print("n_time_more is: ", n_time_more)
+                                    print("n_time_less is: ", n_time_less)
+                                    print("available_time is: ",
+                                          available_time)
+
+                                    if e_oa_2:
+                                        randomly_generated_time = n_time
+                                    else:
+                                        randomly_generated_time = m.floor((generate_gaussian(
+                                            nn_n_3, nn_n_4, n_time, n_time_more, n_time_less, available_time) + 2.5) / 5) * 5
+
+                                    print("randomly generated time is: ",
+                                          randomly_generated_time)
+
+                                    inserted_end_time = inserted_start_time + \
+                                        datetime.timedelta(
+                                            minutes=randomly_generated_time)
+
+                                    print("inserted end time: ",
+                                          inserted_end_time)
+
+                                    data = {
+                                        "date_time": inserted_start_time,
+                                        "end_time": inserted_end_time,
+                                        "schedule": int(schedule_filter),
+                                        "event": event_id
+                                    }
+
+                                    serializer = self.get_serializer(data=data)
+                                    serializer.is_valid(raise_exception=True)
+                                    self.perform_create(serializer)
+                                    headers = self.get_success_headers(
+                                        serializer.data)
+                                    all_serializer_data.append(serializer.data)
+
+                                    inserted_start_time_str = str(inserted_start_time)[
+                                        0:10] + 'T' + str(inserted_start_time)[11:19] + 'Z'
+                                    inserted_end_time_str = str(inserted_end_time)[
+                                        0:10] + 'T' + str(inserted_end_time)[11:19] + 'Z'
+
+                                    todays_tds.insert(
+                                        (2 * i) + 1, inserted_start_time_str)
+                                    todays_tds.insert(
+                                        2 * (i + 1), inserted_end_time_str)
+                                    all_tds[todayVal] = todays_tds
+                                    todays_diff_tds.insert(
+                                        i + 1, available_time - randomly_generated_time)
+                                    todays_diff_tds[i] = j * 5
+                                    all_diff_tds[todayVal] = todays_diff_tds
+
+                                    num_of_5_minutes_in_duration = randomly_generated_time / 5
+
+                                    prev_nocc += 1
+                                    temp_pot_nocc = ((
+                                        available_time - randomly_generated_time) / 5) + 1
+                                    j = 0
+                                    i += 1
+
+                                    rounded_down_diff_td = m.floor(
+                                        todays_diff_tds[i] / 5) * 5
+                                    print("rounded_down_diff_td:",
+                                          rounded_down_diff_td)
+
+                                    if rounded_down_diff_td >= n_time:
+                                        td_start_time = todays_tds[2 * i]
+                                        print("td_start_time: ", td_start_time)
+                                        td_start_time_datetime = datetime.datetime(int(td_start_time[0:4]), int(td_start_time[5:7]), int(
+                                            td_start_time[8:10]), int(td_start_time[11:13]), int(td_start_time[14:16]))
+                                        print("td_start_time_datetime: ",
+                                              td_start_time_datetime)
+                                        tomorrow_midnight = datetime.datetime(
+                                            int(thisWeeksDates[todayVal + 2][0:4]), int(thisWeeksDates[todayVal + 2][5:7]), int(thisWeeksDates[todayVal + 2][8:10]), 0, 0)
+                                        print("tomorrow_midnight:",
+                                              tomorrow_midnight)
+                                        minute_difference_from_midnight_rounded = m.floor(
+                                            ((tomorrow_midnight - td_start_time_datetime).total_seconds() / 60) / 5) * 5
+                                        print("minute_difference_from_midnight_rounded: ",
+                                              minute_difference_from_midnight_rounded)
+
+                                        # This if-logic doesn't make a lot of sense to me
+                                        # (seeing it a couple of weeks later,
+                                        # why would we care whether midnight is before tomorrow's first event?
+                                        # wouldn't this only matter for the last slice of time in the day?
+                                        # maybe it is because the start of the last event shouldn't start after midnight?)
+                                        if rounded_down_diff_td <= minute_difference_from_midnight_rounded:
+                                            temp_pot_nocc = ((
+                                                rounded_down_diff_td - n_time) / 5) + 1
+
+                                        else:
+                                            temp_pot_nocc = ((
+                                                minute_difference_from_midnight_rounded - n_time) / 5) + 1
+
+                                else:
+
+                                    acc_sub_pot_nocc += 1
+                                    j += 1
+
+                                    if j == temp_pot_nocc:
+                                        acc_sub_pot_nocc += (n_time / 5.)
+
+                else:
+
+                    today_odds = (n_occ_mult - prev_nocc) / num_available_days
+
+                    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                    print("number_of_available_days: ", num_available_days)
+                    print("n_occ_mult: ", n_occ_mult)
+                    print("prev_nocc: ", prev_nocc)
+                    print("today_odds: ", today_odds)
+                    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
+                    r2 = r.random()
+                    if r2 <= today_odds:
+
+                        today_pot_nocc = 0
+
+                        for diff_td in todays_diff_tds:
+                            rounded_down_diff_td = m.floor(diff_td / 5) * 5
+                            if rounded_down_diff_td >= n_time:
+                                today_pot_nocc += (
+                                    ((rounded_down_diff_td - n_time) / 5) + 1)
+
+                        i = -1
+                        while (i + 1) < len(todays_diff_tds):
+
+                            i += 1
+
+                            rounded_down_diff_td = m.floor(
+                                todays_diff_tds[i] / 5) * 5
+
+                            if rounded_down_diff_td >= n_time:
+
+                                td_start_time = todays_tds[2 * i]
+                                td_start_time_datetime = datetime.datetime(int(td_start_time[0:4]), int(td_start_time[5:7]), int(
+                                    td_start_time[8:10]), int(td_start_time[11:13]), int(td_start_time[14:16]))
+                                tomorrow_midnight = datetime.datetime(
+                                    int(thisWeeksDates[todayVal + 2][0:4]), int(thisWeeksDates[todayVal + 2][5:7]), int(thisWeeksDates[todayVal + 2][8:10]), 0, 0)
+                                minute_difference_from_midnight_rounded = m.floor(
+                                    ((tomorrow_midnight - td_start_time_datetime).total_seconds() / 60) / 5) * 5
+
+                                if rounded_down_diff_td <= minute_difference_from_midnight_rounded:
+                                    temp_pot_nocc = ((
+                                        rounded_down_diff_td - n_time) / 5) + 1
+
+                                else:
+                                    temp_pot_nocc = ((
+                                        minute_difference_from_midnight_rounded - n_time) / 5) + 1
+
+                                j = 0
+                                while j < temp_pot_nocc:
+
+                                    if today_pot_nocc <= 0:
+                                        odds_of_insertion = 1
+                                    else:
+                                        odds_of_insertion = 1 / today_pot_nocc
+
+                                    if odds_of_insertion <= 0:
+                                        odds_of_insertion = 0
+
+                                    random_val_0_to_1 = r.random()
+
+                                    if random_val_0_to_1 > (1 - odds_of_insertion):
+
+                                        inserted_start_time = td_start_time_datetime + \
+                                            datetime.timedelta(minutes=(5 * j))
+
+                                        available_time = rounded_down_diff_td - \
+                                            (5 * j)
+
+                                        if e_oa_2:
+                                            randomly_generated_time = n_time
+                                        else:
+                                            randomly_generated_time = m.floor((generate_gaussian(
+                                                nn_n_3, nn_n_4, n_time, n_time_more, n_time_less, available_time) + 2.5) / 5) * 5
+
+                                        inserted_end_time = inserted_start_time + \
+                                            datetime.timedelta(
+                                                minutes=randomly_generated_time)
+
+                                        data = {
+                                            "date_time": inserted_start_time,
+                                            "end_time": inserted_end_time,
+                                            "schedule": int(schedule_filter),
+                                            "event": event_id
+                                        }
+
+                                        serializer = self.get_serializer(
+                                            data=data)
+                                        serializer.is_valid(
+                                            raise_exception=True)
+                                        self.perform_create(serializer)
+                                        headers = self.get_success_headers(
+                                            serializer.data)
+                                        all_serializer_data.append(
+                                            serializer.data)
+
+                                        inserted_start_time_str = str(inserted_start_time)[
+                                            0:10] + 'T' + str(inserted_start_time)[11:19] + 'Z'
+                                        inserted_end_time_str = str(inserted_end_time)[
+                                            0:10] + 'T' + str(inserted_end_time)[11:19] + 'Z'
+
+                                        todays_tds.insert(
+                                            (2 * i) + 1, inserted_start_time_str)
+                                        todays_tds.insert(
+                                            2 * (i + 1), inserted_end_time_str)
+                                        all_tds[todayVal] = todays_tds
+                                        todays_diff_tds.insert(
+                                            i + 1, available_time - randomly_generated_time)
+                                        todays_diff_tds[i] = j * 5
+                                        all_diff_tds[todayVal] = todays_diff_tds
+
+                                        num_of_5_minutes_in_duration = randomly_generated_time / 5
+
+                                        prev_nocc += 1
+                                        today_pot_nocc -= num_of_5_minutes_in_duration
+                                        temp_pot_nocc = ((
+                                            available_time - randomly_generated_time) / 5) + 1
+                                        j = temp_pot_nocc
+                                        i = len(todays_diff_tds)
+
+                                    else:
+                                        today_pot_nocc -= 1
+                                        j += 1
+
+                                        if j == temp_pot_nocc:
+                                            today_pot_nocc -= (n_time / 5.)
 
             # This event ocurrs only once, and it is the current day on the calendar, so instead of using all of potential available
             # timedelta start slots of the week, we only use the available slots of the data which can be found in 'all_serializer_data'.
             else:
-                # all_day_date = [valid_active_day.day_date for valid_active_day in valid_active_days]
-
-                occ_same_day = True
 
                 pot_nocc = 0
                 prev_nocc = 0
+                total_available_slots = 0
 
                 for diff_td in todays_diff_tds:
                     rounded_down_diff_td = m.floor(diff_td / 5) * 5
                     if rounded_down_diff_td >= n_time:
-                        pot_nocc += ((rounded_down_diff_td - n_time) / 5)
+                        pot_nocc += (((rounded_down_diff_td - n_time) / 5) + 1)
+                        total_available_slots += m.floor(
+                            rounded_down_diff_td / n_time)
 
-                if e_oa_1:
-                    n_occ_mult = n_occ
-                else:
-                    n_occ_mult = generate_gaussian(
-                        nn_n_1, nn_n_2, n_occ, n_occ_more, n_occ_less, pot_nocc)
+                initial_pot_nocc = pot_nocc
+                acc_sub_pot_nocc = 0
 
-                for i in range(len(todays_diff_tds)):
+                i = -1
+
+                while (i + 1) < len(todays_diff_tds):
+
+                    i += 1
+
+                    if e_oa_1:
+                        n_occ_mult = n_occ
+                    else:
+                        n_occ_mult = generate_gaussian(
+                            nn_n_1, nn_n_2, n_occ, n_occ_more, n_occ_less, (n_occ + 20 * (n_occ_more - n_occ)))
 
                     rounded_down_diff_td = m.floor(todays_diff_tds[i] / 5) * 5
 
@@ -676,7 +1162,7 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                         td_start_time_datetime = datetime.datetime(int(td_start_time[0:4]), int(td_start_time[5:7]), int(
                             td_start_time[8:10]), int(td_start_time[11:13]), int(td_start_time[14:16]))
                         tomorrow_midnight = datetime.datetime(
-                            int(thisWeeksDates[todayVal + 1][0:4]), int(thisWeeksDates[todayVal + 1][5:7]), int(thisWeeksDates[todayVal + 1][8:10]), 0, 0)
+                            int(thisWeeksDates[todayVal + 2][0:4]), int(thisWeeksDates[todayVal + 2][5:7]), int(thisWeeksDates[todayVal + 2][8:10]), 0, 0)
                         minute_difference_from_midnight_rounded = m.floor(
                             ((tomorrow_midnight - td_start_time_datetime).total_seconds() / 60) / 5) * 5
 
@@ -690,7 +1176,11 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                         j = 0
                         while j < temp_pot_nocc:
 
-                            if pot_nocc == 0:
+                            pot_nocc = initial_pot_nocc - acc_sub_pot_nocc
+
+                            if pot_nocc <= 0:
+                                odds_of_insertion = 1
+                            elif (n_occ_mult - prev_nocc) <= 0:
                                 odds_of_insertion = 0
                             else:
                                 odds_of_insertion = (
@@ -708,8 +1198,11 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
 
                                 available_time = rounded_down_diff_td - (5 * j)
 
-                                randomly_generated_time = m.floor((generate_gaussian(
-                                    nn_n_3, nn_n_4, n_time, n_time_more, n_time_less, available_time) + 2.5) / 5) * 5
+                                if e_oa_2:
+                                    randomly_generated_time = n_time
+                                else:
+                                    randomly_generated_time = m.floor((generate_gaussian(
+                                        nn_n_3, nn_n_4, n_time, n_time_more, n_time_less, available_time) + 2.5) / 5) * 5
 
                                 inserted_end_time = inserted_start_time + \
                                     datetime.timedelta(
@@ -729,15 +1222,36 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                                     serializer.data)
                                 all_serializer_data.append(serializer.data)
 
+                                inserted_start_time_str = str(inserted_start_time)[
+                                    0:10] + 'T' + str(inserted_start_time)[11:19] + 'Z'
+                                inserted_end_time_str = str(inserted_end_time)[
+                                    0:10] + 'T' + str(inserted_end_time)[11:19] + 'Z'
+
+                                todays_tds.insert(
+                                    (2 * i) + 1, inserted_start_time_str)
+                                todays_tds.insert(
+                                    2 * (i + 1), inserted_end_time_str)
+                                all_tds[todayVal] = todays_tds
+                                todays_diff_tds.insert(
+                                    i + 1, available_time - randomly_generated_time)
+                                todays_diff_tds[i] = j * 5
+                                all_diff_tds[todayVal] = todays_diff_tds
+
                                 num_of_5_minutes_in_duration = randomly_generated_time / 5
 
                                 prev_nocc += 1
-                                pot_nocc -= num_of_5_minutes_in_duration
-                                j += num_of_5_minutes_in_duration
+                                temp_pot_nocc = ((
+                                    available_time - randomly_generated_time) / 5) + 1
+                                acc_sub_pot_nocc += num_of_5_minutes_in_duration
+                                j = 0
+                                i += 1
 
                             else:
-                                pot_nocc -= 1
+                                acc_sub_pot_nocc += 1
                                 j += 1
+
+                                if j == temp_pot_nocc:
+                                    acc_sub_pot_nocc += (n_time / 5.)
 
         try:
             theReturn = Response(

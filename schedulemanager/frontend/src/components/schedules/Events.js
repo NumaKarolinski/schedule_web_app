@@ -39,8 +39,8 @@ function ChooseTableHead(props) {
         return null;
     } else{
         return (
-            <thead>
-                <tr>
+            <thead style = {{ display: "table" }}>
+                <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }}>
                     <th className = "noselect">Name</th>
                     <th className = "noselect">{props.smallMedia ? "Active" : "Active For Day Generation"}</th>
                 </tr>
@@ -163,19 +163,17 @@ export class Events extends Component {
         }
 
         const rowStyle = (rowId) => 
-        rowId === this.state.selectedEventId ?
-            {
-                backgroundColor: "#686882"
-            } : 
-            {};
+            rowId === this.state.selectedEventId ?
+                { backgroundColor: "#686882" }
+                : {};
 
         return (
-            <div className="d-flex flex-column flex-wrap events">
+            <div className="d-flex flex-column flex-wrap events" style = {{ minWidth: "177.4px", maxWidth: "60%" }}>
                 <table className="table table-striped">
                     <ChooseTableHead numEvents={this.props.eventdefinitions.length} smallMedia = { this.state.smallMedia } />
-                    <tbody>
+                    <tbody class = "overflow-auto events" style = {{ display: "block", maxHeight: "65vh" }}>
                         {this.props.eventdefinitions.map((eventdefinition) => (
-                            <tr key={eventdefinition.event_name + eventdefinition.event_id} id = {"tr" + eventdefinition.event_id} className = "noselect" style = {rowStyle(eventdefinition.event_id)} onClick = { this.handleClick }>
+                            <tr key={eventdefinition.event_name + eventdefinition.event_id} id = {"tr" + eventdefinition.event_id} className = "noselect" style = { this.state.selectedEventId === eventdefinition.event_id ? { display: "table", tableLayout: "fixed", width: "100%", backgroundColor: "#686882" } : { display: "table", tableLayout: "fixed", width: "100%" } } onClick = { this.handleClick }>
                                 <td className = "noselect">{eventdefinition.event_name}</td>
                                 <td>
                                     <div className = "custom-control custom-switch tdDiv noselect">

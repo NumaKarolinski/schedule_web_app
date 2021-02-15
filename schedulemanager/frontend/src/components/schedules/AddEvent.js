@@ -697,8 +697,8 @@ export class AddEvent extends Component {
                 eventdefinition['n_occ_more'] = noccmore / nweekmore;
                 eventdefinition['n_occ_less'] = noccless / nweekless;
                 eventdefinition['n_time'] = hm1 ? ntime * 60 : ntime;
-                eventdefinition['n_time_more'] = hm2 ? ntimemore * 60 : ntimemore;
-                eventdefinition['n_time_less'] = hm3 ? ntimeless * 60 : ntimeless;
+                eventdefinition['n_time_less'] = hm2 ? ntimeless * 60 : ntimeless;
+                eventdefinition['n_time_more'] = hm3 ? ntimemore * 60 : ntimemore;
                 eventdefinition['occ_same_day'] = theOccsameday;
                 if (editBool) {
                     this.props.addLooseEvent(eventdefinition);
@@ -752,11 +752,11 @@ export class AddEvent extends Component {
                     if (this.props.looseevents[0].n_time != hm1 ? ntime * 60 : ntime) {
                         editObject['n_time'] = hm1 ? ntime * 60 : ntime;
                     }
-                    if (this.props.looseevents[0].n_time_more != hm2 ? ntimemore * 60 : ntimemore) {
-                        editObject['n_time_more'] = hm2 ? ntimemore * 60 : ntimemore;
+                    if (this.props.looseevents[0].n_time_less != hm2 ? ntimeless * 60 : ntimeless) {
+                        editObject['n_time_less'] = hm2 ? ntimeless * 60 : ntimeless;
                     }
-                    if (this.props.looseevents[0].n_time_less != hm3 ? ntimeless * 60 : ntimeless) {
-                        editObject['n_time_less'] = hm3 ? ntimeless * 60 : ntimeless;
+                    if (this.props.looseevents[0].n_time_more != hm3 ? ntimemore * 60 : ntimemore) {
+                        editObject['n_time_more'] = hm3 ? ntimemore * 60 : ntimemore;
                     }
                     if (this.props.looseevents[0].occ_same_day != theOccsameday) {
                         editObject['occ_same_day'] = theOccsameday;
@@ -1328,8 +1328,8 @@ export class AddEvent extends Component {
                 nnn4 = this.props.looseevents[0].nn_n_4;
                 occsameday = this.props.looseevents[0].occ_same_day ? "yes" : "no";
                 hm1 = (this.props.looseevents[0].n_time / 60) % 1 === 0 ? true : false;
-                hm2 = (this.props.looseevents[0].n_time_more / 60) % 1 === 0 ? true : false;
-                hm3 = (this.props.looseevents[0].n_time_less / 60) % 1 === 0 ? true : false;
+                hm2 = (this.props.looseevents[0].n_time_less / 60) % 1 === 0 ? true : false;
+                hm3 = (this.props.looseevents[0].n_time_more / 60) % 1 === 0 ? true : false;
                 var temp_nocc = this.props.looseevents[0].n_occ;
                 var temp_nweek = 1
                 var temp_noccless = this.props.looseevents[0].n_occ_less;
