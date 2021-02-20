@@ -133,9 +133,17 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
                 thisWeeksDates.append(tempDate.add(
                     days=(i-todayVal)).format("YYYY-MM-DD"))
 
+        prev_generated_day_timedeltas = timedeltas.filter(
+            date_time__year=thisWeeksDates[j+1][0:4], date_time__month=thisWeeksDates[j+1][5:7], date_time__day=thisWeeksDates[j+1][8:10])
+
+        # If today's schedule hasn't yet deleted, keep checking until it is deleted.
+        while(prev_generated_day_timedeltas.exists()):
+            prev_generated_day_timedeltas = timedeltas.filter(
+                date_time__year=thisWeeksDates[j+1][0:4], date_time__month=thisWeeksDates[j+1][5:7], date_time__day=thisWeeksDates[j+1][8:10])
+
         this_week_timedeltas = [timedeltas.filter(date_time__year=thisWeeksDates[i][0:4],
                                                   date_time__month=thisWeeksDates[i][5:7],
-                                                  date_time__day=thisWeeksDates[i][8:10]) if i != (j + 1) else TimeDelta.objects.none() for i in range(9)]
+                                                  date_time__day=thisWeeksDates[i][8:10]) for i in range(9)]
 
         print("============================================================")
         for i in range(9):
