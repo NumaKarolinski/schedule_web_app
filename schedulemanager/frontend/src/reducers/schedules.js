@@ -7,6 +7,7 @@ import {
   DELETE_TIMEDELTA,
   ADD_TIMEDELTA,
   CLEAR_TIMEDELTAS,
+  LOADING_TIMEDELTAS,
   GET_VIEWS,
   DELETE_VIEW,
   ADD_VIEW,
@@ -97,8 +98,9 @@ export default function (state = initialState, action) {
       return {
         ...state,
         timedeltas: state.timedeltas.filter(
-          (timedelta) => timedelta.date_time.slice(0, 10) !== action.payload
+          (timedelta) => timedelta.date_time.slice(0, 10) !== action.payload[0]
         ),
+        timeDeltasUpdated: action.payload[1] ? true : false,
       };
     case ADD_TIMEDELTA:
       return {
@@ -111,7 +113,12 @@ export default function (state = initialState, action) {
         ...state,
         timedeltas: [],
       };
-
+    case LOADING_TIMEDELTAS:
+      return {
+        ...state,
+        timeDeltasUpdated: false,
+      }
+      
     case GET_VIEWS:
       return {
         ...state,

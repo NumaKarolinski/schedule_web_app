@@ -18,6 +18,7 @@ export class Schedules extends Component {
     state = {
         currentDayShift: 0,
         updated: true,
+        loadingTimeDeltas: true,
         smallMedia: window.matchMedia("(max-width: 559.43px)").matches,
         smallerMedia: window.matchMedia("(max-width: 360px)").matches,
     }
@@ -37,9 +38,9 @@ export class Schedules extends Component {
 
     handleClick = (e) => {
         if (e.currentTarget.id === "leftArrow") {
-            this.setState({ ...this.state, "currentDayShift": this.state.currentDayShift - 1, "updated": true });
+            this.setState({ ...this.state, "currentDayShift": this.state.currentDayShift - 1, "updated": true, "loadingTimeDeltas": true });
         } else if (e.currentTarget.id === "rightArrow") {
-            this.setState({ ...this.state, "currentDayShift": this.state.currentDayShift + 1, "updated": true });
+            this.setState({ ...this.state, "currentDayShift": this.state.currentDayShift + 1, "updated": true, "loadingTimeDeltas": true });
         } else {
             console.log("OnClick in Schedules not handled.");
         }
@@ -49,8 +50,12 @@ export class Schedules extends Component {
         this.setState({ ...this.state, "updated": false });
     }
 
+    loadedTimeDeltas = () => {
+        this.setState({ ...this.state, "loadingTimeDeltas": !this.state.loadingTimeDeltas });
+    }
+
     render() {
-        var { currentDayShift, updated, smallMedia, smallerMedia } = this.state;
+        var { currentDayShift, updated, loadingTimeDeltas, smallMedia, smallerMedia } = this.state;
 
         const leftDay = moment().add(currentDayShift - 1 , 'day');
         const middleDay = moment().add(currentDayShift , 'day');
@@ -59,7 +64,7 @@ export class Schedules extends Component {
         return (
             <Fragment>
                 <FadedScheduleDayLeft className="row1" schedules = { this.props.schedules } day = { leftDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
-                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } smallMedia = { smallMedia } smallerMedia = { smallerMedia } handleUpdate = { this.handleUpdate } />
+                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } smallMedia = { smallMedia } smallerMedia = { smallerMedia } handleUpdate = { this.handleUpdate } loadedTimeDeltas = { this.loadedTimeDeltas } />
                 <FadedScheduleDayRight className="row3" schedules = { this.props.schedules } day = { rightDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
             </Fragment>
         );

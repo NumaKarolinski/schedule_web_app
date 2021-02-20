@@ -9,6 +9,7 @@ import {
   GET_TIMEDELTAS,
   DELETE_TIMEDELTA,
   ADD_TIMEDELTA,
+  LOADING_TIMEDELTAS,
   GET_VIEWS,
   DELETE_VIEW,
   ADD_VIEW,
@@ -122,15 +123,14 @@ export const getTimeDeltas = (schedule_id, day_date) => (dispatch, getState) => 
 };
 
 // DELETE TIME DELTA
-export const deleteTimeDelta = (day_date) => (dispatch, getState) => {
-
+export const deleteTimeDelta = (day_date, onlyDelete) => (dispatch, getState) => {
   axios
     .delete(`/api/timedeltas/${day_date}/`, tokenConfig(getState))
     .then((res) => {
       dispatch(createMessage({ deleteTimeDelta: "Scheduled Events Deleted" }));
       dispatch({
         type: DELETE_TIMEDELTA,
-        payload: day_date,
+        payload: [day_date, onlyDelete],
       });
     })
     .catch((err) => console.log(err));
@@ -139,23 +139,26 @@ export const deleteTimeDelta = (day_date) => (dispatch, getState) => {
 // ADD TIME DELTA
 // Currently the only implementation is adding a full day of time deltas
 export const addTimeDelta = (schedule_id, day_str, day_date) => (dispatch, getState) => {
+  dispatch({
+    type: LOADING_TIMEDELTAS,
+    payload: null,
+  });
   axios
-    axios
-      .post(`/api/timedeltas/?schedule_filter=${schedule_id}&day_str_filter=${day_str}&day_date_filter=${day_date}`, null, tokenConfig(getState))
-      .then((res) => {
-        if (res.status === 204) {
-          dispatch(createMessage({ noTimeDeltas: "No Active Events to Add to Schedule" }));
-        } else {
-          dispatch(createMessage({ addTimeDelta: "Scheduled Events Added" }));
-          dispatch({
-            type: ADD_TIMEDELTA,
-            payload: res.data,
-          });
-        }
-      })
-      .catch((err) =>
-        dispatch(returnErrors(err.response.data, err.response.status))
-      );
+    .post(`/api/timedeltas/?schedule_filter=${schedule_id}&day_str_filter=${day_str}&day_date_filter=${day_date}`, null, tokenConfig(getState))
+    .then((res) => {
+      if (res.status === 204) {
+        dispatch(createMessage({ noTimeDeltas: "No Active Events to Add to Schedule" }));
+      } else {
+        dispatch(createMessage({ addTimeDelta: "Scheduled Events Added" }));
+        dispatch({
+          type: ADD_TIMEDELTA,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
 // GET VIEWS

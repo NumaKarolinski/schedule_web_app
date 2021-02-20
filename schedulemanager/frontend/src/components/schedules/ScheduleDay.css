@@ -28,3 +28,7 @@
 .scheduleDay::-webkit-scrollbar-thumb:active {
   background-image: linear-gradient(#8787af, #a07e9b);
 }
+
+.invisibleButton {
+  display: none;
+}
