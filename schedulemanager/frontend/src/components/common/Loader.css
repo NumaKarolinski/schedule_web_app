@@ -1,14 +1,15 @@
 .bigDiv {
-  width: 240px;
-  height: 240px;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
   display: flex;
   flex-flow: row wrap;
-  animation: spin alternate 18s ease-in-out infinite;
+  animation: spin alternate 9s ease-in-out infinite;
 }
 
 .rowLoader {
-  height: 30px;
-  width: 240px;
+  height: 15px;
+  width: 120px;
   display: flex;
   flex-flow: row wrap;
 }
@@ -41,70 +42,70 @@
 .arrowUp {
   width: 0;
   height: 0;
-  border-right: 15px solid transparent;
-  border-left: 15px solid transparent;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid gray;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid gray;
 }
 
 .arrowRight {
   width: 0;
   height: 0;
-  border-right: 15px solid transparent;
-  border-left: 15px solid gray;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid gray;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid transparent;
 }
 
 .arrowDown {
   width: 0;
   height: 0;
-  border-right: 15px solid transparent;
-  border-left: 15px solid transparent;
-  border-top: 15px solid gray;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid gray;
+  border-bottom: 7.5px solid transparent;
 }
 
 .arrowLeft {
   width: 0;
   height: 0;
-  border-right: 15px solid gray;
-  border-left: 15px solid transparent;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid gray;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid transparent;
 }
 
 .middleTriUp {
-  border-right: 15px solid transparent;
-  border-left: 15px solid transparent;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid gray;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid gray;
 }
 
 .middleTriLeft {
-  border-right: 15px solid gray;
-  border-left: 15px solid transparent;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid gray;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid transparent;
 }
 
 .middleTriDown {
-  border-right: 15px solid transparent;
-  border-left: 15px solid transparent;
-  border-top: 15px solid gray;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid gray;
+  border-bottom: 7.5px solid transparent;
 }
 
 .middleTriRight {
-  border-right: 15px solid transparent;
-  border-left: 15px solid gray;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid gray;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid transparent;
 }
 
 .circle {
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
   border: 1px solid;
   border-radius: 50%;
 }
@@ -112,26 +113,26 @@
 .shifter {
   width: 0;
   height: 0;
-  border-right: 15px solid transparent;
-  border-left: 15px solid transparent;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
+  border-right: 7.5px solid transparent;
+  border-left: 7.5px solid transparent;
+  border-top: 7.5px solid transparent;
+  border-bottom: 7.5px solid transparent;
 }
 
 .shifter1 {
-  animation: shifter1 8s ease-in-out infinite;
+  animation: shifter1 4s ease-in-out infinite;
 }
 
 .shifter2 {
-  animation: shifter2 8s ease-in-out infinite;
+  animation: shifter2 4s ease-in-out infinite;
 }
 
 .shifter3 {
-  animation: shifter3 8s ease-in-out infinite;
+  animation: shifter3 4s ease-in-out infinite;
 }
 
 .shifter4 {
-  animation: shifter4 8s ease-in-out infinite;
+  animation: shifter4 4s ease-in-out infinite;
 }
 
 .circle1 {
@@ -215,36 +216,36 @@
 }
 
 .empty {
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
 }
 
 .fade1 {
-  animation: fade1 8s ease-in-out infinite;
+  animation: fade1 4s ease-in-out infinite;
 }
 
 .fade2 {
-  animation: fade2 8s ease-in-out infinite;
+  animation: fade2 4s ease-in-out infinite;
 }
 
 .fade3 {
-  animation: fade3 8s ease-in-out infinite;
+  animation: fade3 4s ease-in-out infinite;
 }
 
 .fade4 {
-  animation: fade4 8s ease-in-out infinite;
+  animation: fade4 4s ease-in-out infinite;
 }
 
 .sFade2 {
-  animation: sFade2 6s ease-in-out infinite;
+  animation: sFade2 3s ease-in-out infinite;
 }
 
 .sFade3 {
-  animation: sFade3 6s ease-in-out infinite;
+  animation: sFade3 3s ease-in-out infinite;
 }
 
 .sFade4 {
-  animation: sFade4 6s ease-in-out infinite;
+  animation: sFade4 3s ease-in-out infinite;
 }
 
 @keyframes spin {
@@ -349,517 +350,517 @@
 
 @keyframes shifter1 {
   0% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   8.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   12.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   16.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   20.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   25% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   33.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   37.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   41.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   45.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   50% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   58.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   62.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   66.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   70.833% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   75% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   83.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   87.5% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   91.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   95.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   100% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
 }
 
 @keyframes shifter2 {
   0% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   8.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   12.5% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   16.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   20.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   25% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   33.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   37.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   41.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   45.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   50% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   58.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   62.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   66.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   70.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   75% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   83.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   87.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   91.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   95.833% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   100% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
 }
 
 @keyframes shifter3 {
   0% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   8.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   12.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   16.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   20.833% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   25% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   33.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   37.5% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   41.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   45.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   50% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   58.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   62.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   66.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   70.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   75% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   83.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   87.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   91.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   95.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   100% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
 }
 
 @keyframes shifter4 {
   0% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   8.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   12.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   16.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   20.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   25% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   33.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   37.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid gray;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid gray;
   }
   41.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   45.833% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   50% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   58.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   62.5% {
-    border-right: 15px solid gray;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid gray;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   66.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   70.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   75% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   83.333% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   87.5% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid gray;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid gray;
+    border-bottom: 7.5px solid transparent;
   }
   91.667% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   95.833% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid gray;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid gray;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
   100% {
-    border-right: 15px solid transparent;
-    border-left: 15px solid transparent;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    border-right: 7.5px solid transparent;
+    border-left: 7.5px solid transparent;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
   }
 }
 

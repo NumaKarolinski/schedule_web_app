@@ -5,7 +5,7 @@ import "./Loader.css";
 export default class Loader extends Component {
   render() {
     return (
-      <div className="bigDiv">
+      <div className="bigDiv" style = { this.props.bigDivStyle }>
         <div className="rowLoader row1">
           <div className="circle circle1 row1"></div>
           <div className="arrowUp fade1 row2"></div>

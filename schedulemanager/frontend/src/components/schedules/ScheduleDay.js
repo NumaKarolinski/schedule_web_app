@@ -10,6 +10,8 @@ import {
     getEventDefinitions,
 } from "../../actions/schedules";
 
+import Loader from "./../common/Loader";
+
 import "./ScheduleDay.css";
 
 export class ScheduleDay extends Component {
@@ -66,35 +68,6 @@ export class ScheduleDay extends Component {
             } 
         }
 
-        const smallOrBigDate = 
-        this.props.smallerMedia ? (
-            <div className = "d-flex flex-column justify-content-center">
-                <h4 className = "noselect d-flex justify-content-center">
-                    {this.props.day.format('MMMM').slice(0, 3) + ". " + this.props.day.format('Do')}
-                </h4>
-                <h4 className = "noselect d-flex justify-content-center">
-                    {this.props.day.format('YYYY')}
-                </h4>
-            </div>
-        ) : (
-            this.props.smallMedia ? (
-                <div className = "d-flex flex-column justify-content-center">
-                    <h4 className = "noselect d-flex justify-content-center">
-                        {this.props.day.format('dddd')}
-                    </h4>
-                    <h4 className = "noselect d-flex justify-content-center">
-                        {this.props.day.format('MMMM Do YYYY')}
-                    </h4>
-                </div>
-            ) : (
-                <div>
-                    <h4 className = "noselect d-flex justify-content-center">
-                        {this.props.day.format('dddd, MMMM Do YYYY')}
-                    </h4>
-                </div>
-            )
-        );
-
         const tdNameStyle = this.props.smallMedia ? { padding: ".25rem" } : { padding: ".75rem" };
         const tdTimeStyle = this.state.smallestMedia ? { minWidth: "45px", paddingRight: "31.8px", paddingLeft: "0.25rem", paddingTop: "0.25rem", paddingBottom: "0.25rem" } : (this.props.smallMedia ? { padding: ".25rem" } : { padding: ".75rem" });
         const smallthStyle = this.state.smallestMedia ? { minWidth: "43px", paddingRight: "41.8px", paddingLeft: "0.25rem", paddingTop: "0.25rem", paddingBottom: "0.25rem" } : (this.props.smallMedia ? { padding: "0.25rem" } : { padding: "0.75rem" });
@@ -109,11 +82,40 @@ export class ScheduleDay extends Component {
             }
         }
 
+        const smallOrBigDate = 
+        this.props.smallerMedia ? (
+            <div className = "d-flex flex-column justify-content-center" style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "50px" } : {} }>
+                <h4 className = "noselect d-flex justify-content-center">
+                    {this.props.day.format('MMMM').slice(0, 3) + ". " + this.props.day.format('Do')}
+                </h4>
+                <h4 className = "noselect d-flex justify-content-center">
+                    {this.props.day.format('YYYY')}
+                </h4>
+            </div>
+        ) : (
+            this.props.smallMedia ? (
+                <div className = "d-flex flex-column justify-content-center" style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "50px" } : {} }>
+                    <h4 className = "noselect d-flex justify-content-center">
+                        {this.props.day.format('dddd')}
+                    </h4>
+                    <h4 className = "noselect d-flex justify-content-center">
+                        {this.props.day.format('MMMM Do YYYY')}
+                    </h4>
+                </div>
+            ) : (
+                <div style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "20px" } : {} }>
+                    <h4 className = "noselect d-flex justify-content-center">
+                        {this.props.day.format('dddd, MMMM Do YYYY')}
+                    </h4>
+                </div>
+            )
+        );
+
         console.log(this.props.loadingTimeDeltas);
 
         const timedeltaDisplay = 
         this.props.loadingTimeDeltas ? 
-            null :
+            <Loader bigDivStyle = { this.props.smallestMedia || this.props.smallMedia ? { margin: "0px auto 50px" } : { margin: "0px auto 30px" } }/> :
             (validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? 
                 (<div style = { boxPleft, { minWidth: "177.4px" } } className = "mb-2 mt-2 card">
                     <table className ="table table-striped mb-0">
@@ -134,11 +136,11 @@ export class ScheduleDay extends Component {
                     </table>
                 </div>) : 
                 (this.props.smallerMedia ? 
-                    (<div className = "d-flex flex-column justify-content-center" style = {{ paddingBottom: "10px" }} >
+                    (<div className = "d-flex flex-column justify-content-center" style = {{ paddingBottom: "10px", marginBottom: "45px" }} >
                         <h6 className = "noselect d-flex justify-content-center">{"Nothing"}</h6>
                         <h6 className = "noselect d-flex justify-content-center">{"Scheduled"}</h6>
                     </div>) : 
-                    (<div style = { this.props.smallMedia ? { paddingBottom: "22px" } : null }>
+                    (<div style = { this.props.smallMedia ? { paddingBottom: "22px", marginBottom: "45px" } : { marginBottom: "20px" } }>
                         <h6 className = "noselect d-flex justify-content-center">{"Nothing Scheduled"}</h6>
                     </div>)
                 )
@@ -159,7 +161,7 @@ export class ScheduleDay extends Component {
         );
 
         return (
-            <div style = { this.props.smallerMedia ? ({ minWidth: "120px" }) : (this.props.smallMedia ? { minWidth: "220.26px" } : { minWidth: "344.01px", maxWidth: "60%" }) } className = { (this.props.smallMedia ? "mr-2 ml-2 " : "mr-5 ml-5 ") + "d-flex flex-column justify-content-around h-50"}>
+            <div style = { this.props.smallerMedia ? ({ minWidth: "120px" }) : (this.props.smallMedia ? { minWidth: "220.26px" } : ( this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
                 {smallOrBigDate}
                 {timedeltaDisplay}
                 {chooseButtons}
