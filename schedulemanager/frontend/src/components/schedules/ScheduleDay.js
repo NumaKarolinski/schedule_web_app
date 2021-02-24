@@ -103,7 +103,7 @@ export class ScheduleDay extends Component {
                     </h4>
                 </div>
             ) : (
-                <div style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "20px" } : {} }>
+                <div style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "50px" } : {} }>
                     <h4 className = "noselect d-flex justify-content-center">
                         {this.props.day.format('dddd, MMMM Do YYYY')}
                     </h4>
@@ -117,7 +117,7 @@ export class ScheduleDay extends Component {
         this.props.loadingTimeDeltas ? 
             <Loader bigDivStyle = { this.props.smallestMedia || this.props.smallMedia ? { margin: "0px auto 50px" } : { margin: "0px auto 30px" } }/> :
             (validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? 
-                (<div style = { boxPleft, { minWidth: "177.4px" } } className = "mb-2 mt-2 card">
+                (<div style = { boxPleft, { minWidth: "179.2px" } } className = "mb-2 mt-2 card">
                     <table className ="table table-striped mb-0">
                         <thead style = {{ display: "table" }} >
                             <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }} >
@@ -136,11 +136,11 @@ export class ScheduleDay extends Component {
                     </table>
                 </div>) : 
                 (this.props.smallerMedia ? 
-                    (<div className = "d-flex flex-column justify-content-center" style = {{ paddingBottom: "10px", marginBottom: "45px" }} >
+                    (<div className = "d-flex flex-column justify-content-center nothingScheduled" style = {{ paddingBottom: "10px", marginBottom: "45px" }} >
                         <h6 className = "noselect d-flex justify-content-center">{"Nothing"}</h6>
                         <h6 className = "noselect d-flex justify-content-center">{"Scheduled"}</h6>
                     </div>) : 
-                    (<div style = { this.props.smallMedia ? { paddingBottom: "22px", marginBottom: "45px" } : { marginBottom: "20px" } }>
+                    (<div style = { this.props.smallMedia ? { paddingBottom: "22px", marginBottom: "45px" } : { marginBottom: "45px" } } className = "nothingScheduled">
                         <h6 className = "noselect d-flex justify-content-center">{"Nothing Scheduled"}</h6>
                     </div>)
                 )
@@ -161,7 +161,7 @@ export class ScheduleDay extends Component {
         );
 
         return (
-            <div style = { this.props.smallerMedia ? ({ minWidth: "120px" }) : (this.props.smallMedia ? { minWidth: "220.26px" } : ( this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
+            <div style = { this.props.smallerMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } : { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.smallMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } : { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : ( this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
                 {smallOrBigDate}
                 {timedeltaDisplay}
                 {chooseButtons}
