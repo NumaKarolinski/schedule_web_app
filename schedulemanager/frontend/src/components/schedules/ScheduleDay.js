@@ -75,6 +75,7 @@ export class ScheduleDay extends Component {
         
         const sortedTimedeltas = this.props.timedeltas.sort((td_1, td_2) => moment(td_1["date_time"]).isBefore(moment(td_2["date_time"])) ? -1 : (moment(td_1["date_time"]).isAfter(moment(td_2["date_time"])) ? 1 : 0));
         var validTimeDeltaDisplay = true;
+
         for (var i = 0; i < sortedTimedeltas.length; i++) {
             var theVal = this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === sortedTimedeltas[i]["event"]);
             if (theVal.length === 0) {
@@ -84,17 +85,14 @@ export class ScheduleDay extends Component {
 
         const smallOrBigDate = 
         this.props.smallerMedia ? (
-            <div className = "d-flex flex-column justify-content-center" style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "50px" } : {} }>
+            <div style = { !this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0) ? { marginBottom: "48px" } : { marginBottom: "12px" } }>
                 <h4 className = "noselect d-flex justify-content-center">
                     {this.props.day.format('MMMM').slice(0, 3) + ". " + this.props.day.format('Do')}
-                </h4>
-                <h4 className = "noselect d-flex justify-content-center">
-                    {this.props.day.format('YYYY')}
                 </h4>
             </div>
         ) : (
             this.props.smallMedia ? (
-                <div className = "d-flex flex-column justify-content-center" style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "50px" } : {} }>
+                <div className = "d-flex flex-column justify-content-center" style = { !this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0) ? { marginBottom: "58px" } : (this.props.loadingTimeDeltas ? { marginBottom: "10px" } : {}) }>
                     <h4 className = "noselect d-flex justify-content-center">
                         {this.props.day.format('dddd')}
                     </h4>
@@ -103,7 +101,7 @@ export class ScheduleDay extends Component {
                     </h4>
                 </div>
             ) : (
-                <div style = { !this.props.loadingTimeDeltas && (sortedTimedeltas.length == 0) ? { marginBottom: "50px" } : {} }>
+                <div style = { !this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0) ? { marginBottom: "58px" } : (this.props.loadingTimeDeltas ? { marginBottom: "10px" } : {}) }>
                     <h4 className = "noselect d-flex justify-content-center">
                         {this.props.day.format('dddd, MMMM Do YYYY')}
                     </h4>
@@ -115,7 +113,7 @@ export class ScheduleDay extends Component {
 
         const timedeltaDisplay = 
         this.props.loadingTimeDeltas ? 
-            <Loader bigDivStyle = { this.props.smallestMedia || this.props.smallMedia ? { margin: "0px auto 50px" } : { margin: "0px auto 30px" } }/> :
+            <Loader bigDivStyle = { this.props.smallerMedia ? { margin: "0px auto 22px" } : (this.props.smallMedia ? { margin: "0px auto 60px" } : { margin: "0px auto 40px" }) }/> :
             (validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? 
                 (<div style = { boxPleft, { minWidth: "179.2px" } } className = "mb-2 mt-2 card">
                     <table className ="table table-striped mb-0">
@@ -125,7 +123,7 @@ export class ScheduleDay extends Component {
                                 <th style = { smallthStyle } className = "noselect align-middle">Event Time</th>
                             </tr>
                         </thead>
-                        <tbody style = {{ display: "block", maxHeight: "60vh" }} className = "overflow-auto scheduleDay">
+                        <tbody style = {{ display: "block", maxHeight: "55vh" }} className = "overflow-auto scheduleDay">
                             {sortedTimedeltas.map((timedelta) =>  (
                                 <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }} key={"timedelta" + timedelta.td_id} id = {"tr" + timedelta.td_id} className = "noselect">
                                     <td style = { tdNameStyle } className = "noselect align-middle">{this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === timedelta["event"])[0]["event_name"]}</td>
@@ -136,11 +134,11 @@ export class ScheduleDay extends Component {
                     </table>
                 </div>) : 
                 (this.props.smallerMedia ? 
-                    (<div className = "d-flex flex-column justify-content-center nothingScheduled" style = {{ paddingBottom: "10px", marginBottom: "45px" }} >
+                    (<div className = "d-flex flex-column justify-content-center nothingScheduled" style = {{ paddingBottom: "10px", marginBottom: "7px" }} >
                         <h6 className = "noselect d-flex justify-content-center">{"Nothing"}</h6>
                         <h6 className = "noselect d-flex justify-content-center">{"Scheduled"}</h6>
                     </div>) : 
-                    (<div style = { this.props.smallMedia ? { paddingBottom: "22px", marginBottom: "45px" } : { marginBottom: "45px" } } className = "nothingScheduled">
+                    (<div style = { this.props.smallMedia ? { paddingBottom: "22px", marginBottom: "47px" } : { marginBottom: "45px" } } className = "nothingScheduled">
                         <h6 className = "noselect d-flex justify-content-center">{"Nothing Scheduled"}</h6>
                     </div>)
                 )
@@ -150,18 +148,18 @@ export class ScheduleDay extends Component {
         const chooseButtons = 
         validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? (
             <div style = { this.props.smallerMedia ? ({ paddingBottom: "22px" }) : (this.props.smallMedia ? { paddingBottom: "10px" } : null) } className = "d-flex flex-row flex-wrap justify-content-around">
-                <button id = "regenerateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm noselect" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Regenerate Day</button>
-                <button id = "deleteDay" onClick = { this.handleClick } className = {"btn btn-danger btn-sm noselect" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Delete Day</button>
+                <button id = "regenerateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1 noselect" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Regenerate Day</button>
+                <button id = "deleteDay" onClick = { this.handleClick } className = {"btn btn-danger btn-sm m-1 noselect" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Delete Day</button>
             </div>
         ) :
         (
             <div style = { this.props.smallerMedia ? ({ paddingBottom: "22px" }) : (this.props.smallMedia ? { paddingBottom: "10px" } : null) } className = "d-flex justify-content-center">
-                <button id = "generateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Generate Day</button>
+                <button id = "generateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Generate Day</button>
             </div>  
         );
 
         return (
-            <div style = { this.props.smallerMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } : { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.smallMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } : { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : ( this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || (!this.props.loadingTimeDeltas && !(validTimeDeltaDisplay && (sortedTimedeltas.length > 0))) ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
+            <div style = { this.props.smallerMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay  ? { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } : { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.smallMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } : { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
                 {smallOrBigDate}
                 {timedeltaDisplay}
                 {chooseButtons}
