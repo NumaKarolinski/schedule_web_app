@@ -20,15 +20,15 @@ function ChooseButtons(props) {
     if (props.selectedEventId !== -1) {
         return(
             <div className="d-flex flex-row flex-wrap justify-content-around">
-                <button id="editEvent" onClick = {props.onClick} style = {{ marginLeft : "1px" }} className="btn btn-info btn-sm noselect">{" "}Edit/View Event</button>
-                <button id="addEvent" onClick = {props.onClick} style = {{ marginLeft : "27px", marginRight : "27px" }} className="btn btn-success btn-sm noselect">{" "}Add New Event</button>
-                <button id="deleteEvent" onClick = {props.onClick} className="btn btn-danger btn-sm noselect">{" "}Delete Event</button>
+                <button id="editEvent" onClick = {props.onClick} className="btn btn-info btn-sm noselect" style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px" } : (props.collapseOne ? { marginLeft: "28px", marginRight: "6px" } : {}) } >{" "}Edit/View Event</button>
+                <button id="addEvent" onClick = {props.onClick} style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px", marginTop: "12px" } : (props.collapseOne ? { marginLeft: "6px", marginRight: "40px" } : { marginLeft : "27px", marginRight : "27px" }) } className="btn btn-success btn-sm noselect">{" "}Add New Event</button>
+                <button id="deleteEvent" onClick = {props.onClick} className="btn btn-danger btn-sm noselect" style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px", marginTop: "12px" } : (props.collapseOne ? { marginTop: "12px", marginRight: "12px" } : { marginRight: "12px" }) }>{" "}Delete Event</button>
             </div>
         );
     } else {
         return(
             <div className="d-flex justify-content-center">
-                <button id="addEvent" style = {{ marginLeft : "20px" }} onClick = {props.onClick} className="btn btn-success btn-sm">{" "}Add New Event</button>
+                <button id="addEvent" style = {{ marginLeft : "7px" }} onClick = {props.onClick} className="btn btn-success btn-sm">{" "}Add New Event</button>
             </div>  
         );
     }
@@ -57,9 +57,7 @@ export class Events extends Component {
         addEventBool: false,
         editEventBool: false,
         selectedEventId: -1,
-        largeMedia: window.matchMedia("(max-width: 673px)").matches,
-        mediumMedia: window.matchMedia("(max-width: 489px)").matches,
-        smallMedia: window.matchMedia("(max-width: 372px)").matches,
+        pageWidth: window.innerWidth,
     }
 
     static propTypes = {
@@ -79,12 +77,7 @@ export class Events extends Component {
     };
 
     componentDidMount() {
-        const wmm1 = window.matchMedia("(max-width: 673px)");
-        wmm1.addEventListener("change", () => this.setState({ ...this.state, largeMedia: wmm1.matches }));
-        const wmm2 = window.matchMedia("(max-width: 489px)");
-        wmm2.addEventListener("change", () => this.setState({ ...this.state, mediumMedia: wmm2.matches }));
-        const wmm3 = window.matchMedia("(max-width: 372px)");
-        wmm3.addEventListener("change", () => this.setState({ ...this.state, smallMedia: wmm3.matches }));
+        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth }))
         this.props.getEventDefinitions();
         this.props.getoccurs_on_1s();
         this.props.getoccurs_on_2s();
@@ -175,14 +168,24 @@ export class Events extends Component {
                 { backgroundColor: "#686882" }
                 : {};
 
+        const largeMedia = this.state.pageWidth <= 673;
+        const mediumMedia = this.state.pageWidth <= 489;
+        const smallMedia = this.state.pageWidth <= 372;
+
+        const collapseOne = this.state.pageWidth <= 630;
+        const collapseTwo = this.state.pageWidth <= 498;
+
+        const avgCharWidth = 9.5;
+        const maxChar = (((((this.state.pageWidth * 0.6) - 12) / 2) - 24) / avgCharWidth) * 2;
+
         return (
             <div className="d-flex flex-column flex-wrap events" style = {{ minWidth: "177.4px", maxWidth: "60%" }}>
                 <table className="table table-striped">
-                    <ChooseTableHead numEvents={this.props.eventdefinitions.length} largeMedia = { this.state.largeMedia } mediumMedia = { this.state.mediumMedia } />
-                    <tbody class = "overflow-auto events" style = {{ display: "block", maxHeight: "65vh" }}>
+                    <ChooseTableHead numEvents={this.props.eventdefinitions.length} largeMedia = { largeMedia } mediumMedia = { mediumMedia } />
+                    <tbody class = "overflow-auto events" style = {{ display: "block", maxHeight: "55vh" }}>
                         {this.props.eventdefinitions.map((eventdefinition) => (
                             <tr key={eventdefinition.event_name + eventdefinition.event_id} id = {"tr" + eventdefinition.event_id} className = "noselect" style = { this.state.selectedEventId === eventdefinition.event_id ? { display: "table", tableLayout: "fixed", width: "100%", backgroundColor: "#686882" } : { display: "table", tableLayout: "fixed", width: "100%" } } onClick = { this.handleClick }>
-                                <td className = "noselect">{eventdefinition.event_name}</td>
+                                <td className = "noselect" style = {{ textAlign: "center" }}>{ (this.state.selectedEventId === eventdefinition.event_id) || (eventdefinition.event_name.length <= maxChar) ? eventdefinition.event_name : eventdefinition.event_name.slice(0, maxChar - 3) + "..."}</td>
                                 <td style = {{ verticalAlign: "middle" }}>
                                     <div className = "custom-control custom-switch tdDiv noselect">
                                         <input type="checkbox" className = "custom-control-input" id = {"customSwitch" + eventdefinition.event_id} checked = {eventdefinition.active_for_generation} onChange = {this.onChange}/>
@@ -193,7 +196,7 @@ export class Events extends Component {
                         ))}
                     </tbody>
                 </table>
-                <ChooseButtons selectedEventId = {this.state.selectedEventId} onClick = { this.handleClick } />
+                <ChooseButtons selectedEventId = {this.state.selectedEventId} collapseOne = { collapseOne } collapseTwo = { collapseTwo } onClick = { this.handleClick } />
             </div>
         );
     }
