@@ -10,8 +10,8 @@
 
 .tdDiv {
   width: 0%;
-  margin: auto;
-  padding-left: 31px;
+  margin: 0px auto;
+  padding-left: calc(5% + 42px);
 }
 
 [id^="tr"] {

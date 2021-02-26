@@ -35,14 +35,16 @@ function ChooseButtons(props) {
 }
 
 function ChooseTableHead(props) {
+    const leftPadding = props.mediumMedia ? "calc(25% - 16px)" : (props.largeMedia ? "calc(25% - 56px)" : "calc(25% - 84px)");
+    const rightPadding = props.mediumMedia ? "calc(25% - 28px)" : (props.largeMedia ? "calc(25% - 68px)" : "calc(25% - 96px)");
     if (props.numEvents <= 0){
         return null;
     } else{
         return (
             <thead style = {{ display: "table" }}>
                 <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }}>
-                    <th className = "noselect">Name</th>
-                    <th className = "noselect">{props.smallMedia ? "Active" : "Active For Day Generation"}</th>
+                    <th className = "noselect" style = {{ padding: "12px calc(25% - 20px)"}}>Name</th>
+                    <th className = "noselect" style = {{ padding: "12px " + leftPadding + " 12px " + rightPadding }}>{ props.mediumMedia ? "Active" : (props.largeMedia ? "Active Generation" : "Active For Day Generation") }</th>
                 </tr>
             </thead>
         );
@@ -55,6 +57,8 @@ export class Events extends Component {
         addEventBool: false,
         editEventBool: false,
         selectedEventId: -1,
+        largeMedia: window.matchMedia("(max-width: 673px)").matches,
+        mediumMedia: window.matchMedia("(max-width: 489px)").matches,
         smallMedia: window.matchMedia("(max-width: 372px)").matches,
     }
 
@@ -75,8 +79,12 @@ export class Events extends Component {
     };
 
     componentDidMount() {
-        const wmm1 = window.matchMedia("(max-width: 372px)");
-        wmm1.addEventListener("change", () => this.setState({ ...this.state, smallMedia: wmm1.matches }));
+        const wmm1 = window.matchMedia("(max-width: 673px)");
+        wmm1.addEventListener("change", () => this.setState({ ...this.state, largeMedia: wmm1.matches }));
+        const wmm2 = window.matchMedia("(max-width: 489px)");
+        wmm2.addEventListener("change", () => this.setState({ ...this.state, mediumMedia: wmm2.matches }));
+        const wmm3 = window.matchMedia("(max-width: 372px)");
+        wmm3.addEventListener("change", () => this.setState({ ...this.state, smallMedia: wmm3.matches }));
         this.props.getEventDefinitions();
         this.props.getoccurs_on_1s();
         this.props.getoccurs_on_2s();
@@ -170,12 +178,12 @@ export class Events extends Component {
         return (
             <div className="d-flex flex-column flex-wrap events" style = {{ minWidth: "177.4px", maxWidth: "60%" }}>
                 <table className="table table-striped">
-                    <ChooseTableHead numEvents={this.props.eventdefinitions.length} smallMedia = { this.state.smallMedia } />
+                    <ChooseTableHead numEvents={this.props.eventdefinitions.length} largeMedia = { this.state.largeMedia } mediumMedia = { this.state.mediumMedia } />
                     <tbody class = "overflow-auto events" style = {{ display: "block", maxHeight: "65vh" }}>
                         {this.props.eventdefinitions.map((eventdefinition) => (
                             <tr key={eventdefinition.event_name + eventdefinition.event_id} id = {"tr" + eventdefinition.event_id} className = "noselect" style = { this.state.selectedEventId === eventdefinition.event_id ? { display: "table", tableLayout: "fixed", width: "100%", backgroundColor: "#686882" } : { display: "table", tableLayout: "fixed", width: "100%" } } onClick = { this.handleClick }>
                                 <td className = "noselect">{eventdefinition.event_name}</td>
-                                <td>
+                                <td style = {{ verticalAlign: "middle" }}>
                                     <div className = "custom-control custom-switch tdDiv noselect">
                                         <input type="checkbox" className = "custom-control-input" id = {"customSwitch" + eventdefinition.event_id} checked = {eventdefinition.active_for_generation} onChange = {this.onChange}/>
                                         <label className = "custom-control-label" htmlFor = {"customSwitch" + eventdefinition.event_id}></label>
@@ -190,21 +198,6 @@ export class Events extends Component {
         );
     }
 }
-
-                /*
-                <td>
-                  <button
-                    onClick={this.props.deleteEventDefinition.bind(
-                      this,
-                      eventdefinition.event_id
-                    )}
-                    className="btn btn-danger btn-sm"
-                  >
-                    {" "}
-                    Delete
-                  </button>
-                </td>
-                */
 
 const mapStateToProps = (state) => ({
     eventdefinitions: state.schedules.eventdefinitions,
