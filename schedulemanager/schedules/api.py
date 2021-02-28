@@ -1729,8 +1729,15 @@ class occurs_on_2ViewSet(viewsets.ModelViewSet):
     # wait for the other object to be destroyed properly first.
     # you can tell when it is done because the other object will be None
     def destroy(self, request, *args, **kwargs):
+        print("entered destroy")
         instance = self.get_object()
+        print(instance)
+        counter = -1
         while instance.day is not None:
+            counter += 1
+            print("counter: ", counter)
+            print("day value: ", instance.day)
             instance = self.get_object()
+            print(instance)
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)

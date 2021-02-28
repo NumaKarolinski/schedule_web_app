@@ -639,7 +639,7 @@ export const getoccurs_on_2s = (o_o_id) => (dispatch, getState) => {
 // DELETE OCCURS_ON_2
 export const deleteoccurs_on_2 = (o_o_id) => (dispatch, getState) => {
   axios
-    .delete(o_o_id, tokenConfig(getState))
+    .delete(`/api/occurs_on_2s/${o_o_id}/`, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: DELETE_OCCURS_ON_2,
