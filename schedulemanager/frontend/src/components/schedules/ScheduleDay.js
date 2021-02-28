@@ -43,7 +43,7 @@ export class ScheduleDay extends Component {
 
     handleClick = (e) => {
         e.preventDefault();
-        this.props.loadedTimeDeltas();
+        this.props.loadTimeDeltas(true);
         if (e.currentTarget.id === "generateDay") {
             this.props.addTimeDelta(this.props.schedules[0].schedule_id, this.props.day.format('dddd').slice(0, 2), this.props.day.format('YYYY-MM-DD'));
         } else if (e.currentTarget.id === "deleteDay") {
@@ -62,17 +62,6 @@ export class ScheduleDay extends Component {
             this.props.getEventDefinitions(this.props.timedeltas.map((timedelta) => timedelta.event).filter((value, index, self) => self.indexOf(value) === index));
         }
 
-        if (this.props.timeDeltasUpdated) {
-            if (this.props.loadingTimeDeltas) {
-                this.props.loadedTimeDeltas();
-            } 
-        }
-
-        const tdNameStyle = this.props.smallMedia ? { padding: ".25rem" } : { padding: ".75rem" };
-        const tdTimeStyle = this.state.smallestMedia ? { minWidth: "45px", paddingRight: "31.8px", paddingLeft: "0.25rem", paddingTop: "0.25rem", paddingBottom: "0.25rem" } : (this.props.smallMedia ? { padding: ".25rem" } : { padding: ".75rem" });
-        const smallthStyle = this.state.smallestMedia ? { minWidth: "43px", paddingRight: "41.8px", paddingLeft: "0.25rem", paddingTop: "0.25rem", paddingBottom: "0.25rem" } : (this.props.smallMedia ? { padding: "0.25rem" } : { padding: "0.75rem" });
-        const boxPleft = ((this.props.timedeltas.length > 3) && this.state.smallestMedia) || ((this.props.timedeltas.length > 5) && this.props.smallMedia && !this.state.smallestMedia) || (this.props.timedeltas.length > 3 && !this.props.smallMedia) ? { paddingLeft: "12px" } : { paddingLeft: "0px" };
-        
         const sortedTimedeltas = this.props.timedeltas.sort((td_1, td_2) => moment(td_1["date_time"]).isBefore(moment(td_2["date_time"])) ? -1 : (moment(td_1["date_time"]).isAfter(moment(td_2["date_time"])) ? 1 : 0));
         var validTimeDeltaDisplay = true;
 
@@ -83,16 +72,33 @@ export class ScheduleDay extends Component {
             }
         }
 
+        if (!validTimeDeltaDisplay && !this.props.loadingTimeDeltas && (sortedTimedeltas.length > 0)) {
+            this.props.getEventDefinitions(this.props.timedeltas.map((timedelta) => timedelta.event).filter((value, index, self) => self.indexOf(value) === index));
+        }
+
+        if (this.props.timeDeltasUpdated) {
+            if (this.props.loadingTimeDeltas) {
+                console.log("***********************************************");
+                this.props.loadTimeDeltas(false);
+                console.log("* * * * * * * * * * * * * * * * * * * * * * * *");
+            } 
+        }
+
+        const tdNameStyle = this.props.smallMedia ? { padding: ".25rem" } : { padding: ".75rem" };
+        const tdTimeStyle = this.state.smallestMedia ? { minWidth: "45px", paddingRight: "31.8px", paddingLeft: "0.25rem", paddingTop: "0.25rem", paddingBottom: "0.25rem" } : (this.props.smallMedia ? { padding: ".25rem" } : { padding: ".75rem" });
+        const smallthStyle = this.state.smallestMedia ? { minWidth: "43px", paddingRight: "41.8px", paddingLeft: "0.25rem", paddingTop: "0.25rem", paddingBottom: "0.25rem" } : (this.props.smallMedia ? { padding: "0.25rem" } : { padding: "0.75rem" });
+        const boxPleft = ((this.props.timedeltas.length > 3) && this.state.smallestMedia) || ((this.props.timedeltas.length > 5) && this.props.smallMedia && !this.state.smallestMedia) || (this.props.timedeltas.length > 3 && !this.props.smallMedia) ? { paddingLeft: "12px" } : { paddingLeft: "0px" };
+
         const smallOrBigDate = 
         this.props.smallerMedia ? (
-            <div style = { !this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0) ? { marginBottom: "48px" } : { marginBottom: "12px" } }>
+            <div style = { (!this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0)) || (!this.props.timeDeltasUpdated && !this.props.loadingTimeDeltas && !validTimeDeltaDisplay && (sortedTimedeltas.length > 0)) ? { marginBottom: "48px" } : { marginBottom: "12px" } }>
                 <h4 className = "noselect d-flex justify-content-center">
                     {this.props.day.format('MMMM').slice(0, 3) + ". " + this.props.day.format('Do')}
                 </h4>
             </div>
         ) : (
             this.props.smallMedia ? (
-                <div className = "d-flex flex-column justify-content-center" style = { !this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0) ? { marginBottom: "58px" } : (this.props.loadingTimeDeltas ? { marginBottom: "10px" } : {}) }>
+                <div className = "d-flex flex-column justify-content-center" style = { (!this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0)) || (!this.props.timeDeltasUpdated && !this.props.loadingTimeDeltas && !validTimeDeltaDisplay && (sortedTimedeltas.length > 0)) ? { marginBottom: "58px" } : { marginBottom: "10px" } }>
                     <h4 className = "noselect d-flex justify-content-center">
                         {this.props.day.format('dddd')}
                     </h4>
@@ -101,7 +107,7 @@ export class ScheduleDay extends Component {
                     </h4>
                 </div>
             ) : (
-                <div style = { !this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0) ? { marginBottom: "58px" } : (this.props.loadingTimeDeltas ? { marginBottom: "10px" } : {}) }>
+                <div style = { (!this.props.loadingTimeDeltas && validTimeDeltaDisplay && (sortedTimedeltas.length == 0)) || (!this.props.timeDeltasUpdated && !this.props.loadingTimeDeltas && !validTimeDeltaDisplay && (sortedTimedeltas.length > 0)) ? { marginBottom: "58px" } : { marginBottom: "10px" } }>
                     <h4 className = "noselect d-flex justify-content-center">
                         {this.props.day.format('dddd, MMMM Do YYYY')}
                     </h4>
@@ -109,10 +115,13 @@ export class ScheduleDay extends Component {
             )
         );
 
-        console.log(this.props.loadingTimeDeltas);
+        console.log("------------------------------------------------------");
+        console.log("Valid TimedeltaDisplay: " + validTimeDeltaDisplay);
+        console.log("Loading Time Deltas: " + this.props.loadingTimeDeltas);
+        console.log("The sortedTimedeltas length: " + sortedTimedeltas.length);
 
         const timedeltaDisplay = 
-        this.props.loadingTimeDeltas ? 
+        this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? 
             <Loader bigDivStyle = { this.props.smallerMedia ? { margin: "0px auto 22px" } : (this.props.smallMedia ? { margin: "0px auto 60px" } : { margin: "0px auto 40px" }) }/> :
             (validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? 
                 (<div style = { boxPleft, { minWidth: "179.2px" } } className = "mb-2 mt-2 card">
@@ -148,18 +157,18 @@ export class ScheduleDay extends Component {
         const chooseButtons = 
         validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? (
             <div style = { this.props.smallerMedia ? ({ paddingBottom: "22px" }) : (this.props.smallMedia ? { paddingBottom: "10px" } : null) } className = "d-flex flex-row flex-wrap justify-content-around">
-                <button id = "regenerateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1 noselect" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Regenerate Day</button>
-                <button id = "deleteDay" onClick = { this.handleClick } className = {"btn btn-danger btn-sm m-1 noselect" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Delete Day</button>
+                <button id = "regenerateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1 noselect" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Regenerate Day</button>
+                <button id = "deleteDay" onClick = { this.handleClick } className = {"btn btn-danger btn-sm m-1 noselect" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Delete Day</button>
             </div>
         ) :
         (
             <div style = { this.props.smallerMedia ? ({ paddingBottom: "22px" }) : (this.props.smallMedia ? { paddingBottom: "10px" } : null) } className = "d-flex justify-content-center">
-                <button id = "generateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1" + (this.props.loadingTimeDeltas ? " invisibleButton" : "")}>Generate Day</button>
+                <button id = "generateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Generate Day</button>
             </div>  
         );
 
         return (
-            <div style = { this.props.smallerMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay  ? { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } : { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.smallMedia ? (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } : { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.loadingTimeDeltas || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
+            <div style = { this.props.smallerMedia ? (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0))   || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay  ? { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } : { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.smallMedia ? (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } : { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
                 {smallOrBigDate}
                 {timedeltaDisplay}
                 {chooseButtons}

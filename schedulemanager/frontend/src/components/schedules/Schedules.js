@@ -50,8 +50,9 @@ export class Schedules extends Component {
         this.setState({ ...this.state, "updated": false });
     }
 
-    loadedTimeDeltas = () => {
-        this.setState({ ...this.state, "loadingTimeDeltas": !this.state.loadingTimeDeltas });
+    loadTimeDeltas = (loadingTimeDeltas) => {
+        console.log("##########################################");
+        this.setState({ ...this.state, "loadingTimeDeltas": loadingTimeDeltas });
     }
 
     render() {
@@ -64,7 +65,7 @@ export class Schedules extends Component {
         return (
             <Fragment>
                 <FadedScheduleDayLeft className="row1" schedules = { this.props.schedules } day = { leftDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
-                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } smallMedia = { smallMedia } smallerMedia = { smallerMedia } handleUpdate = { this.handleUpdate } loadedTimeDeltas = { this.loadedTimeDeltas } />
+                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } smallMedia = { smallMedia } smallerMedia = { smallerMedia } handleUpdate = { this.handleUpdate } loadTimeDeltas = { this.loadTimeDeltas } />
                 <FadedScheduleDayRight className="row3" schedules = { this.props.schedules } day = { rightDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
             </Fragment>
         );
