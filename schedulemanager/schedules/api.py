@@ -1007,6 +1007,12 @@ class TimeDeltaViewSet(viewsets.ModelViewSet):
 
                 else:
 
+                    if e_oa_1:
+                        n_occ_mult = n_occ
+                    else:
+                        n_occ_mult = generate_gaussian(
+                            nn_n_1, nn_n_2, n_occ, n_occ_more, n_occ_less, (n_occ + 20 * (n_occ_more - n_occ)))
+
                     today_odds = (n_occ_mult - prev_nocc) / num_available_days
 
                     print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")

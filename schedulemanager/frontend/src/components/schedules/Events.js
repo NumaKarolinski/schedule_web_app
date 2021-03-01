@@ -35,14 +35,14 @@ function ChooseButtons(props) {
 }
 
 function ChooseTableHead(props) {
-    const leftPadding = props.mediumMedia ? "calc(25% - 16px)" : (props.largeMedia ? "calc(25% - 56px)" : "calc(25% - 84px)");
-    const rightPadding = props.mediumMedia ? "calc(25% - 28px)" : (props.largeMedia ? "calc(25% - 68px)" : "calc(25% - 96px)");
+    const leftPadding = props.mediumMedia ? "calc(25% - 22px)" : (props.largeMedia ? "calc(25% - 62px)" : "calc(25% - 90px)");
+    const rightPadding = props.mediumMedia ? "calc(25% - 22px)" : (props.largeMedia ? "calc(25% - 62px)" : "calc(25% - 90px)");
     if (props.numEvents <= 0){
         return null;
     } else{
         return (
             <thead style = {{ display: "table" }}>
-                <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }}>
+                <tr style = {{ display: "table", tableLayout: "fixed", width: "calc(100% - 12px)" }}>
                     <th className = "noselect" style = {{ padding: "12px calc(25% - 20px)"}}>Name</th>
                     <th className = "noselect" style = {{ padding: "12px " + leftPadding + " 12px " + rightPadding }}>{ props.mediumMedia ? "Active" : (props.largeMedia ? "Active Generation" : "Active For Day Generation") }</th>
                 </tr>
@@ -77,7 +77,7 @@ export class Events extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth }))
+        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth }));
         this.props.getEventDefinitions();
         this.props.getoccurs_on_1s();
         this.props.getoccurs_on_2s();

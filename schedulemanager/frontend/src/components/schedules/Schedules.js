@@ -19,8 +19,7 @@ export class Schedules extends Component {
         currentDayShift: 0,
         updated: true,
         loadingTimeDeltas: true,
-        smallMedia: window.matchMedia("(max-width: 559.43px)").matches,
-        smallerMedia: window.matchMedia("(max-width: 360px)").matches,
+        pageWidth: window.innerWidth,
     }
 
     static propTypes = {
@@ -29,10 +28,7 @@ export class Schedules extends Component {
     };
 
     componentDidMount() {
-        const wmm1 = window.matchMedia("(max-width: 559.43px)");
-        const wmm2 = window.matchMedia("(max-width: 360px)");
-        wmm1.addEventListener("change", () => this.setState({ ...this.state, smallMedia: wmm1.matches }));
-        wmm2.addEventListener("change", () => this.setState({ ...this.state, smallerMedia: wmm2.matches }));
+        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth }));
         this.props.getSchedules();
     }
 
@@ -51,12 +47,13 @@ export class Schedules extends Component {
     }
 
     loadTimeDeltas = (loadingTimeDeltas) => {
-        console.log("##########################################");
         this.setState({ ...this.state, "loadingTimeDeltas": loadingTimeDeltas });
     }
 
     render() {
-        var { currentDayShift, updated, loadingTimeDeltas, smallMedia, smallerMedia } = this.state;
+        var { currentDayShift, updated, loadingTimeDeltas, pageWidth } = this.state;
+
+        const smallerMedia = pageWidth <= 360;
 
         const leftDay = moment().add(currentDayShift - 1 , 'day');
         const middleDay = moment().add(currentDayShift , 'day');
@@ -65,7 +62,7 @@ export class Schedules extends Component {
         return (
             <Fragment>
                 <FadedScheduleDayLeft className="row1" schedules = { this.props.schedules } day = { leftDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
-                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } smallMedia = { smallMedia } smallerMedia = { smallerMedia } handleUpdate = { this.handleUpdate } loadTimeDeltas = { this.loadTimeDeltas } />
+                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } pageWidth = { pageWidth } handleUpdate = { this.handleUpdate } loadTimeDeltas = { this.loadTimeDeltas } />
                 <FadedScheduleDayRight className="row3" schedules = { this.props.schedules } day = { rightDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
             </Fragment>
         );
