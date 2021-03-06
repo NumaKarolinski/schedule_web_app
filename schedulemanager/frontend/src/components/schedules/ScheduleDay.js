@@ -122,6 +122,63 @@ export class ScheduleDay extends Component {
         console.log("Loading Time Deltas: " + this.props.loadingTimeDeltas);
         console.log("The sortedTimedeltas length: " + sortedTimedeltas.length);
 
+        const display_event_name_base_str = this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? 
+            null :
+            (validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? 
+                sortedTimedeltas.map((timedelta) => 
+                    this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === timedelta["event"])[0]["event_name"]
+                ) :
+                null
+            )
+        ;
+
+        const display_time_base_str = this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? 
+            null :
+            (validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? 
+                sortedTimedeltas.map((timedelta) => 
+                    timedelta["date_time"].slice(11, 16) + " - " + timedelta["end_time"].slice(11, 16)
+                ) :
+                null
+            )
+        ;
+
+        // The event name in display_event_name_base_str can have one of many forms. We don't want there to be overflow in the schedule table
+        // so it is best to shorten the string if it exceeds a certain length, but this can be tricky. We will let the string flow onto a second
+        // line if possible, but not to 3 lines. If the string exceeds onto a third line, the rest will be cut out. Since the average width
+        // of a character, 'avgCharWidth', is 9.5 pixels, the maximum number of characters that a single line should be is 'maxChar'. We need to
+        // recreate the string so that it looks better on the line.
+        // 1) Determine the number of words (separated by ' ' (space))
+        // 2) During this determine the index of each of these spaces.
+        // 3) Determine whether the 'maxChar' character is on a space, or in the middle of a word. 
+        //    a) If it is in the middle of the first word, then shorten this word to the 'maxChar' characters (and add '...' to it).
+        //       This acts as the first line. Take the 2nd, 3rd, 4th, etc words, then find that string's length, and if it is greater 
+        //       than 'maxChar', then add '...' to the end of it (minus 3 chars), and this is the second line, otherwise leave it be.
+        //    b) If it is on the first space, then the first word becomes the first line (leave the string alone). Take the 2nd, 3rd,
+        //       4th, etc words, and do like in a).
+        //    c) If it is in the middle of the 2nd, 3rd, 4th, etc words, then all words before will be part of the first line 
+        //      (leave the string alone). Determine how many words stayed on the first line. If 2 words, for example, stayed on the
+        //      first line then take the 3rd, 4th, etc words, and do like in a).
+
+        for (var i = 0; i < display_event_name_base_str.length; i++){
+            const ith_base_str = display_event_name_base_str[i];
+            const space_split_str = ith_base_str.split(" ");
+            var lengths_space_split_str = space_split_str.map((a_space_str) => a_space_str.length + 1);
+            var acc = 0;
+            var cum_length_space_split_str = lengths_space_split_str.map(a_length_space_str => acc += a_length_space_str);
+            var firstLineStr = "";
+            var secondLineStr = " ";
+            for (var j = 0; j < cum_length_space_split_str.length; j++){
+                if (cum_length_space_split_str[j] >= maxChar) {
+                    const last_str_of_first_line = j;
+                    //do something with this
+                    //might need to remove the + 1, although it depends on what is stated in the comments above (and what you need)
+                    break;
+                }
+            }
+        }
+
+
+
         const timedeltaDisplay = 
         this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? 
             <Loader bigDivStyle = { smallerMedia ? { margin: "0px auto 22px" } : (smallMedia ? { margin: "0px auto 60px" } : { margin: "0px auto 40px" }) }/> :
@@ -135,10 +192,10 @@ export class ScheduleDay extends Component {
                             </tr>
                         </thead>
                         <tbody style = {{ display: "block", maxHeight: "55vh" }} className = "overflow-auto scheduleDay">
-                            {sortedTimedeltas.map((timedelta) =>  (
+                            {display_time_base_str.map((time_base_str, index) =>  (
                                 <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }} key={"timedelta" + timedelta.td_id} id = {"tr" + timedelta.td_id} className = "noselect">
-                                    <td style = { tdNameStyle } className = "noselect align-middle">{ this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === timedelta["event"])[0]["event_name"].length <= maxChar ? this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === timedelta["event"])[0]["event_name"] : this.props.eventdefinitions.filter((eventdefinition) => eventdefinition["event_id"] === timedelta["event"])[0]["event_name"].slice(0, maxChar - 3) + "..." }</td>
-                                    <td style = { tdTimeStyle } className = "noselect align-middle">{timedelta["date_time"].slice(11, 16) + " - " + timedelta["end_time"].slice(11, 16)}</td>
+                                    <td style = { tdNameStyle } className = "noselect align-middle">{display_event_name_base_str[index].length <= maxChar ? display_event_name_base_str[index] : display_event_name_base_str[index].slice(0, maxChar - 3) + "..." }</td>
+                                    <td style = { tdTimeStyle } className = "noselect align-middle">{display_time_base_str[index]}</td>
                                 </tr>
                             ))}
                         </tbody>
