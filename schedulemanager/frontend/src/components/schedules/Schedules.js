@@ -20,6 +20,7 @@ export class Schedules extends Component {
         updated: true,
         loadingTimeDeltas: true,
         pageWidth: window.innerWidth,
+        pageHeight: window.innerHeight,
     }
 
     static propTypes = {
@@ -28,7 +29,7 @@ export class Schedules extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth }));
+        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth, pageHeight: window.innerHeight }));
         this.props.getSchedules();
     }
 
@@ -51,7 +52,7 @@ export class Schedules extends Component {
     }
 
     render() {
-        var { currentDayShift, updated, loadingTimeDeltas, pageWidth } = this.state;
+        var { currentDayShift, updated, loadingTimeDeltas, pageWidth, pageHeight } = this.state;
 
         const smallerMedia = pageWidth <= 360;
 
@@ -62,7 +63,7 @@ export class Schedules extends Component {
         return (
             <Fragment>
                 <FadedScheduleDayLeft className="row1" schedules = { this.props.schedules } day = { leftDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
-                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } pageWidth = { pageWidth } handleUpdate = { this.handleUpdate } loadTimeDeltas = { this.loadTimeDeltas } />
+                <ScheduleDay className="row2" schedules = { this.props.schedules } day = { middleDay } updated = { updated } loadingTimeDeltas = { loadingTimeDeltas } pageWidth = { pageWidth } pageHeight = { pageHeight } handleUpdate = { this.handleUpdate } loadTimeDeltas = { this.loadTimeDeltas } />
                 <FadedScheduleDayRight className="row3" schedules = { this.props.schedules } day = { rightDay } smallerMedia = { smallerMedia } handleClick = { this.handleClick } />
             </Fragment>
         );
