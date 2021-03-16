@@ -81,9 +81,40 @@ export class ScheduleDay extends Component {
         const buttonsDouble = this.props.pageWidth <= 323;
         const eventTimeDoublingMedia = this.props.pageWidth <= 318.4;
         const smallestMedia = this.props.pageWidth <= 269;
+        //const navBarDoubles = this.props.pageWidth <= 181;
+
+        const mainDivStyle = smallerMedia ? 
+            (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay  ? 
+                { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } :
+                { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }
+            ) :
+            (smallMedia ?
+                (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ?
+                    { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } :
+                    { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }
+                ) :
+                (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ?
+                    { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } :
+                    { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" }
+                )
+            )
+        ;
+
+        const trWidthWithPadding = mainDivStyle["minWidth"] === "179.2px" ?
+            ( ((this.props.pageWidth - 114) <= 179.2 ? 179.2 : (this.props.pageWidth - 114))
+            ) :
+            ( mainDivStyle["minWidth"] === "220.26px" ?
+                ( ((this.props.pageWidth - 114) <= 220.26 ? 220.26 : (this.props.pageWidth - 114))
+                ) :
+                ( ((this.props.pageWidth * 0.6) <= 344.01 ? 344.01 : (this.props.pageWidth * 0.6))
+                )
+            ) - 12
+        ;
+
+        const tdWidth = (trWidthWithPadding / 2) - (smallMedia ? 24 : 8);
 
         const avgCharWidth = 9.5;
-        const maxChar = ((((this.props.pageWidth * 0.6) - 12) / 2) - 24) / avgCharWidth;
+        const maxChar = tdWidth / avgCharWidth;
         const intMaxChar = maxChar | 0;
 
         const display_event_name_base_str = this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? 
@@ -226,12 +257,14 @@ export class ScheduleDay extends Component {
 
         const titleHeight = smallerMedia ? 46.4 : (smallMedia ? 78.8 : 44.4);
         const buttonHeight = buttonsDouble ? 96.4 : (smallMedia ? 47.2 : 37.2);
+        const tddVerticalMarginHeight = 16;
         const headerHeight = smallMedia ? 32.8 : 48.8;
-        const navBarHeight = 70.4;
+        //const navBarHeight = navBarDoubles ? 112.53 : 74.4;
+        const navBarHeight = 74.4;
 
-        const extraHeight = titleHeight + buttonHeight + headerHeight + navBarHeight;
+        const extraHeight = titleHeight + buttonHeight + tddVerticalMarginHeight + headerHeight + navBarHeight;
 
-        const availableTDDHeight = (this.props.pageHeight * 0.85) - (extraHeight);
+        const availableTDDHeight = (this.props.pageHeight * 0.85) - extraHeight;
         const doesTimeDeltaDisplayOverflow = availableTDDHeight >= timedeltaDisplayTotalHeight ? false : true;
 
         const tdNameStyle = smallMedia ? { padding: ".25rem", textAlign: "center" } : { padding: ".75rem", textAlign: "center" };
@@ -277,8 +310,8 @@ export class ScheduleDay extends Component {
                                 <th style = { smallthStyle } className = "noselect align-middle">{ smallerMedia ? "Name" : "Event Name" }</th>
                                 <th style = { smallthStyle } className = "noselect align-middle">{ smallerMedia ? "Time" : "Event Time" }</th>
                             </tr>
-                        </thead>
-                        <tbody style = {{ display: "block", maxHeight: "calc(85vh - " + extraHeight + "px)" }} className = "overflow-auto scheduleDay">
+                        </thead>    
+                        <tbody style = {{ display: "block", maxHeight: availableTDDHeight + "px" }} className = "overflow-auto scheduleDay">
                             {display_time_base_str.map((__, index) =>  (
                                 <tr style = {{ display: "table", tableLayout: "fixed", width: "100%" }} key={"timedelta" + index} id = {"tr" + index} className = "noselect">
                                     <td style = { tdNameStyle } className = "noselect align-middle">
@@ -317,7 +350,7 @@ export class ScheduleDay extends Component {
         );
 
         return (
-            <div style = { smallerMedia ? (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0))   || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay  ? { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 279px) / 2)", marginLeft: "calc((100% - 279px) / 2)" } : { minWidth: "179.2px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (smallMedia ? (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "calc((100% - 320px) / 2)", marginLeft: "calc((100% - 320px) / 2)" } : { minWidth: "220.26px", maxWidth: "calc(100% - 114px)", marginRight: "7px", marginLeft: "7px" }) : (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) || (sortedTimedeltas.length == 0) || !validTimeDeltaDisplay ? { minWidth: "344.01px", maxWidth: "60%", marginRight: "calc((60% - 330px) / 2)", marginLeft: "calc((60% - 330px) / 2)" } : { minWidth: "344.01px", maxWidth: "60%", marginRight: "7px", marginLeft: "7px" })) } className = "d-flex flex-column justify-content-around h-50">
+            <div style = { mainDivStyle } className = "d-flex flex-column justify-content-around h-50">
                 {smallOrBigDate}
                 {timedeltaDisplay}
                 {chooseButtons}

@@ -42,7 +42,7 @@ function ChooseTableHead(props) {
     } else{
         return (
             <thead style = {{ display: "table" }}>
-                <tr style = {{ display: "table", tableLayout: "fixed", width: "calc(100% - 12px)" }}>
+                <tr style = {{ display: "table", tableLayout: "fixed", width: props.overflow ? "calc(100% - 12px)" : "100%" }}>
                     <th className = "noselect" style = {{ padding: "12px calc(25% - 20px)"}}>Name</th>
                     <th className = "noselect" style = {{ padding: "12px " + leftPadding + " 12px " + rightPadding }}>{ props.mediumMedia ? "Active" : (props.largeMedia ? "Active Generation" : "Active For Day Generation") }</th>
                 </tr>
@@ -58,6 +58,7 @@ export class Events extends Component {
         editEventBool: false,
         selectedEventId: -1,
         pageWidth: window.innerWidth,
+        pageHeight: window.innerHeight,
     }
 
     static propTypes = {
@@ -77,7 +78,7 @@ export class Events extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth }));
+        window.addEventListener('resize', () => this.setState({ ...this.state, pageWidth: window.innerWidth, pageHeight: window.innerHeight }));
         this.props.getEventDefinitions();
         this.props.getoccurs_on_1s();
         this.props.getoccurs_on_2s();
@@ -163,11 +164,6 @@ export class Events extends Component {
             }
         }
 
-        const rowStyle = (rowId) => 
-            rowId === this.state.selectedEventId ?
-                { backgroundColor: "#686882" }
-                : {};
-
         const largeMedia = this.state.pageWidth <= 673;
         const mediumMedia = this.state.pageWidth <= 489;
         const smallMedia = this.state.pageWidth <= 372;
@@ -176,20 +172,143 @@ export class Events extends Component {
         const collapseTwo = this.state.pageWidth <= 498;
 
         const avgCharWidth = 9.5;
-        const maxChar = (((((this.state.pageWidth * 0.6) - 12) / 2) - 24) / avgCharWidth) * 2;
+        const maxChar = (((((this.state.pageWidth * 0.6) <= 177.4 ? 177.4 : (this.state.pageWidth * 0.6)) - 12) / 2) - 24) / avgCharWidth;
+        const intMaxChar = maxChar | 0;
+
+        const display_event_name_base_str = this.props.eventdefinitions.map((eventdefinition) => eventdefinition.event_name);
+
+        // The event name in display_event_name_base_str can have one of many forms. We don't want there to be overflow in the schedule table
+        // so it is best to shorten the string if it exceeds a certain length, but this can be tricky. We will let the string flow onto a second
+        // line if possible, but not to 3 lines. If the string exceeds onto a third line, the rest will be cut out. Since the average width
+        // of a character, 'avgCharWidth', is 9.5 pixels, the maximum number of characters that a single line should be is 'maxChar'. We need to
+        // recreate the string so that it looks better on the line.
+        // 1) Determine the number of words (separated by ' ' (space))
+        // 2) During this determine the index of each of these spaces.
+        // 3) Determine whether the 'maxChar' character is on a space, or in the middle of a word. 
+        //    a) If it is in the middle of the first word, then shorten this word to the 'maxChar' characters (and add '...' to it).
+        //       This acts as the first line. Take the 2nd, 3rd, 4th, etc words, then find that string's length, and if it is greater 
+        //       than 'maxChar', then add '...' to the end of it (minus 3 chars), and this is the second line, otherwise leave it be.
+        //    b) If it is on the first space, then the first word becomes the first line (leave the string alone). Take the 2nd, 3rd,
+        //       4th, etc words, and do like in a).
+        //    c) If it is in the middle of the 2nd, 3rd, 4th, etc words, then all words before will be part of the first line 
+        //      (leave the string alone). Determine how many words stayed on the first line. If 2 words, for example, stayed on the
+        //      first line then take the 3rd, 4th, etc words, and do like in a).
+
+        var event_names_number_of_lines = [];
+        var event_names_line_1 = [];
+        var event_names_line_2 = [];
+
+        for (var i = 0; i < display_event_name_base_str.length; i++){
+            const ith_base_str = display_event_name_base_str[i];
+            const space_split_str = ith_base_str.split(" ");
+            var lengths_space_split_str = space_split_str.map((a_space_str) => a_space_str.length);
+            var acc = 0;
+            var cum_length_space_split_str = lengths_space_split_str.map(a_length_space_str => acc += (a_length_space_str + (acc === 0 ? 0 : 1)));
+            var firstLineStr = "";
+            var secondLineStr = "";
+            var firstLineDone = false;
+            var firstLineJustFinished = false;
+            for (var j = 0; j < cum_length_space_split_str.length; j++){
+                if(firstLineDone){
+                    firstLineJustFinished = false;
+                }
+                if (!firstLineDone){
+                    if ((cum_length_space_split_str[j] === intMaxChar) || ((cum_length_space_split_str[j] === (intMaxChar + 1)) && (j == 0))){
+                        firstLineStr += space_split_str[j];
+                        firstLineDone = true;
+                        firstLineJustFinished = true;
+                    } else if (cum_length_space_split_str[j] < intMaxChar) {
+                        firstLineStr += (space_split_str[j] + " ");
+                    } else{
+                        if (j == 0){
+                            firstLineStr += (space_split_str[0].slice(0, (intMaxChar - 3)) + "...");
+                            space_split_str[0] = firstLineStr;
+                            lengths_space_split_str[0] = intMaxChar;
+                            acc = 0;
+                            cum_length_space_split_str = lengths_space_split_str.map(a_length_space_str => acc += (a_length_space_str + (acc === 0 ? 0 : 1)));
+                        }
+                        if(firstLineStr.slice(-1) === ' '){
+                            firstLineStr = firstLineStr.slice(0, -1);
+                            for(var lengthIter = 0; lengthIter < cum_length_space_split_str.length; lengthIter++){
+                                if(lengthIter != 0){
+                                    cum_length_space_split_str[lengthIter] -= 1;
+                                }
+                            }
+                        }
+                        firstLineDone = true;
+                    }
+                }
+                if (firstLineDone && (j != 0) && !firstLineJustFinished){
+                    if ((cum_length_space_split_str[j] - firstLineStr.length) === intMaxChar){
+                        secondLineStr += space_split_str[j];
+                        break;
+                    } else if ((cum_length_space_split_str[j] - firstLineStr.length) < intMaxChar) {
+                        secondLineStr += (space_split_str[j] + " ");
+                    } else {
+                        secondLineStr += space_split_str[j];
+                        if(secondLineStr.slice(-1) === ' '){
+                            secondLineStr = secondLineStr.slice(0, -1);
+                        }
+                        if(secondLineStr.length > (intMaxChar - 3)) {
+                            secondLineStr = secondLineStr.slice(0, (intMaxChar - 3));
+                        }
+                        var doneWithSpaces = false;
+                        while(!doneWithSpaces){
+                            if(secondLineStr.slice(-1) === ' '){
+                                secondLineStr = secondLineStr.slice(0, -1);
+                            } else{
+                                doneWithSpaces = true;
+                            }
+                        }
+                        secondLineStr +=  "...";
+                        break;
+                    }
+                }
+            }
+            if (secondLineStr === ""){
+                event_names_number_of_lines.push(1);
+            } else{
+                event_names_number_of_lines.push(2);
+            }
+            event_names_line_1.push(firstLineStr);
+            event_names_line_2.push(secondLineStr);
+        }
+
+        var eventsDisplayTotalHeight = 0.0;
+        const singleHeight = 47.2;
+        const doubleHeight = 69.6;
+
+        for(var tdIndex = 0; tdIndex < display_event_name_base_str.length; tdIndex++){
+            eventsDisplayTotalHeight += (event_names_number_of_lines[tdIndex] === 2) ? doubleHeight : singleHeight;
+        }
+
+        const buttonHeight = collapseTwo ? 111.6 : (collapseOne ? 70.4 : 29.2);
+        const eventsVerticalMarginHeight = 16;
+        const headerHeight = 48.8;
+        //const navBarHeight = navBarDoubles ? 112.53 : 74.4;
+        const navBarHeight = 74.4;
+
+        const extraHeight = buttonHeight + eventsVerticalMarginHeight + headerHeight + navBarHeight;
+
+        const availableEventsHeight = (this.state.ageHeight * 0.85) - extraHeight;
+
+        const doesEventDisplayOverflow = availableEventsHeight >= eventsDisplayTotalHeight ? false : true;
 
         return (
             <div className="d-flex flex-column flex-wrap events" style = {{ minWidth: "177.4px", maxWidth: "60%" }}>
                 <table className="table table-striped">
-                    <ChooseTableHead numEvents={this.props.eventdefinitions.length} largeMedia = { largeMedia } mediumMedia = { mediumMedia } />
-                    <tbody class = "overflow-auto events" style = {{ display: "block", maxHeight: "55vh" }}>
-                        {this.props.eventdefinitions.map((eventdefinition) => (
-                            <tr key={eventdefinition.event_name + eventdefinition.event_id} id = {"tr" + eventdefinition.event_id} className = "noselect" style = { this.state.selectedEventId === eventdefinition.event_id ? { display: "table", tableLayout: "fixed", width: "100%", backgroundColor: "#686882" } : { display: "table", tableLayout: "fixed", width: "100%" } } onClick = { this.handleClick }>
-                                <td className = "noselect" style = {{ textAlign: "center" }}>{ (this.state.selectedEventId === eventdefinition.event_id) || (eventdefinition.event_name.length <= maxChar) ? eventdefinition.event_name : eventdefinition.event_name.slice(0, maxChar - 3) + "..."}</td>
+                    <ChooseTableHead numEvents= { this.props.eventdefinitions.length } overflow = { doesEventDisplayOverflow } largeMedia = { largeMedia } mediumMedia = { mediumMedia } />
+                    <tbody className = "overflow-auto events" style = {{ display: "block", maxHeight: availableEventsHeight + "px" }}>
+                        {event_names_number_of_lines.map((__, index) =>  (
+                            <tr key={this.props.eventdefinitions[index].event_name + this.props.eventdefinitions[index].event_id} id = {"tr" + this.props.eventdefinitions[index].event_id} className = "noselect" style = { this.state.selectedEventId === this.props.eventdefinitions[index].event_id ? { display: "table", tableLayout: "fixed", width: "100%", backgroundColor: "#686882" } : { display: "table", tableLayout: "fixed", width: "100%" } } onClick = { this.handleClick }>
+                                <td className = "noselect" style = {{ textAlign: "center" }}>
+                                    <div>{event_names_line_1[index]}</div>
+                                    <div>{event_names_line_2[index]}</div>
+                                </td>
                                 <td style = {{ verticalAlign: "middle" }}>
                                     <div className = "custom-control custom-switch tdDiv noselect">
-                                        <input type="checkbox" className = "custom-control-input" id = {"customSwitch" + eventdefinition.event_id} checked = {eventdefinition.active_for_generation} onChange = {this.onChange}/>
-                                        <label className = "custom-control-label" htmlFor = {"customSwitch" + eventdefinition.event_id}></label>
+                                        <input type="checkbox" className = "custom-control-input" id = {"customSwitch" + this.props.eventdefinitions[index].event_id} checked = {this.props.eventdefinitions[index].active_for_generation} onChange = {this.onChange}/>
+                                        <label className = "custom-control-label" htmlFor = {"customSwitch" + this.props.eventdefinitions[index].event_id}></label>
                                     </div>
                                 </td>
                             </tr>
