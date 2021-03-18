@@ -290,7 +290,7 @@ export class Events extends Component {
 
         const extraHeight = buttonHeight + eventsVerticalMarginHeight + headerHeight + navBarHeight;
 
-        const availableEventsHeight = (this.state.ageHeight * 0.85) - extraHeight;
+        const availableEventsHeight = (this.state.pageHeight * 0.85) - extraHeight;
 
         const doesEventDisplayOverflow = availableEventsHeight >= eventsDisplayTotalHeight ? false : true;
 
