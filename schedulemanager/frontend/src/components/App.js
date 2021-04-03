@@ -27,6 +27,8 @@ import { Provider } from "react-redux";
 import store from "../store";
 import { loadUser } from "../actions/auth";
 
+import './App.css';
+
 const alertOptions = {
   timeout: 3000,
   position: "bottom center",
@@ -46,8 +48,8 @@ class App extends Component {
               <Header />
               <Alerts />
               <div
+                id = "appDiv"
                 className="d-flex justify-content-center align-items-center"
-                style={{ height: `calc(100% - 79px)`, minWidth: "248px" }}
               >
                 <Switch>
                   <PrivateRoute exact path="/" component={Dashboard} />

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 
+import "./Header.css";
+
 export class Header extends Component {
 
     state = {
@@ -33,6 +35,7 @@ export class Header extends Component {
     render() {
         const { isAuthenticated, user } = this.props.auth;
 
+        console.log(this.state.active);
         const authLinks = (
             <ul className="navbar-nav ml-auto mt-1 mt-lg-0 d-flex flex-row flex-wrap">
                 <span className="navbar-text mr-3 noselect">
@@ -41,7 +44,7 @@ export class Header extends Component {
                 <li className="nav-item">
                     <button
                         onClick={this.props.logout}
-                        className="nav-link btn btn-info btn-sm text-light noselect"
+                        className="nav-link btn btn-info btn-sm text-white noselect"
                     >
                         Logout
                     </button>
@@ -65,23 +68,23 @@ export class Header extends Component {
         );
 
         return (
-            <nav className="navbar navbar-expand-sm navbar-light bg-light">
+            <nav id = "navbar" className = {"navbar navbar-expand-sm navbar-dark " + (this.state.active ? "active" : "not-active")}>
                 <div className="container d-flex flex-row align-items-start">
-                    <div>
+                    <div className = "mt-1">
                         <button
                             id = "navButton"
                             className="navbar-toggler"
                             type="button"
                             data-toggle="collapse"
-                            data-target="#navbarTogglerDemo01"
-                            aria-controls="navbarTogglerDemo01"
+                            data-target="#navbarToggler"
+                            aria-controls="navbarToggler"
                             aria-expanded="false"
                             aria-label="Toggle navigation"
                             onClick = { this.handleClick }
                         >
                             <span className="navbar-toggler-icon"></span>
                         </button>
-                        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+                        <div className="collapse navbar-collapse" id="navbarToggler">
                             <div className="d-flex flex-column flex-sm-row flex-md-row flex-lg-row flex-xl-row">
                                 <a className="navbar-brand noselect" href="#/eventDefinitions">
                                     Events
