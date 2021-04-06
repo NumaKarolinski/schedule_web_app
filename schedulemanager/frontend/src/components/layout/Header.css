@@ -19,6 +19,26 @@ strong {
   color: #fff;
 }
 
+#nuschedule {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#eventsLink {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#eventsLink:hover {
+  color: #fff;
+}
+
+#schedulesLink {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#schedulesLink:hover {
+  color: #fff;
+}
+
 /*#navbar.active {
   background: linear-gradient(180deg, rgba(150, 93, 165, 0.5), rgba(150, 93, 165, 0.5) 85%, rgba(150, 93, 165, 0));
 }

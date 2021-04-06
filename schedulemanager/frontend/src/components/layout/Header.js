@@ -35,16 +35,67 @@ export class Header extends Component {
     render() {
         const { isAuthenticated, user } = this.props.auth;
 
-        console.log(this.state.active);
+        const authPageSelect = (
+            <div>
+                <button
+                    id = "navButton"
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarToggler"
+                    aria-controls="navbarToggler"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    onClick = { this.handleClick }
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarToggler">
+                    <div className="d-flex flex-column flex-sm-row flex-md-row flex-lg-row flex-xl-row">
+                        <a id = "eventsLink" className="navbar-brand noselect" href="#/eventDefinitions">
+                            Events
+                        </a>
+                        <a id = "schedulesLink" className="navbar-brand noselect" href="#/schedules">
+                            Schedules
+                        </a>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const guestTitle = (
+            <div>
+                <button
+                    id = "navButton"
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarToggler"
+                    aria-controls="navbarToggler"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    onClick = { this.handleClick }
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarToggler">
+                    <img src="./../../../static/nufavicon.png" alt="nufavicon" width="30" height="30"></img>
+                    <strong id = "nuschedule" className="navbar-brand noselect">
+                        schedule
+                    </strong>
+                </div>
+            </div>
+        );
+
         const authLinks = (
-            <ul className="navbar-nav ml-auto mt-1 mt-lg-0 d-flex flex-row flex-wrap">
+            <ul className="navbar-nav ml-auto d-flex flex-row flex-wrap">
                 <span className="navbar-text mr-3 noselect">
                     <strong>{(this.state.smallMedia && !this.state.active) || (this.state.otherSmallMedia && this.state.active) ? (user ? `${user.username}` : "") : (user ? `Welcome ${user.username}` : "")}</strong>
                 </span>
                 <li className="nav-item">
                     <button
                         onClick={this.props.logout}
-                        className="nav-link btn btn-info btn-sm text-white noselect"
+                        className="nav-link btn btn-info btn-sm noselect"
                     >
                         Logout
                     </button>
@@ -53,7 +104,7 @@ export class Header extends Component {
         );
 
         const guestLinks = (
-            <ul className="navbar-nav ml-auto mt-1 mt-lg-0 d-flex flex-row flex-wrap">
+            <ul className="navbar-nav ml-auto d-flex flex-row flex-wrap">
                 <li className="nav-item mr-3">
                     <Link to="/login" className="nav-link noselect">
                         Login
@@ -70,31 +121,7 @@ export class Header extends Component {
         return (
             <nav id = "navbar" className = {"navbar navbar-expand-sm navbar-dark " + (this.state.active ? "active" : "not-active")}>
                 <div className="container d-flex flex-row align-items-start">
-                    <div className = "mt-1">
-                        <button
-                            id = "navButton"
-                            className="navbar-toggler"
-                            type="button"
-                            data-toggle="collapse"
-                            data-target="#navbarToggler"
-                            aria-controls="navbarToggler"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                            onClick = { this.handleClick }
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarToggler">
-                            <div className="d-flex flex-column flex-sm-row flex-md-row flex-lg-row flex-xl-row">
-                                <a className="navbar-brand noselect" href="#/eventDefinitions">
-                                    Events
-                                </a>
-                                <a className="navbar-brand noselect" href="#/schedules">
-                                    Schedules
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    {isAuthenticated ? authPageSelect : guestTitle}
                     {isAuthenticated ? authLinks : guestLinks}
                 </div>
             </nav>
