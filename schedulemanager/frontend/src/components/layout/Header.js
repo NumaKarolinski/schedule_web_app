@@ -9,7 +9,7 @@ import "./Header.css";
 export class Header extends Component {
 
     state = {
-        smallMedia: window.matchMedia("(max-width: 250px)").matches,
+        smallMedia: window.matchMedia("(max-width: 259px)").matches,
         otherSmallMedia: window.matchMedia("(max-width: 293px)").matches,
         active: false,
     }
@@ -20,7 +20,7 @@ export class Header extends Component {
     };
 
     componentDidMount() {
-        const wmm1 = window.matchMedia("(max-width: 250px)");
+        const wmm1 = window.matchMedia("(max-width: 259px)");
         const wmm2 = window.matchMedia("(max-width: 293px)");
         wmm1.addEventListener("change", () => this.setState({ ...this.state, smallMedia: wmm1.matches }));
         wmm2.addEventListener("change", () => this.setState({ ...this.state, otherSmallMedia: wmm2.matches }));
@@ -63,27 +63,18 @@ export class Header extends Component {
             </div>
         );
 
-        const guestTitle = (
-            <div>
-                <button
-                    id = "navButton"
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarToggler"
-                    aria-controls="navbarToggler"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                    onClick = { this.handleClick }
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarToggler">
-                    <img src="./../../../static/nufavicon.png" alt="nufavicon" width="30" height="30"></img>
-                    <strong id = "nuschedule" className="navbar-brand noselect">
-                        schedule
-                    </strong>
-                </div>
+        const guestTitle = this.state.smallMedia ? 
+        (
+            <div id="navbanotoggler">
+                <img src="./../../../static/nufavicon.png" alt="nufavicon" width="28" height="33.688" style = {{ paddingTop: "5.688px"}}></img>
+            </div>
+        ) :     
+        (
+            <div id="navbanotoggler">
+                <img src="./../../../static/nufavicon.png" alt="nufavicon" width="28" height="33.188"  style = {{paddingBottom: "5.188px"}}></img>
+                <strong id = "nuschedule" className="navbar-brand noselect">
+                    schedule
+                </strong>
             </div>
         );
 
@@ -95,7 +86,7 @@ export class Header extends Component {
                 <li className="nav-item">
                     <button
                         onClick={this.props.logout}
-                        className="nav-link btn btn-info btn-sm noselect"
+                        className="nav-link btn btn-danger text-white btn-sm noselect"
                     >
                         Logout
                     </button>

@@ -39,6 +39,14 @@ strong {
   color: #fff;
 }
 
+.nav-link:focus:hover {
+  color: #fff !important;
+}
+
+.nav-link:focus {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
 /*#navbar.active {
   background: linear-gradient(180deg, rgba(150, 93, 165, 0.5), rgba(150, 93, 165, 0.5) 85%, rgba(150, 93, 165, 0));
 }

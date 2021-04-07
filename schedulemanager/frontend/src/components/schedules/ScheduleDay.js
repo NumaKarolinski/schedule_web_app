@@ -339,13 +339,13 @@ export class ScheduleDay extends Component {
         const chooseButtons = 
         validTimeDeltaDisplay && (sortedTimedeltas.length > 0) ? (
             <div style = { smallerMedia ? ({ paddingBottom: "22px" }) : (smallMedia ? { paddingBottom: "10px" } : null) } className = "d-flex flex-row flex-wrap justify-content-around">
-                <button id = "regenerateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1 noselect" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Regenerate Day</button>
+                <button id = "regenerateDay" onClick = { this.handleClick } className = {"btn btn-info btn-sm m-1 noselect" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Regenerate Day</button>
                 <button id = "deleteDay" onClick = { this.handleClick } className = {"btn btn-danger btn-sm m-1 noselect" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Delete Day</button>
             </div>
         ) :
         (
             <div style = { smallerMedia ? ({ paddingBottom: "22px" }) : (smallMedia ? { paddingBottom: "10px" } : null) } className = "d-flex justify-content-center">
-                <button id = "generateDay" onClick = { this.handleClick } className = {"btn btn-success btn-sm m-1" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Generate Day</button>
+                <button id = "generateDay" onClick = { this.handleClick } className = {"btn btn-info btn-sm m-1" + (this.props.loadingTimeDeltas || (this.props.timeDeltasUpdated && (this.props.timedeltas.length > 0)) ? " invisibleButton" : "")}>Generate Day</button>
             </div>  
         );
 

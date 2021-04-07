@@ -27,7 +27,7 @@
   }*/
 
 .events::-webkit-scrollbar-thumb {
-  background: linear-gradient(rgba(104, 104, 167, 0.4), #a9a8b8);
+  background: linear-gradient(rgba(100, 60, 109, 0.5), #a9a8b8);
   border-radius: 25px;
 }
 
@@ -37,4 +37,18 @@
 
 .events::-webkit-scrollbar-thumb:active {
   background-image: linear-gradient(#8787af, #a07e9b);
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: rgba(100, 60, 109, 0.5) !important;
+  background-color: rgba(100, 60, 109, 0.5) !important;
+}
+
+.btn-info {
+  border-color: #432749 !important;
+  background-color: rgba(100, 60, 109, 0.5) !important;
+}
+
+.btn-info:focus {
+  box-shadow: 0 0 0 0.2rem rgba(205, 117, 224, 0.5) !important;
 }
