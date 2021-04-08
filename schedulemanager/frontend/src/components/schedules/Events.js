@@ -21,14 +21,16 @@ function ChooseButtons(props) {
         return(
             <div className="d-flex flex-row flex-wrap justify-content-around">
                 <button id="editEvent" onClick = {props.onClick} className="btn btn-info btn-sm noselect" style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px" } : (props.collapseOne ? { marginLeft: "28px", marginRight: "6px" } : {}) } >{" "}Edit/View Event</button>
-                <button id="addEvent" onClick = {props.onClick} style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px", marginTop: "12px" } : (props.collapseOne ? { marginLeft: "6px", marginRight: "40px" } : { marginLeft : "27px", marginRight : "27px" }) } className="btn btn-info btn-sm noselect">{" "}Add New Event</button>
+                <button id="addEvent" onClick = {props.onClick} style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px", marginTop: "12px" } : (props.collapseOne ? { marginLeft: "6px", marginRight: "40px" } : { marginLeft : "27px", marginRight : "27px" }) } className="btn btn-primary btn-sm noselect">{" "}Add New Event</button>
                 <button id="deleteEvent" onClick = {props.onClick} className="btn btn-danger btn-sm noselect" style = { props.collapseTwo ? { marginLeft: "50px", marginRight: "62px", marginTop: "12px" } : (props.collapseOne ? { marginTop: "12px", marginRight: "12px" } : { marginRight: "12px" }) }>{" "}Delete Event</button>
             </div>
         );
     } else {
         return(
             <div className="d-flex justify-content-center">
-                <button id="addEvent" style = {{ marginLeft : "7px" }} onClick = {props.onClick} className="btn btn-info btn-sm">{" "}Add New Event</button>
+                <button className = "btn-info p-0 m-0" style = {{ height: "0px", width: "0px", borderWidth: "0px" }}></button>
+                <button id="addEvent" style = {{ marginLeft : "7px" }} onClick = {props.onClick} className="btn btn-primary btn-sm">{" "}Add New Event</button>
+                <button className = "btn-danger p-0 m-0 b-0" style = {{ height: "0px", width: "0px", borderWidth: "0px" }}></button>
             </div>  
         );
     }
